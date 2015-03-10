@@ -273,6 +273,33 @@ class Group extends Element
 	}
 	
 	/**
+	 * Returns true if the group has an element at $index
+	 *
+	 * @param  int  $index  the index to test
+	 * @return  bool
+	 * @since  0.1.0
+	 */
+	public function hasIndex($index)
+	{
+		// if $index is an integer
+		if (is_numeric($index) && is_int(+$index)) {
+			// if the key exists
+			if (array_key_exists($index, $this->children)) {
+				// if a value exists
+				if ( ! empty($this->children[$index])) {
+					return true;		
+				}
+			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, index, to be an integer or an element"
+			);
+		}
+		
+		return false;
+	}
+	
+	/**
 	 * Inserts a child element at $index
 	 *
 	 * I'll accept a valid key, and insert the element there; a value one higher than
