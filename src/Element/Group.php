@@ -188,7 +188,7 @@ class Group extends Element
 	 * integer value that evaluates to false. Use the strict comparison operator, 
 	 * "===" when testing the return value of this method.
 	 * 
-	 * @param  Jstewm\Rtf\Element  $element  the element to find
+	 * @param  Jstewm\Rtf\Element\Element  $element  the element to find
 	 * @return  int|false
 	 */
 	public function getIndex(Element $element)
@@ -236,44 +236,60 @@ class Group extends Element
 	}
 	
 	/**
-	 * Returns true if the group has the child element
+	 * Returns true if the group has $element, optionally, at $index
 	 *
-	 * @param  Jstewmc\Rtf\Element|int  $element  the element to find or an integer
-	 *     index to test
+	 * I'll accept one or two arguments. If given both an element and an index, I'll
+	 * return true if the element exists at the index. If given an element only, I'll
+	 * return true if the element exists at *any* index. If given an index only, I'll
+	 * return true if *any* element exists at the index.
+	 *
+	 * @param  Jstewmc\Rtf\Element|null  $element  the element to test (optional; if
+	 *     omitted, defaults to null)
+	 * @param  int|null  $index  the index to test (optional; if omitted, defaults to
+	 *     null)
 	 * @return  bool
+	 * @throws  BadMethodCallException    if $element and $index are null
 	 * @throws  InvalidArgumentException  if $index is not a number
 	 * @since  0.1.0
 	 */
-	public function hasChild($element)
+	public function hasChild(Element $element = null, $index = null)
 	{
-		// if $element is an integer or element
-		$isInteger = is_numeric($element) && is_int(+$element);
-		$isElement = $element instanceof Element;
-		if ($isInteger || $isElement) {
-			// get the element's index
-			if ($isElement) {
-				$index = $this->getIndex($element);	
-			} else {
-				$index = $element;
-			}
-			// if the index exists
-			if ($index !== false && array_key_exists($index, $this->children)) {
-				// if the value exists
-				if ( ! empty($this->children[$index])) {
-					return true;	
+		$hasChild = false;
+		
+		// if $element or $index was passed
+		$hasElement = $element !== null;
+		$hasIndex   = $index !== null;
+		if ($hasElement || $hasIndex) {
+			// if $index is null or a valid integer
+			if ( ! $hasIndex || (is_numeric($index) && is_int(+$index))) {
+				// if we're testing a particular element at a particular index
+				// elseif we're testing a particular element at any index
+				// elseif we're testing any element at a particular index
+				//
+				if ($hasElement && $hasIndex) {
+					$hasChild = $this->getIndex($element) === $index;
+				} elseif ($hasElement) {
+					$hasChild = $this->getIndex($element) !== false;
+				} elseif ($hasIndex) {
+					$hasChild = array_key_exists($index, $this->children) 
+						&& ! empty($this->children[$index]);
 				}
+			} else {
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects optional parameter two, index, to be an integer"
+				);
 			}
 		} else {
-			throw new \InvalidArgumentException(
-				__METHOD__."() expects parameter one, index, to be an integer or an element"
+			throw new \BadMethodCallException(
+				__METHOD__."() expects one or two parameters"
 			);
 		}
 		
-		return false;
+		return $hasChild;
 	}
 	
 	/**
-	 * Returns true if the group has an element at $index
+	 * Returns true if an element exists at $index
 	 *
 	 * @param  int  $index  the index to test
 	 * @return  bool

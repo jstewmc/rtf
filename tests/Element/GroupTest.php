@@ -28,6 +28,19 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		];
 	}
 	
+	public function neitherAnIntegerNorNullProvider()
+	{
+		return [
+			// [null],
+			[true],
+			// [1],
+			[1.0],
+			['foo'], 
+			[[]],
+			[new \StdClass()]
+		];
+	}
+	
 	/* !Get/set methods */
 	
 	/**
@@ -381,21 +394,32 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	/* !hasChild() */
 	
 	/**
-	 * hasChild() should throw an InvalidArgumentException if $index is not an integer 
-	 *     or element
-	 *
-	 * @dataProvider  notAnIntegerProvider
+	 * hasChild() should throw a BadMethodCallException if $element and $index are null
 	 */
-	public function testHasChild_throwsInvalidArgumentException_ifIndexIsNotAnIntegerOrElement()
+	public function testHasCHild_throwsBadMethodCallException_ifElementAndIndexAreNull()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->setExpectedException('BadMethodCallException');
 		
 		$group = new Group();
-		$group->hasChild('foo');
+		$group->hasChild(null, null);
 		
 		return;
 	}
 	
+	/**
+	 * hasChild() should throw an InvalidArgumentException if $index is not an integer
+	 *
+	 * @dataProvider  neitherAnIntegerNOrNullProvider
+	 */
+	public function testHasChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->hasChild(null, $index);
+		
+		return;
+	}
 	
 	/**
 	 * hasChild() should return false if parent has no children
@@ -404,7 +428,9 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	{
 		$group = new Group();
 		
-		$this->assertFalse($group->hasChild(1));
+		$this->assertFalse($group->hasChild(null, 0));
+		$this->assertFalse($group->hasChild(new Element()));		
+		$this->assertFalse($group->hasChild(new Element(), 0));
 		
 		return;
 	}
@@ -415,10 +441,11 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	public function testHasChild_returnsFalse_ifChildDoesNotExist()
 	{
 		$group = new Group();
-		
 		$group->appendChild(new Text('foo'));
 		
-		$this->assertFalse($group->hasChild(1));
+		$this->assertFalse($group->hasChild(null, 1));
+		$this->assertFalse($group->hasChild(new Element()));
+		$this->assertFalse($group->hasChild(new Element(), 0));
 		
 		return;
 	}
@@ -426,29 +453,16 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	/**
 	 * hasChild() should return true if parent does have child by index
 	 */
-	public function testHasChild_returnsTrue_ifChildDoesExistByIndex()
+	public function testHasChild_returnsTrue_ifChildDoesExist()
 	{
-		$group = new Group();
-		
-		$group->appendChild(new Text('foo'));
-		
-		$this->assertTrue($group->hasChild(0));
-		
-		return;
-	}
-	
-	/**
-	 * hasChild() should return true if parent does have child by element
-	 */
-	public function testHasChild_returnsTrue_ifChildDoesExistByElement()
-	{
-		$group = new Group();
-		
 		$foo = new Text('foo');
 		
+		$group = new Group();
 		$group->appendChild($foo);
 		
+		$this->assertTrue($group->hasChild(null, 0));
 		$this->assertTrue($group->hasChild($foo));
+		$this->assertTrue($group->hasChild($foo, 0));
 		
 		return;
 	}
@@ -458,6 +472,8 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	
 	/**
 	 * hasIndex() should throw an InvalidArgumentException if $index is not an integer
+	 *
+	 * @dataProvider  notAnIntegerProvider
 	 */
 	public function testHasIndex_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
 	{

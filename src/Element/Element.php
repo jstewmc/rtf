@@ -157,7 +157,7 @@ class Element
 		// if this element has an index
 		if (false !== ($index = $this->getIndex())) {
 			// if this element has a next sibling
-			if ($this->parent->hasChild($index + 1)) {
+			if ($this->parent->hasChild(null, $index + 1)) {
 				$next = $this->parent->getChild($index + 1);
 			}
 		}
@@ -181,7 +181,7 @@ class Element
 		// if this element has an index
 		if (false !== ($index = $this->getIndex())) {
 			// if this element has a previous sibling
-			if ($this->parent->hasChild($index - 1)) {
+			if ($this->parent->hasChild(null, $index - 1)) {
 				$previous = $this->parent->getChild($index - 1);
 			}
 		}
