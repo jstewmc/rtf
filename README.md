@@ -64,10 +64,10 @@ Generally, control symbols take no delimiters. However, the apostrophe control s
 ### Text
 Text is any character that isn't a group-open, group-close, control word, or control symbol.
 
-Special characters like the backlash ("\"), open-bracket ("{"), and close-bracket ("}") are escaped with the backslash character ("\"). For example, the string "\\" will produce a literal backslash character.
+Special characters like the backlash ("\"), open-bracket ("{"), and close-bracket ("}") are escaped with the backslash character ("\").
 
 ### Line endings
-The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word. 
+The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters or so, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word. 
 
 This library will ignore an *un-escaped* line-feed or carriage return. However, it will treat an *escaped* line-feed or carriage-return as an implicit `\par` control word.
 
@@ -111,7 +111,7 @@ foreach ($tokens as $token) {
 
 The above example would output the following:
 
-```php
+```
 {
 "foo "
 {
@@ -293,10 +293,12 @@ $foo === $group->getFirstChild();  // returns true
 $bar === $group->getChild(1);      // returns true
 $baz === $group->getLastChild();   // returns true
 
-$group->hasChild(0);     // returns true
-$group->hasChild($foo);  // returns true
-$group->hasChild(999);   // returns false
-$group->hasChild($qux);  // returns false
+$group->hasChild(null, 0);    // returns true
+$group->hasChild($foo);       // returns true
+$group->hasChild($foo, 0);    // returns true
+$group->hasChild(null, 999);  // returns false
+$group->hasChild($qux);       // returns false
+$group->hasChild($qux, 0);    // returns false
 ```
 
 You can remove and replace a child element:
@@ -396,9 +398,9 @@ $group->getChildren() == [$bar];  // returns true
 
 ### Supported controls
 
-There are hundreds of RTF control words and several dozen control symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm]) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details). 
+There are hundreds of RTF control words and several dozen control symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details). 
 
-This library supports a small subset of them:
+This library supports a small subset of control words and control symbols:
 
 * Character formatting control words
   * `\b`, bold
