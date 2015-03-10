@@ -22,7 +22,7 @@ $document
 	->replaceWith($bar);  // replace "foo" with "bar"
 
 // print the changes
-echo $document;  // prints "{\b1 bar\b0}"
+echo $document;  // prints "{\b bar\b0}"
 ``` 
 
 ## About
@@ -225,9 +225,9 @@ use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-echo $document->write();  // prints "{\b1 foo\b0 }"
+echo $document->write();  // prints "{\b foo\b0}"
 
-$document->save('/path/to/file.rtf');  // puts contents "{\b1 foo\b0 }"
+$document->save('/path/to/file.rtf');  // puts contents "{\b foo\b0}"
 ```
 
 When a document is used as a string, it will return a string:
@@ -237,9 +237,9 @@ use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-echo $document;           // prints "{\b1 foo\b0 }"
-echo (string) $document;  // prints "{\b1 foo\b0 }"
-echo ''.$document;        // prints "{\b1 foo\b0 }"
+echo $document;           // prints "{\b foo\b0}"
+echo (string) $document;  // prints "{\b foo\b0}"
+echo ''.$document;        // prints "{\b foo\b0}"
 ```
 
 ## Elements
