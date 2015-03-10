@@ -466,51 +466,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		
 		return;
 	}
-	
-	
-	/* !hasIndex() */
-	
-	/**
-	 * hasIndex() should throw an InvalidArgumentException if $index is not an integer
-	 *
-	 * @dataProvider  notAnIntegerProvider
-	 */
-	public function testHasIndex_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
-	{
-		$this->setExpectedException('InvalidArgumentException');
 		
-		$group = new Group();
-		$group->hasIndex($index);
-		
-		return;
-	}
-	
-	/**
-	 * hasIndex() should return false if children do not exist
-	 */
-	public function testHasIndex_returnsFalse_ifChildrenDoNotExist()
-	{
-		$group = new Group();
-		
-		$this->assertFalse($group->hasIndex(0));
-		
-		return;
-	}
-	
-	/**
-	 * hasIndex() should return true if the child does exist
-	 */
-	public function testHasIndex_returnsTrue_ifChildrenDoExist()
-	{
-		$group = new Group();
-		
-		$group->appendChild(new Element());
-		
-		$this->assertTrue($group->hasIndex(0));
-		
-		return;
-	}
-	
 	
 	/* !insertChild() */
 	
