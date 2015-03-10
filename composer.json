@@ -1,0 +1,21 @@
+{
+	"name": "jstewmc/rtf",
+	"description": "A Rich Text Format (RTF) reader and writer",
+	"license": "MIT",
+	"keywords": ["PHP", "rich", "text", "format", "rtf", "read", "write", "parse", "render", "lex"],
+	"authors": [
+		{
+			"name": "Jack Clayton",
+			"email": "clayjs0@gmail.com"	
+		}
+	],
+	"require": {},
+	"require-dev": {
+		"phpunit/phpunit": "4.2.*"
+	},
+	"autoload": {
+		"psr-4": {
+			"Jstewmc\\Rtf\\": "src/"
+		}
+	}
+}
