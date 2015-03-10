@@ -473,6 +473,170 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	
+	/* !isFirstChild() */
+	
+	/**
+	 * isFirstChild() should throw BadMethodCallException if the $element's parent does not exist
+	 */
+	public function testIsFirstChild_throwsBadMethodCallException_ifParentDoesNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$foo = new Text('foo');
+		$foo->isFirstChild();
+		
+		return;
+	}
+	
+	/**
+	 * isFirstChild() should throw BadMethodCallException if $element's parent doesn't have 
+	 *     children
+	 */
+	public function testIsFirstChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$group = new Group();
+		
+		$foo = new Text('foo');
+		$foo->setParent($group);
+		
+		$foo->isFirstChild();
+		
+		return;
+	}
+	
+	/**
+	 * isFirstChild() should throw BadMethodCallException if $element is not a child
+	 */
+	public function testIsFirstChild_throwsBadMethodCallException_ifElementIsNotChild()
+	{	
+		$this->setExpectedException('BadMethodCallException');
+		
+		$group = new Group();
+		$group->appendChild(new Element());
+		
+		$foo = new Text('foo');
+		$foo->setParent($group);
+		
+		$foo->isFirstChild();
+		
+		return;
+	}
+	
+	/**
+	 * isFirstChild() should return false if the element is not the first child
+	 */
+	public function testIsFirstChild_returnsFalse_ifElementIsNotFirstChild()
+	{
+		$foo = new Text('foo');
+		
+		$group = new Group();
+		$group->appendChild(new Element())->appendChild($foo);
+		
+		$this->assertFalse($foo->isFirstChild());
+		
+		return;
+	}
+	
+	/**
+	 * isFirstChild() should return false if the element is the first child
+	 */
+	public function testIsFirstChild_returnsTrue_ifElementIsFirstChild()
+	{
+		$foo = new Text('foo');
+		
+		$group = new Group();
+		$group->appendChild($foo)->appendChild(new Element());
+		
+		$this->assertTrue($foo->isFirstChild());
+		
+		return;
+	}
+	
+	
+	/* !isLastChild() */
+	
+	/**
+	 * isLastChild() should throw BadMethodCallException if the $element's parent does not exist
+	 */
+	public function testIsLastChild_throwsBadMethodCallException_ifParentDoesNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$foo = new Text('foo');
+		$foo->isLastChild();
+		
+		return;
+	}
+	
+	/**
+	 * isLastChild() should throw BadMethodCallException if $element's parent doesn't have 
+	 *     children
+	 */
+	public function testIsLastChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$group = new Group();
+		
+		$foo = new Text('foo');
+		$foo->setParent($group);
+		
+		$foo->isLastChild();
+		
+		return;
+	}
+	
+	/**
+	 * isLastChild() should throw BadMethodCallException if $element is not a child
+	 */
+	public function testIsLastChild_throwsBadMethodCallException_ifElementIsNotChild()
+	{	
+		$this->setExpectedException('BadMethodCallException');
+		
+		$group = new Group();
+		$group->appendChild(new Element());
+		
+		$foo = new Text('foo');
+		$foo->setParent($group);
+		
+		$foo->isLastChild();
+		
+		return;
+	}
+	
+	/**
+	 * isLastChild() should return false if the element is not the Last child
+	 */
+	public function testIsLastChild_returnsFalse_ifElementIsNotLastChild()
+	{
+		$foo = new Text('foo');
+		
+		$group = new Group();
+		$group->appendChild($foo)->appendChild(new Element());
+		
+		$this->assertFalse($foo->isLastChild());
+		
+		return;
+	}
+	
+	/**
+	 * isLastChild() should return false if the element is the Last child
+	 */
+	public function testIsLastChild_returnsTrue_ifElementIsLastChild()
+	{
+		$foo = new Text('foo');
+		
+		$group = new Group();
+		$group->appendChild(new Element())->appendChild($foo);
+		
+		$this->assertTrue($foo->isLastChild());
+		
+		return;
+	}
+	
+	
 	/* !prependTo() */
 	
 	/**

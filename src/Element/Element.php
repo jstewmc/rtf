@@ -217,7 +217,7 @@ class Element
 	 * @throws  BadMethodCallException  if $element doesn't have a parent
 	 * @throws  BadMethodCallException  if $element's parent doesn't have children
 	 * @throws  BadMethodCallException  if $element is not a child of its parent
-	 * @sicne  0.1.0
+	 * @since  0.1.0
 	 */
 	public function insertBefore(Element $element)
 	{
@@ -227,6 +227,34 @@ class Element
 		}
 		
 		return $this;
+	}
+	
+	/**
+	 * Returns true if this element is the first child
+	 *
+	 * @return  bool
+	 * @throws  BadMethodCallException  if this element doesn't have a parent
+	 * @throws  BadMethodCallException  if this element's parent doesn't have children
+	 * @throws  BadMethodCallException  if this element is not a child of its parent
+	 * @since  0.1.0
+	 */
+	public function isFirstChild()
+	{
+		return $this->getIndex() === 0;
+	}
+	
+	/**
+	 * Returns true if this element is the last child
+	 *
+	 * @return  bool
+	 * @throws  BadMethodCallException  if this element doesn't have a parent
+	 * @throws  BadMethodCallException  if this element's parent doesn't have children
+	 * @throws  BadMethodCallException  if this element is not a child of its parent
+	 * @since  0.1.0
+	 */
+	public function isLastChild()
+	{
+		return $this->getIndex() === $this->parent->getLength() - 1;
 	}
 	
 	/**
