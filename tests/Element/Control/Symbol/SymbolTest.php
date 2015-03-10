@@ -111,4 +111,21 @@ class SymbolTest extends \PHPUnit_Framework_TestCase
 		
 		return;
 	}
+	
+	/**
+	 * __toString() should return string if the element is the group's last child
+	 */
+	public function testToString_returnsString_ifElementIsLastChild()
+	{
+		$group = new \Jstewmc\Rtf\Element\Group();
+		
+		$symbol = new Symbol();
+		$symbol->setSymbol('\'');
+		$symbol->setParameter('foo');
+		$symbol->appendTo($group);
+		
+		$this->assertEquals('\\\'foo', (string) $symbol);
+		
+		return;
+	}
 }

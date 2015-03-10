@@ -122,6 +122,13 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
 	 */
 	public function __toString()
 	{
-		return "\\{$this->symbol}{$this->parameter} ";
+		$string = "\\{$this->symbol}{$this->parameter} ";
+		
+		// if the control word has a parent and it is the last child, remove the space
+		if ( ! empty($this->parent) && $this->isLastChild()) {
+			$string = substr($string, 0, -1);
+		}
+		
+		return $string;
 	}
 }
