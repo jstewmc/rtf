@@ -9,73 +9,75 @@ use Jstewmc\Rtf;
 // create a document from source
 $document = new Document('{\b foo\b0}');
 
-// replace the document's text, "foo", with the text "bar"
+// let's switch the document's text, "foo", for the text, "bar"...
+
+// create a new text element
+$bar = new Element\Text('bar');
+
+// navigate to the "foo" text element and replace it
 $document
-	->getRoot()
-	->getFirstChild()
-	->getNextSibling()
-	->replaceWith(new Element\Text('bar'));
+	->getRoot()           // get the document's root group
+	->getFirstChild()     // get the "\b" control word element
+	->getNextSibling()    // get the "foo" text element
+	->replaceWith($bar);  // replace "foo" with "bar"
 
 // print the changes
 echo $document;  // prints "{\b1 bar\b0}"
 ``` 
+
 ## About
 
 In February 2015, I started a project that required reading and writing RTF files. Actually, it required reading and writing files in the Court Reporter extension of the RTF language, RTF-CRE. I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
 
 ## Rich Text Format (RTF)
-This library is compliant with the [Rich Text Format Version 1.5 Specification (1997)](http://www.biblioscape.com/rtf15_spec.htm).
+This library adheres to the [Rich Text Format Version 1.5 Specification (1997)](http://www.biblioscape.com/rtf15_spec.htm).
 
 If you aren't familiar with the Rich Text Format (RTF) language, it's relatively simple. There are four main language components: groups, control words, control symbols, and text.
 
 ### Groups
 Groups are the fundamental building blocks of an RTF document. A group consists of text, control words, control symbols, or other groups enclosed in braces ("{" and "}").
 
-Like an XML document, an RTF document should have a root group. Within the root group there is a "header", a group of document-formatting control words that, if they occur, must do so before any text, and the "body", the content of the document.
+Like an XML document, an RTF document should have a root group. Within the root group there is a *header*, a group of document-formatting control words that, if they occur, must do so before any text, and the *body*, the content of the document.
 
-Groups can be nested. Formatting within a group affects only the text in that group, and generally, text within a group inherits the formatting of the parent group. 
+Groups can be nested. Generally, formatting within a group affects only the text in that group, and text within a group inherits the formatting of the parent group. 
 
 ### Control words
 A control word is a specially-formatted command used to perform actions in an RTF document such as: insert special characters, set paragraph-formatting, set character-formatting, etc. 
 
 A control word takes the following form: `\<word>[<delimiter>]`.
 
-The `word` is a string of alphabetic characters. RTF is case-sensitive, but all RTF control words are lowercase. A control word must be shorter than 32 characters.
+`word` is a string of alphabetic characters. RTF is case-sensitive, but all RTF control words are lowercase. A control word must be shorter than 32 characters.
 
-The `delimiter` can be one of the following:
+`delimiter` can be one of the following:
 
 * A space (" ") - A space is considered part of the control word and does not appear in the document. However, any characters following the space, including spaces, will appear in the document. 
 * A digit (0-9) or hyphen ("-") - A digit or hyphen indicates a numeric parameter follows. The subsequent digital sequence is then delimited by a space or any other character besides a letter or digit. The parameter can be a positive or negative number, generally between -32,767 and 32,767. However, readers should accept any arbitrary string of digits as a legal parameter.
 * Any character besides a letter or digit - In this case, the delimiting character terminates the control word, but is not part of the control word.
 
-The parameters of certain control words (for example, bold, "\b") have only two states. When such a control word has no parameter (or has a non-zero parameter), it is assumed that the control word turns on the property. When such a control word has a parameter of "0", it is assumed to turn off the property.
+The parameters of certain control words (for example, bold, `\b`) have only two states. When such a control word has no parameter (or has a non-zero parameter), it is assumed that the control word turns on the property. When such a control word has a parameter of `0`, it is assumed to turn off the property.
 
 ### Control symbols
-A control symbol consists of a backslash followed by a single, non-alphabetic character (aka, a symbol). A control symbol usually inserts a special character. For example, the control symbol "\~" represents a non-breaking space. 
+A control symbol consists of a backslash followed by a single, non-alphabetic character (aka, a symbol). A control symbol usually inserts a special character. For example, the control symbol `\~` represents a non-breaking space. 
 
-Generally, control symbols take no delimiters. However, the apostrophe control symbol ("\'") takes a two-digit hexadecimal parameter.
+Generally, control symbols take no delimiters. However, the apostrophe control symbol takes a two-digit hexadecimal parameter (e.g., `\'hh`).
 
 ### Text
-Text is everything else that isn't a group-open, group-close, control word, or control symbol.
+Text is any character that isn't a group-open, group-close, control word, or control symbol.
 
-Special characters ("\", "{", and "}") are escaped with a backslash ("\"). For example, the string "\\" will produce a literal backslash character.
+Special characters like the backlash (`\\`), open-bracket (`{`), and close-bracket (`}`) are escaped with a backslash (`\\`). For example, the string `\\\\` will produce a literal backslash character.
 
 ### Line endings
-The RTF specification ignores line-feeds and carriage-returns. Instead, line breaks are controlled with the `\line` control word (among others), and paragraphs are controlled with the `\par` control word. 
+The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word. 
 
 This library will ignore an *un-escaped* line-feed or carriage return. However, it will treat an *escaped* line-feed or carriage-return as an implicit `\par` control word.
 
-## Process
+## The process
 
-It's probably worthwhile to review how this library reads an RTF string: 
-
-1. It lexes an RTF string into language tokens.
-2. It parses the language tokens into the parse tree.
-3. It renders the parse tree into the document tree.
+To create a document, this library lexes an RTF string into language tokens, parses the language tokens into the parse tree, and renders the parse tree into the document tree.
 
 ### Lexer
 
-The Lexer breaks an RTF string into the following language tokens: group-open, group-close, control word, control symbol, and text.
+The Lexer breaks an RTF string into group-open, group-close, control word, control symbol, and text tokens.
 
 For example:
 
@@ -85,13 +87,15 @@ use Jstewmc\Rtf;
 // set the rtf source
 $source = '{foo {\b bar\b0}}';
 
-// create a lexer
+// create the lexer
 $lexer = Lexer();
 
 // lex the source into tokens
 $tokens = $lexer->lex($source);
 
-// loop through the tokens and echo them to the screen
+// loop through the tokens and echo them to the screen for this example
+// in the real world, you would pass them to a parser
+//
 foreach ($tokens as $token) {
 	if ($token instanceof Token\Group\Open) {
 		echo "{";
@@ -122,14 +126,14 @@ The above example would output the following:
 
 ### Parser
 
-The Parser creates the document's elements and returns the document's root group.
+Given an array of tokens, the Parser creates the document's elements and returns the document's root group.
 
 For example:
 
 ```php
 use Jstewmc\Rtf;
 
-// use the tokens from the example above
+// ... the array of tokens from the Lexer example above
 $tokens = [
 	new Token\Group\Open(),
 	new Token\Text('foo '),
@@ -147,7 +151,7 @@ $parser = new Parser();
 // parse the tokens into the parse tree
 $root = $parser->parse($tokens);
 
-// peek into the parse tree
+// look into the parse tree
 echo get_class($root);                   // prints "Jstewmc\Rtf\Element\Group"
 echo get_class($root->getFirstChild());  // prints "Jstewmc\Rtf\Element\Text"
 echo get_class($root->getLastChild());   // prints "Jstewmc\Rtf\Element\Group"
@@ -155,13 +159,13 @@ echo get_class($root->getLastChild());   // prints "Jstewmc\Rtf\Element\Group"
 
 ### Render
 
-The Renderer reads through the parse tree and computes each element's style. 
+Given the parse tree's root group, the Renderer reads through the parse tree and computes each element's style. 
 
 ```php
 use Jstewmc\Rtf;
 
-// use the $root from the example above
-$root = (new Element\Group())
+// ... use the root group from the Parser example above
+$group = (new Element\Group())
 	->appendChild(new Element\Text('foo '))
 	->appendChild((new Element\Group())
 		->appendChild(new Element\Control\Word\B())
@@ -173,13 +177,13 @@ $root = (new Element\Group())
 $renderer = new Renderer();
 
 // render the parse tree into the document tree
-$root = $renderer->render($root);
+$root = $renderer->render($group);
 
-// peek into the document tree
+// look into the document tree
 $root
 	->getLastChild()    // get the last group, the "{\b bar\b0}"
-	->getFirstChild()   // get the group's first child, the "\b " control word element
-	->getNextSibling()  // get the next element, the "bar" text element
+	->getFirstChild()   // get the "\b " control word element
+	->getNextSibling()  // get the "bar" text element
 	->getStyle()        // get the text element's stye
 	->getCharacter()    // get the style's character state
 	->getIsBold();      // returns true
@@ -187,34 +191,37 @@ $root
 
 ## Document
 
-The lexing, parsing, and rendering are abstracted away with the Document class. 
+Don't worry. You don't have to lex, parse, and render strings on your own. The `Document` class takes care of that for you.
 
-A document can read a string or load a file:
+You can create a document *from a string* using the `read()` method or the constructor:
 
 ```php
 use Jstewmc\Rtf;
 
-// you can read a document with the read() method or constructor
-// keep in mind, if you're using the constructor to read a string, the string 
-//     *must* start with the "{" character
-//
-$document = new Document();
-$document->read('{\b foo\b0}';
+$a = new Document();
+$a->read('{\b foo\b0}';
 
-$document == new Document('{\b foo\b0}');  // returns true
+$b = new Document('{\b foo\b0}');
 
-// you can load a file with the load() method or constructor
-// keep in mind, if you're using the contructor to load a file, the string 
-//     *must not* start with the "{" character
-//
-$document = new Document();
-$document->load('/path/to/file.rtf');
-
-$document = new Document('/path/to/file.rtf');  // returns true
-
+$a == $b;  // returns true
 ```
 
-A document can write to a string or save to a file:
+You can create a document *from a file* using the `load()` method or the constructor:
+
+```php
+use Jstewmc\Rtf;
+
+$a = new Document();
+$a->load('/path/to/file.rtf');
+
+$b = new Document('/path/to/file.rtf');
+
+$a = $b;  // returns true
+```
+
+**Heads up!** The constructor uses the string's first character to determine whether the string is a filename or an RTF string. If the string starts with the open-bracket character (`{`), the string is considered an RTF string. If not, it's considered a filename. If your RTF string is malformed or your filenames are alien, the constructor will not work as expected.
+
+A document can write to a string (and will do so when used as a string) or save to a file:
 
 ```php
 use Jstewmc\Rtf;
@@ -228,13 +235,15 @@ echo (string) $document;  // prints "{\b1 foo\b0 }"
 $document->save('/path/to/file.rtf');  // puts contents "{\b1 foo\b0 }"
 ```
 
-Once a document has been rendered (i.e., the `read()` or `load()` methods have been called), any changes to the document, like inserting or removing elements,  will cause a re-render of the new (or old) element's parent group.
-
 ## Elements
 
-A document is composed of elements, much like an XML document or HTML's Document Object Model (DOM). 
+A document is composed of elements, much like an XML document is composed of nodes. 
 
 There are four types of elements: groups, control words, control symbols, and text.
+
+Group elements and text elements are generically named, `Element\Group` and `Element\Text`, respectively.
+
+Control words and control symbols, on the other hand, are specifically named. For example, the bold control word, `\b`, corresponds to the `Element\Control\Word\B` class, and the asterisk control symbol, `\*`, corresponds to the `Element\Control\Symbol\Asterisk` class.
 
 ### Group elements
 
@@ -243,7 +252,7 @@ A group element is the only type of element that can have children.
 You can append, prepend, and insert a group's children:
 
 ```php
-namespace Jstewmc\Rtf;
+use Jstewmc\Rtf;
 
 $group = new Element\Group();
 
@@ -262,13 +271,14 @@ $group->getChildren() == [$bar, $baz, $foo];  // returns true
 You can get a child element or check its existence:
 
 ```php
-namespace Jstewmc\Rtf;
+use Jstewmc\Rtf;
 
 $group = new Element\Group();
 
 $foo = new Element\Text('foo');
 $bar = new Element\Text('bar');
 $baz = new Element\Text('baz');
+$qux = new Element\Text('qux');
 
 $group->appendChild($foo)->appendChild($bar)->appendChild($baz);
 
@@ -276,14 +286,16 @@ $foo === $group->getFirstChild();  // returns true
 $bar === $group->getChild(1);      // returns true
 $baz === $group->getLastChild();   // returns true
 
-$group->hasChild(0);    // returns true
-$group->hasChild(999);  // returns false
+$group->hasChild(0);     // returns true
+$group->hasChild($foo);  // returns true
+$group->hasChild(999);   // returns false
+$group->hasChild($qux);  // returns false
 ```
 
 You can remove and replace a child element:
 
 ```php
-namespace Jstewmc\Rtf;
+use Jstewmc\Rtf;
 
 $group = new Element\Group();
 
@@ -375,44 +387,44 @@ $foo->replaceWith($bar);
 $group->getChildren() == [$bar];  // returns true
 ```
 
-### Supported control words and symbols
+### Supported controls
 
 There are hundreds of RTF control words and several dozen symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm]) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details). 
 
 This library supports a relatively small subset of control words:
 
 * Character formatting control words
-  * bold, `\b`
-  * italic, `\i`
-  * reset character format, `\plain`
-  * stikethrough ("\strike")
-  * subscript ("\sub")
-  * superscript ("\super")
-  * underline, `\ul` and `\ulnone`
-  * visible ("\v")
+  * `\b`, bold
+  * `\i`, italic
+  * `\plain`, reset character format
+  * `\strike`, strikethrough
+  * `\sub`, subscript
+  * `\super`, superscript
+  * `\ul` and `\ulnone`, underline (and underline off)
+  * `\v`, visibilty
 * Special character control words
-  * bullet ("\bullet")
-  * current date ("\chdate")
-  * current date, abbreviated ("\chdpa")
-  * current date, long form ("\chdpl")
-  * current time ("\chtime")
-  * emdash ("\emdash")
-  * emspace ("\emspace")
-  * endash ("\endash")
-  * enspace ("\enspace")
-  * left-double-quote ("\ldblquote")
-  * line ("\line")
-  * left-quote ("\left")
-  * qmspace ("\qmspace")
-  * right-double-quote ("\rdblquote")
-  * right-quote ("\rquote")
-  * tab ("\tab")
-  * unicode-escape ("\u")
+  * `\bullet`, bullet character
+  * `\chdate`, current date string
+  * `\chdpa`, current date string, abbreviated
+  * `\chdpl`, current date string, long form
+  * `\chtime`, current time string
+  * `\emdash`, emdash
+  * `\emspace`, emspace
+  * `\endash`, endash
+  * `\enspace`, enspace
+  * `\ldblquote`, left-double-quote
+  * `\line`, line-break
+  * `\left`, left-quote
+  * `\qmspace`, qmspace
+  * `\rdblquote`, right-double-quote
+  * `\rquote`, right-quote
+  * `\tab`, tab
+  * `\u`, unicode-escape
 * Paragraph control words
-  * new paragraph ("\par")
-  * reset paragraph format ("\pard")
+  * `\par`, new paragraph
+  * `\pard`, reset paragraph format
 
-This library doesn't support the following:
+This library doesn't support the following control words:
 
 * Pictures
 * Objects
@@ -423,20 +435,20 @@ This library doesn't support the following:
 
 ### Style
 
-The RTF specification lumps an element's style into one huge "group state". I didn't think that was a good idea. So, I created the idea of an element's style, like an HTML element's style, and the idea of document-, section-, paragraph-, and character-states.
+The RTF specification lumps an element's style into one huge "group state". I didn't think that was a good idea. So, I created an element's style, like an HTML element's style, and document-, section-, paragraph-, and character-states.
 
-For any element, the following state properties are available:
+For any element, the following properties are available:
 
 * Character-state
-  * isBold - a flag indicating whether or not the element is bold (defaults to false)
-  * isItalic - a flag indicating whether or not the element is italic (defaults to false)
-  * isStrikethrough - a flag indicating whether or not the element is struckthrough (defaults to false)
-  * isSubscript - a flag indicating whether or not the element is subscript (defaults to false)
-  * isSuperscript - a flag indicating whether or not the element is superscript (defaults to false)
-  * isUnderline - a flag indicating whether or not the element is underline (defaults to false)
-  * isVisible - a flag indicating whether or not the element is visible (defaults to true)
+  * `isBold` - a flag indicating whether or not the element is bold (defaults to false)
+  * `isItalic` - a flag indicating whether or not the element is italic (defaults to false)
+  * `isStrikethrough` - a flag indicating whether or not the element is struckthrough (defaults to false)
+  * `isSubscript` - a flag indicating whether or not the element is subscript (defaults to false)
+  * `isSuperscript` - a flag indicating whether or not the element is superscript (defaults to false)
+  * `isUnderline` - a flag indicating whether or not the element is underline (defaults to false)
+  * `isVisible` - a flag indicating whether or not the element is visible (defaults to true)
 * Paragraph-state
-  * index - the paragraph's index (defaults to 0)
+  * `index` - the paragraph's index (defaults to 0)
 
 It's admittedly a little clunky, but you can access an element's style like the following:
 
@@ -454,22 +466,22 @@ $document
 	->getIsBold();      // returns true
 ```
 
+Once a document has been rendered (i.e., the `read()` or `load()` methods have been called) it's style has been computed. Any changes to the document, like inserting or removing elements, will cause a re-render of the new (or old) element's parent group.
+
 ## Contributing
 
 Obviously, the biggest area that needs some love is control words and control symbols. This library supports a paltry few. I didn't really need many for my purposes. So, I didn't make them. However, I designed the library so control words and control symbols could be added at will. 
 
-If you're interested, feel free to contribute.
-
-See [CONTRIBUTING.md](https://github.com/jstewmc/rtf/CONTRIBUTING.md) for details.
+If you're interested, see [CONTRIBUTING.md](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md) for details.
 
 ## TODO
 
 There are few things I'd like to work on going forward:
 
-* Performance - I haven't had much of an opportunity to test the library on large files yet. I didn't want to get stuck prematurely optimizing. So, I barely optimized anything. It might be nice to do a little performance testing.
-* Search for elements - For now, there is no way to search for an element like the DOM's `getElementByTagName()` or jQuery's `find()` and `filter()` methods. I'd like to add that.
-* Adding extensions - I designed the library to make it easy to add control words and control symbols. However, I haven't thought about adding a library of control words and symbols yet.
-* Style magic methods - I'm not totally happy about users having to know where a state's properties belong. For example, if a user wants to check if a text element is bold, they have to know to call `$element->getStyle()->getCharacter()->getIsBold();`. They have to know that the `isBold` property belongs to the character-state. A magic method that abstracts away the underlying state structure might be better (e.g., `$element->getStyle()->getIsBold();`). 
+* *Performance* - I haven't had much of an opportunity to test the library on large files yet. I didn't want to get stuck prematurely optimizing. So, I barely optimized anything. It might be nice to do a little performance testing.
+* *Search for elements* - For now, there is no way to search for an element like the DOM's `getElementByTagName()` or jQuery's `find()` and `filter()` methods. I'd like to add that.
+* *Adding extensions* - I designed the library to make it easy to add control words and control symbols. However, I haven't thought about adding a library of control words and symbols yet.
+* *Style magic methods* - I'm not totally happy about users having to know where a state's properties belong. For example, if a user wants to check if a text element is bold, they have to know to call `$element->getStyle()->getCharacter()->getIsBold();`. They have to know that the `isBold` property belongs to the character-state. A magic method that abstracts away the underlying state structure might be better (e.g., `$element->getStyle()->getIsBold();`). 
 
 ## Author
 
@@ -477,4 +489,8 @@ Jack Clayton - [clayjs0@gmail.com](mailto:clayjs0@gmail.com)
 
 ## License
 
-This library is released under the [MIT license](https://github.com/jstewmc/rtf/LICENSE).
+This library is released under the [MIT license](https://github.com/jstewmc/rtf/blob/master/LICENSE).
+
+## Version
+
+See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details.
