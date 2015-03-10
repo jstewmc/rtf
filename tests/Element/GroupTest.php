@@ -102,7 +102,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 			->appendChild(new Text('foo'))
 			->appendChild(new Control\Word\B(0));
 		
-		$expected = '{\b1 foo\b0 }';
+		$expected = '{\b foo\b0}';
 		$actual   = (string) $group;
 		
 		$this->assertEquals($expected, $actual);

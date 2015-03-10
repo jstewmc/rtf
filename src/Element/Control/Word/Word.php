@@ -126,6 +126,22 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	 */
 	public function __toString()
 	{
-		return "\\{$this->word}{$this->parameter} ";
+		$string = "\\{$this->word}";
+		
+		// if the parameter's value is not the default value, append it
+		$properties = get_class_vars(get_class($this));
+		if ($this->parameter !== $properties['parameter']) {
+			$string .= "{$this->parameter}";
+		}
+		
+		// append a delimiting space
+		$string .= ' ';
+		
+		// if the control word has a parent and it is the last child remove the space
+		if ( ! empty($this->parent) && $this->isLastChild()) {
+			$string = substr($string, 0, -1);
+		}
+		
+		return $string;
 	}
 }

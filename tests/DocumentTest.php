@@ -116,10 +116,15 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testToString_returnsString_ifElementDoExist()
 	{
-		$document = new Document();
-		$document->read('{\b foo\b0}');
+		$rtf = '{\b foo\b0}';
 		
-		$this->assertEquals('{\b1 foo\b0 }', (string) $document);
+		$document = new Document();
+		$document->read($rtf);
+		
+		$expected = $rtf;
+		$actual   = (string) $document;
+		
+		$this->assertEquals($expected, $actual);
 		
 		return;
 	}
@@ -276,12 +281,14 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	{
 		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
 		
+		$rtf = '{\b foo\b0}';
+		
 		$document = new Document();
-		$document->read('{\b foo\b0}');
+		$document->read($rtf);
 		
 		try {
 			$this->assertTrue($document->save($filename));
-			$this->assertEquals('{\b1 foo\b0 }', file_get_contents($filename));
+			$this->assertEquals($rtf, file_get_contents($filename));
 			unlink($filename);
 		} catch (Exception $e) {
 			unlink($filename);
@@ -299,10 +306,12 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testWrite()
 	{
-		$document = new Document();
-		$document->read('{\b foo\b0}');
+		$rtf = '{\b foo\b0}';
 		
-		$expected = '{\b1 foo\b0 }';
+		$document = new Document();
+		$document->read($rtf);
+		
+		$expected = $rtf;
 		$actual   = $document->write();
 		
 		$this->assertEquals($expected, $actual);
