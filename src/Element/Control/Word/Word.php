@@ -5,15 +5,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 /**
  * A control word element
  *
- * Control words are divided into document-, section-, paragraph-, and character-
- * level control words.
- *
- * The control properties of certain control words (such as bold and italic) have
- * only two states. When such a control word has no parameter (or has a non-zero
- * parameter), it is assumed that the control word turns on the property. When 
- * such a control word has a parameter of "0", it is assumed to turn off the 
- * property.
- *
  * @author     Jack Clayton
  * @copyright  2015 Jack Clayton
  * @license    MIT
@@ -32,7 +23,10 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	protected $word;
 	
 	/**
-	 * @var  int  the control word's parameter; default value varies by child class
+	 * @var  int  the control word's parameter; the parameters of certain control 
+	 *     words (such as bold and italic) have only two states; if the parameter
+	 *     is missing or non-zero, it turns on the control word; if the parameter
+	 *     is zero, it turns off the control word
 	 * @since  0.1.0
 	 */
 	protected $parameter;
