@@ -15,9 +15,10 @@ class Control extends \Jstewmc\Rtf\Element\Element
 	/* !Public methods */
 	
 	/**
-	 * Runs the command
+	 * Runs the control word or control word
 	 *
 	 * @return  void
+	 * @since  0.1.0
 	 */
 	public function run()
 	{

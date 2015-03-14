@@ -21,5 +21,30 @@ class Tilde extends Symbol
 	 * @var  string  the control symbol's symbol
 	 * @since  0.1.0
 	 */
-	protected $symbol = '~';	
+	protected $symbol = '~';
+	
+	
+	/* !Protected methods */
+	
+	/**
+	 * Returns this control symbol as an html string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toHtml()
+	{
+		return '&nbsp;';
+	}
+	
+	/**
+	 * Returns this control symbol as plain text
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toText()
+	{
+		return html_entity_decode('&nbsp;');
+	}
 }

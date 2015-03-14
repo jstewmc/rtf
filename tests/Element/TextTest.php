@@ -96,4 +96,52 @@ class TextTest extends \PHPUnit_Framework_TestCase
 		
 		return;
 	}
+	
+	
+	/* !format() */
+	
+	/**
+	 * format() should return string if format is html
+	 */
+	public function testFormat_returnsString_ifFormatIsHtml()
+	{
+		$text = new Text('foo & bar');
+		
+		$expected = 'foo &amp; bar';
+		$actual   = $text->format('html');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is rtf
+	 */
+	public function testFormat_returnsString_ifFormatIsRtf()
+	{
+		$text = new Text('foo \ bar');
+		
+		$expected = 'foo \\\\ bar';
+		$actual   = $text->format('rtf');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is text
+	 */
+	public function testFormat_returnsString_ifFormatIsText()
+	{
+		$text = new Text('foo & bar');
+		
+		$expected = 'foo & bar';
+		$actual   = $text->format('text');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
 }

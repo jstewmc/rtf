@@ -89,6 +89,20 @@ class Element
 		return $this;
 	}
 
+
+	/* !Magic methods */
+	
+	/**
+	 * Called when the object is used as a string
+	 *
+	 * @return  string
+	 * @since   0.1.0
+	 */
+	public function __toString()
+	{
+		return $this->toRtf();
+	}
+	
 	
 	/* !Public methods */
 	
@@ -187,6 +201,51 @@ class Element
 		}
 		
 		return $previous;
+	}
+	
+	/**
+	 * Returns the element as a string in $format
+	 * 
+	 * @param  string  $format  the desired format (possible values are 'rtf', 
+	 *     'html', and 'text') (optional; if omitted, defaults to 'rtf')
+	 * @return  string
+	 * @throws  InvalidArgumentException  if $format is not a string
+	 * @throws  InvalidArgumentException  if $format is not 'rtf', 'html', or 'text'
+	 * @since   0.1.0
+	 */
+	public function format($format = 'rtf')
+	{
+		$string = '';
+		
+		// if $format is a string
+		if (is_string($format)) {
+			// switch on the lower-cased format
+			switch (strtolower($format)) {
+			
+				case 'html':
+					$string = $this->toHtml();
+					break;
+					
+				case 'rtf':
+					$string = $this->toRtf();
+					break;
+				
+				case 'text':
+					$string = $this->toText();
+					break;
+				
+				default:
+					throw new \InvalidArgumentException(
+						__METHOD__."() expects parameter one, format, to be 'rtf', 'html', or 'text'"
+					);
+			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, format, to be a string"
+			);
+		}
+		
+		return $string;
 	}
 	
 	/**
@@ -329,5 +388,41 @@ class Element
 		}
 		
 		return $this;
+	}
+	
+	
+	/* !Protected methods */
+	
+	/**
+	 * Returns the element as an html5 string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toHtml()
+	{
+		return '';
+	}
+	
+	/**
+	 * Returns the element as an rtf string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toRtf()
+	{
+		return '';
+	}
+	
+	/**
+	 * Returns the element as a plain text string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toText()
+	{
+		return '';
 	}
 }

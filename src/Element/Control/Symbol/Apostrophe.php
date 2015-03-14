@@ -26,4 +26,30 @@ class Apostrophe extends Symbol
 	 * @since  0.1.0
 	 */
 	protected $symbol = '\'';
+	
+	
+	/* !Protected methods */
+	
+	/**
+	 * Returns the character as an html string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toHtml()
+	{
+		// parameter is hexadecimal number
+		return "&#x{$this->parameter};";
+	}
+	
+	/**
+	 * Returns the character as a plain text string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toText()
+	{
+		return html_entity_decode($this->toHtml());
+	}
 }

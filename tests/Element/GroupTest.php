@@ -191,6 +191,73 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	}
 	
 	
+	/* !format() */
+	
+	/**
+	 * format() should return string if format is html
+	 */
+	public function testFormat_returnsString_ifFormatIsHtml()
+	{
+		$group = new Group();
+		
+		$group
+			->appendChild(new Control\Word\B())
+			->appendChild(new Text('foo'))
+			->appendChild(new Control\Word\B(0));
+			
+		$group->setStyle(new \Jstewmc\Rtf\Style());
+		
+		$group->render();
+			
+		$expected = '<section style=""><p style=""><span style="font-weight: bold;">foo';
+		$actual   = $group->format('html');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is rtf
+	 */
+	public function testFormat_returnsString_ifFormatIsRtf()
+	{
+		$group = new Group();
+		
+		$group
+			->appendChild(new Control\Word\B())
+			->appendChild(new Text('foo'))
+			->appendChild(new Control\Word\B(0));
+			
+		$expected = '{\b foo\b0}';
+		$actual   = $group->format('rtf');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is text
+	 */
+	public function testFormat_returnsString_ifFormatIsText()
+	{
+		$group = new Group();
+		
+		$group
+			->appendChild(new Control\Word\B())
+			->appendChild(new Text('foo'))
+			->appendChild(new Control\Word\B(0));
+			
+		$expected = 'foo';
+		$actual   = $group->format('text');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
 	/* !getChild() */
 	
 	/**

@@ -205,13 +205,25 @@ class Document
 	/**
 	 * Returns the document as a string
 	 *
+	 * @param  string  $format  the desired format (optional; if omitted, defaults
+	 *      to 'rtf')
 	 * @return  string
+	 * @throws  InvalidArgumentException  if $format is not a string
 	 * @since  0.1.0
 	 */
-	public function write()
+	public function write($format = 'rtf')
 	{
-		$writer = new Writer();
-		$string = $writer->write($this->root);
+		$string = '';
+		
+		// if $format is a string
+		if (is_string($format)) {
+			$writer = new Writer();
+			$string = $writer->write($this->root, $format);	
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, format, to be a string"
+			);
+		}
 		
 		return $string;
 	}

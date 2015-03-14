@@ -302,9 +302,46 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	/* !write() */
 	
 	/**
-	 * write() should return the document as a string
+	 * write() should throw InvalidArgumentException if $format is not a string
+	 *
+	 * @dataProvider  notAStringProvider
 	 */
-	public function testWrite()
+	public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+	{
+		$this->setExpectedException('InvalidArgumentException');	
+		
+		$rtf = '{\b foo\b0}';
+		
+		$document = new Document();
+		$document->read($rtf);
+		$document->write($format);
+		
+		return;
+	}
+	
+	/**
+	 * write() should return a string if the format is html
+	 */
+	public function testWrite_returnsString_ifFormatIsHtml()
+	{
+		$rtf = '{\b foo\b0}';
+		
+		$document = new Document();
+		$document->read($rtf);
+		
+		$expected = '<section style=""><p style=""><span style="font-weight: bold;">'
+			. 'foo</span></p></section>';
+		$actual = $document->write('html');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * write() should return a string if the format is rtf
+	 */
+	public function testWrite_returnsString_ifFormatIsRtf()
 	{
 		$rtf = '{\b foo\b0}';
 		
@@ -313,6 +350,24 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 		
 		$expected = $rtf;
 		$actual   = $document->write();
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * write() should return a string if the format is text
+	 */
+	public function testWrite_returnsString_ifFormatIsText()
+	{
+		$rtf = '{\b foo\b0}';
+		
+		$document = new Document();
+		$document->read($rtf);
+		
+		$expected = 'foo';
+		$actual   = $document->write('text');
 		
 		$this->assertEquals($expected, $actual);
 		

@@ -12,6 +12,22 @@ namespace Jstewmc\Rtf\State;
  */
 class CharacterTest extends \PHPUnit_Framework_TestCase
 {
+	/* !Providers */
+	
+	public function notAStringProvider()
+	{
+		return [
+			[null],
+			[false],
+			[1],
+			[1.0],
+			['foo'],
+			[[]],
+			[new \StdClass()]
+		];
+	}
+	
+	
 	/* !getIsBold() / setIsBold() */
 	
 	/**
@@ -26,6 +42,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		
 		return;
 	}
+	
 	
 	/* !getIsItalic() / setIsItalic() */
 	
@@ -42,6 +59,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		return;
 	}
 	
+	
 	/* !getIsSubscript() / setIsSubscript() */
 	
 	/**
@@ -56,6 +74,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		
 		return;
 	} 
+	
 	
 	/* !getIsSuperscript() / setIsSuperscript() */
 	
@@ -72,6 +91,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		return;
 	}
 	
+	
 	/* !getIsStrikethrough() / setIsStrikethrough() */
 	
 	/** 
@@ -86,6 +106,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		
 		return;
 	}
+	
 	
 	/* !getIsUnderline() / setIsUnderline() */
 	 
@@ -102,6 +123,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		return;
 	}
 	
+	
 	/* !getIsVisible() / setIsVisible() */
 	
 	/**
@@ -113,6 +135,55 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 		$character->setIsVisible(false);
 		
 		$this->assertFalse($character->getIsVisible());
+		
+		return;
+	}
+	
+	
+	/* !format() */
+	
+	/**
+	 * format() should throw an InvalidArgumentException if $format is not a string
+	 *
+	 * @dataProvider  notAStringProvider
+	 */
+	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$state = new Character();
+		$state->format($state);
+		
+		return;
+	}
+	
+	/**
+	 * format() should throw an InvalidArgumentException if $format is not valid
+	 */
+	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$state = new Character();
+		$state->format('foo');
+		
+		return;
+	}
+	
+	/**
+	 * format() should return a string if $format is valid
+	 */
+	public function testFormat_returnsString_ifFormatIsValid()
+	{
+		$state = new Character();
+		
+		$state->setIsBold(true);
+		$state->setIsItalic(true);
+		
+		$expected = 'font-weight: bold; font-style: italic;';
+		$actual   = $state->format('css');
+		
+		$this->assertEquals($expected, $actual);
 		
 		return;
 	}

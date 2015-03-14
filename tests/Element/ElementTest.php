@@ -13,6 +13,21 @@ namespace Jstewmc\Rtf\Element;
 
 class ElementTest extends \PHPUnit_Framework_TestCase
 {
+	/* !Providers */
+	
+	public function notAStringProvider()
+	{
+		return [
+			[null],
+			[false],
+			[1],
+			[1.0],
+			// ['foo'],
+			[[]],
+			[new \StdClass()]
+		];
+	}
+	
 	/* !Get/set methods */
 	
 	/**
@@ -312,6 +327,73 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 		$element->setParent($parent);
 		
 		$this->assertSame($previous, $element->getPreviousSibling());
+		
+		return;
+	}
+	
+	
+	/* !format() */
+	
+	/**
+	 * format() should throw an InvalidArgumentException if $format is not a string
+	 *
+	 * @dataProvider  notAStringProvider
+	 */
+	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$element = new Element();
+		$element->format($format);
+		
+		return;
+	}
+	
+	/**
+	 * format() should throw an InvalidArgumentException if $format is not a valid format
+	 */
+	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$element = new Element();
+		$element->format('foo');
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is html
+	 */
+	public function testFormat_returnsString_ifFormatIsHtml()
+	{
+		$element = new Element();
+		
+		$this->assertEquals('', $element->format('html'));
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is rtf
+	 */
+	public function testFormat_returnsString_ifFormatIsRtf()
+	{
+		$element = new Element();
+		
+		$this->assertEquals('', $element->format('rtf'));
+		
+		return;
+	}
+	
+	/**
+	 * format() should return string if format is text
+	 */
+	public function testFormat_returnsString_ifFormatIsText()
+	{
+		$element = new Element();
+		
+		$this->assertEquals('', $element->format('text'));
 		
 		return;
 	}

@@ -114,13 +114,16 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
 		return;
 	}
 	
-	/** 
-	 * Called when the object is used as a string
+	
+	/* !Protected methods */
+	
+	/**
+	 * Returns the control symbol as an rtf string
 	 *
 	 * @return  string
 	 * @since  0.1.0
 	 */
-	public function __toString()
+	public function toRtf()
 	{
 		$string = "\\{$this->symbol}{$this->parameter} ";
 		

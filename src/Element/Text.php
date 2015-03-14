@@ -70,14 +70,44 @@ class Text extends Element
 		return;
 	}
 	
+	
+	/* !Protected methods */
+	
 	/**
-	 * Called when the object is used as a string
+	 * Returns this text as an html5 string
 	 *
 	 * @return  string
-	 * @since   0.1.0
+	 * @since  0.1.0
 	 */
-	public function __toString()
+	public function toHtml()
 	{
-		return "{$this->text}";
+		return htmlspecialchars($this->text, ENT_COMPAT | ENT_HTML5);
+	}
+	
+	/**
+	 * Returns this text as an rtf string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	public function toRtf()
+	{
+		// escape special characters
+		$text = str_replace('\\', '\\\\', $this->text);
+		$text = str_replace('{', '\{', $text);
+		$text = str_replace('}', '\}', $text);
+		
+		return "$text";
+	}
+	
+	/**
+	 * Returns this text as a plain text string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	public function toText()
+	{
+		return $this->text;
 	}
 }

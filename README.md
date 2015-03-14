@@ -21,8 +21,8 @@ $document
 	->getNextSibling()    // get the "foo" text element
 	->replaceWith($bar);  // replace "foo" with "bar"
 
-// print the changes
-echo $document;  // prints "{\b bar\b0}"
+// print the document
+echo $document;   // prints "{\b bar\b0}"
 ``` 
 
 ## About
@@ -225,12 +225,30 @@ use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-echo $document->write();  // prints "{\b foo\b0}"
+echo $document->write('rtf');   // prints "{\b foo\b0}"
+echo $document->write('text');  // prints "foo"
+echo $document->write('html');  // prints "<section style=""><p style="">..."
 
 $document->save('/path/to/file.rtf');  // puts contents "{\b foo\b0}"
 ```
 
-When a document is used as a string, it will return a string:
+When a document is written as HTML, it will use `section`, `paragraph`, and `span` elements:
+
+```php
+use Jstewmc\Rtf;
+
+$document = new Document('{b foo\b0}');
+
+echo $document->write('html');
+```
+
+The example above produces the following output:
+
+```
+<section style=""><p style=""><span style="font-weight: bold;">foo</span></p></section>"
+```
+
+When a document is used as a string, it will return an RTF string:
 
 ```php
 use Jstewmc\Rtf;
@@ -489,7 +507,6 @@ If you're interested in contributing, see [CONTRIBUTING.md](https://github.com/j
 
 There are few things I'd like to work on going forward:
 
-* *Other formats* - It would be nice to be able to convert an RTF document to another format like HTML, plain-text, or XML.
 * *Optimization* - I haven't had much of an opportunity to test the library's performance on large files yet. I didn't want to get stuck prematurely optimizing. So, I barely optimized anything. It might be nice to do a little performance testing.
 * *Search for elements* - For now, there is no way to search for an element like the DOM's `getElementByTagName()` or jQuery's `find()` and `filter()` methods. I'd like to add that.
 * *Adding extensions* - I designed the library to make it easy to add control words and control symbols. However, I haven't thought about adding a library of control words and symbols yet (my ultimate goal).

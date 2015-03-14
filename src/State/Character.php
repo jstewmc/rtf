@@ -251,4 +251,78 @@ class Character extends State
 		
 		return $this;
 	}
+	
+	
+	/* !Public methods */
+	
+	/**
+	 * Returns the character state as a string in $format
+	 *
+	 * @param  string  $format  the desired format (possible values are 'css')
+	 * @return  string
+	 * @throws  InvalidArgumentException  if $format is not a string
+	 * @throws  InvalidArgumentException  if $format is not valid
+	 * @since  0.1.0
+	 */
+	public function format($format = 'css')
+	{
+		$string = null;
+		
+		// if $format is a string
+		if (is_string($format)) {
+			// switch on format
+			switch (strtolower($format)) {
+				
+				case 'css':
+					// get the state's css properties as css declarations
+					$declarations = [];
+					
+					if ($this->isBold) {
+						$declarations[] = 'font-weight: bold';
+					}
+					
+					if ($this->isItalic) {
+						$declarations[] = 'font-style: italic';
+					}
+					
+					if ($this->isSubscript) {
+						$declarations[] = 'vertical-align: sub';
+						$declarations[] = 'font-size: smaller';
+					}
+					
+					if ($this->isSuperscript) {
+						$declarations[] = 'vertical-align: super';
+						$declarations[] = 'font-size: smaller';
+					}
+					
+					if ($this->isStrikethrough) {
+						$declarations[] = 'text-decoration: line-through';
+					}
+					
+					if ($this->isUnderline) {
+						$declarations[] = 'text-decoration: underline';
+					}
+					
+					if ( ! $this->isVisible) {
+						$declarations[] = 'display: none';
+					}
+					
+					if ( ! empty($declarations)) {
+						$string = implode('; ', $declarations).';';
+					}
+					break;
+				
+				default:
+					throw new \InvalidArgumentException(
+						__METHOD__."() expects paramter one, format, to be a supported format"
+					);
+			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, format, to be a string"
+			);
+		}
+		
+		return $string;
+	}
 }

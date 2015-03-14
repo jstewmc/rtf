@@ -13,8 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  
 class ApostropheTest extends \PHPUnit_Framework_TestCase
 {
-	public function testFoo()
+	/* !format() */
+	
+	/**
+	 * format() should return a string if the format is html
+	 */
+	public function testFormat_returnsString_ifFormatIsHtml()
 	{
-		return new Apostrophe();
-	}	
+		$word = new Apostrophe('22');
+		
+		$expected = '&#x22;';
+		$actual   = $word->format('html');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;	
+	}
+	
+	/**
+	 * format() should return a string if the format is html
+	 */
+	public function testFormat_returnsString_ifFormatIsText()
+	{
+		$word = new Apostrophe('22');
+		
+		$expected = html_entity_decode('&#x22;');
+		$actual   = $word->format('text');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;	
+	}
 }

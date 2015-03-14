@@ -22,4 +22,28 @@ class Underscore extends Symbol
 	 * @since  0.1.0
 	 */
 	protected $symbol = '_';	
+	
+	/* !Protected methods */
+	
+	/**
+	 * Returns this control symbol as an html string
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toHtml()
+	{
+		return $this->toText();
+	}
+	
+	/**
+	 * Returns this control symbol as plain text
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	protected function toText()
+	{
+		return '-';
+	}
 }

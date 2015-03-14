@@ -112,13 +112,16 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 		return;
 	}
 	
+	
+	/* !Protected methods */
+	
 	/**
-	 * Called when this object is used as a string
+	 * Returns this control word as an rtf string
 	 *
 	 * @return  string
 	 * @since  0.1.0
 	 */
-	public function __toString()
+	protected function toRtf()
 	{
 		$string = "\\{$this->word}";
 		
