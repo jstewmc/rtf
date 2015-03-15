@@ -218,34 +218,35 @@ $a == $b;  // returns true
 > **Heads up!** 
 > The constructor uses the string's first character to determine whether the string is a filename or an RTF string. If the string starts with the open-bracket character ("{"), the string is considered an RTF string. If not, it's considered a filename. If your RTF string is malformed or your filenames are alien, the constructor will not work as expected.
 
-A document can write to a string or save to a file:
+You can write a document as an RTF, HTML, or plain-text string:
 
 ```php
 use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
+echo $document->write();        // prints "{\b foo\b0}"
 echo $document->write('rtf');   // prints "{\b foo\b0}"
 echo $document->write('text');  // prints "foo"
 echo $document->write('html');  // prints "<section style=""><p style="">..."
-
-$document->save('/path/to/file.rtf');  // puts contents "{\b foo\b0}"
 ```
 
-When a document is written as HTML, it will use `section`, `paragraph`, and `span` elements:
-
-```php
-use Jstewmc\Rtf;
-
-$document = new Document('{b foo\b0}');
-
-echo $document->write('html');
-```
-
-The example above produces the following output:
+The document's HTML string contains `section`, `paragraph`, and `span` elements to capture the document's section-, paragraph-, and character-formatting, respectively. For example, the last line in the example above would output the following:
 
 ```
 <section style=""><p style=""><span style="font-weight: bold;">foo</span></p></section>"
+```
+
+You can save the document to a file:
+
+```
+use Jstewmc\Rtf;
+
+$document = new Document('{\b foo\b0}');
+
+$document->save('/path/to/file.txt');   // puts contents "foo"
+$document->save('/path/to/file.rtf');   // puts contents "{\b foo\b0}"
+$document->save('/path/to/file.html');  // puts contents "<section style="">..."
 ```
 
 When a document is used as a string, it will return an RTF string:
