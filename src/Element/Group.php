@@ -307,6 +307,17 @@ class Group extends Element
 	}
 	
 	/**
+	 * Returns true if this group is a "destination"
+	 *
+	 * @return  bool
+	 * @since  0.1.0
+	 */
+	public function isDestination()
+	{
+		return $this->getFirstChild() instanceof Control\Symbol\Asterisk;
+	}
+	
+	/**
 	 * Renders the group 
 	 *
 	 * @return  void
@@ -536,66 +547,69 @@ class Group extends Element
 	{
 		$html = '';
 		
-		// set the first element's "old" style to the group's style
-		$oldStyle = $this->style;
-		
-		// define a flag indicating whether or not this group is the root group
-		//
-		// setting this flag here feel a little hackish!
-		// however, the first element in the first group is different than the first
-		//     element in any other group
-		//
-		$isFirstGroup = empty($this->parent);
-		
-		// a flag indicating whether or not the element is the first "textual" element
-		//     in the group (i.e., control word with a special symbol, an actual text
-		//     element, etc)
-		//
-		$isFirstTextualElement = true;
-		
-		// loop through the group's children
-		foreach ($this->children as $child) {
-			// if the child is a textual element
-			$string = $child->format('html');
-			if ( ! empty($string)) {
-				// get the child's style
-				$newStyle = $child->getStyle();
-				// if the child is the first textual element in the first (aka, "root") group
-				if ($isFirstGroup && $isFirstTextualElement) {
-					// open the document's first section, paragraph, and character tags
-					$html .= '<section style="'.$newStyle->getSection()->format('css').'">'
-						 . '<p style="'.$newStyle->getParagraph()->format('css').'">'
-						 . '<span style="'.$newStyle->getCharacter()->format('css').'">';
-					// set the flag to false
-					$isFirstTextualElement = false;
-				} else {
-					// otherwise, the child is not the first textual element in the root group 
-					//    and we only close and open the section, paragraph, and character tags
-					//    if the style has changed between elements
-					//
-					// keep in mind, a section takes precedence over a paragraph and a character;
-					//     a paragraph takes precedence over a character; so on and so forth
-					//
-					if ($oldStyle->getSection() != $newStyle->getSection()) {
-						$html .= '</span></p></section>'
-							. '<section style="'.$newStyle->getSection()->format('css').'">'
-							. '<p style="'.$newStyle->getParagraph()->format('css').'">'
-							. '<span style="'.$newStyle->getCharacter()->format('css').'">';
-					} elseif ($oldStyle->getParagraph() != $newStyle->getParagraph()) {
-						$html .= '</span></p>'
-							. '<p style="'.$newStyle->getParagraph()->format('css').'">'
-							. '<span style="'.$newStyle->getCharacter()->format('css').'">';
-					} elseif ($oldStyle->getCharacter() != $newStyle->getCharacter()) {
-						$html .= '</span>'
-							. '<span style="'.$newStyle->getCharacter()->format('css').'">';
+		// if this group isn't a destination
+		if ( ! $this->isDestination()) {
+			// set the first element's "old" style to the group's style
+			$oldStyle = $this->style;
+			
+			// define a flag indicating whether or not this group is the root group
+			//
+			// setting this flag here feel a little hackish!
+			// however, the first element in the first group is different than the first
+			//     element in any other group
+			//
+			$isFirstGroup = empty($this->parent);
+			
+			// a flag indicating whether or not the element is the first "textual" element
+			//     in the group (i.e., control word with a special symbol, an actual text
+			//     element, etc)
+			//
+			$isFirstTextualElement = true;
+			
+			// loop through the group's children
+			foreach ($this->children as $child) {
+				// if the child is a textual element
+				$string = $child->format('html');
+				if ( ! empty($string)) {
+					// get the child's style
+					$newStyle = $child->getStyle();
+					// if the child is the first textual element in the first (aka, "root") group
+					if ($isFirstGroup && $isFirstTextualElement) {
+						// open the document's first section, paragraph, and character tags
+						$html .= '<section style="'.$newStyle->getSection()->format('css').'">'
+							 . '<p style="'.$newStyle->getParagraph()->format('css').'">'
+							 . '<span style="'.$newStyle->getCharacter()->format('css').'">';
+						// set the flag to false
+						$isFirstTextualElement = false;
+					} else {
+						// otherwise, the child is not the first textual element in the root group 
+						//    and we only close and open the section, paragraph, and character tags
+						//    if the style has changed between elements
+						//
+						// keep in mind, a section takes precedence over a paragraph and a character;
+						//     a paragraph takes precedence over a character; so on and so forth
+						//
+						if ($oldStyle->getSection() != $newStyle->getSection()) {
+							$html .= '</span></p></section>'
+								. '<section style="'.$newStyle->getSection()->format('css').'">'
+								. '<p style="'.$newStyle->getParagraph()->format('css').'">'
+								. '<span style="'.$newStyle->getCharacter()->format('css').'">';
+						} elseif ($oldStyle->getParagraph() != $newStyle->getParagraph()) {
+							$html .= '</span></p>'
+								. '<p style="'.$newStyle->getParagraph()->format('css').'">'
+								. '<span style="'.$newStyle->getCharacter()->format('css').'">';
+						} elseif ($oldStyle->getCharacter() != $newStyle->getCharacter()) {
+							$html .= '</span>'
+								. '<span style="'.$newStyle->getCharacter()->format('css').'">';
+						}
 					}
+					
+					// append the html string
+					$html .= $string;
+					
+					// set the "old" style to the current element's style for the next iteration
+					$oldStyle = $newStyle;
 				}
-				
-				// append the html string
-				$html .= $string;
-				
-				// set the "old" style to the current element's style for the next iteration
-				$oldStyle = $newStyle;
 			}
 		}
 		
@@ -631,8 +645,11 @@ class Group extends Element
 	{
 		$text = '';
 		
-		foreach ($this->children as $child) {
-			$text .= $child->format('text');
+		// if this group is not a destination
+		if ( ! $this->isDestination()) {
+			foreach ($this->children as $child) {
+				$text .= $child->format('text');
+			}
 		}
 		
 		return $text;

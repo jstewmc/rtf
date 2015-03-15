@@ -415,7 +415,7 @@ $foo->replaceWith($bar);
 $group->getChildren() == [$bar];  // returns true
 ```
 
-### Supported controls
+### Supported elements
 
 There are hundreds of RTF control words and several dozen control symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details). 
 
@@ -463,6 +463,14 @@ This library doesn't support the following control words:
 
 If this library encounters a control word or control symbol it doesn't support, it'll create a generic control word or control symbol element, `Element\Control\Word` or `Element\Control\Symbol`, respectively. 
 
+When outputting the document to a text or html string, unsupported control words are ignored, and their text appears in the document unless the group is a destination.
+
+### Destinations
+
+A destination is a collection of related text that could appear in a different position, or destination, within the document. Destinations may also be text that is used but should not appear in a document. Destinations should be preceeded with the "ignored" `\*` control word, and their text should be ignored if the reader doesn't understand the destination.
+
+Because this library doesn't support any destination control words yet, all destinations are ignored when formatting the document as text or html.
+
 ### Style
 
 The RTF specification lumps an element's style into one huge "group state". I didn't think that was a good idea. So, I created an element's style, like an HTML element's style, and document-, section-, paragraph-, and character-states.
@@ -508,11 +516,9 @@ If you're interested in contributing, see [CONTRIBUTING.md](https://github.com/j
 
 There are few things I'd like to work on going forward:
 
-* *Optimization* - I haven't had much of an opportunity to test the library's performance on large files yet. I didn't want to get stuck prematurely optimizing. So, I barely optimized anything. It might be nice to do a little performance testing.
 * *Search for elements* - For now, there is no way to search for an element like the DOM's `getElementByTagName()` or jQuery's `find()` and `filter()` methods. I'd like to add that.
 * *Adding extensions* - I designed the library to make it easy to add control words and control symbols. However, I haven't thought about adding a library of control words and symbols yet (my ultimate goal).
 * *Style magic methods* - I'm not totally happy about users having to know where a state's properties belong. For example, if a user wants to check if a text element is bold, they have to know to call `$element->getStyle()->getCharacter()->getIsBold();`. They have to know that the `isBold` property belongs to the character-state. A magic method that abstracts away the underlying state structure might be better (e.g., `$element->getStyle()->getIsBold();`). 
-* *Destinations* - The RTF specification includes "destinations" and the ignored control word. I'd like to support that.
 
 ## Author
 

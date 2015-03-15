@@ -257,6 +257,26 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		return;
 	}
 	
+	/**
+	 * format() should return (empty) string if group is destination
+	 */
+	public function testFormat_returnsString_ifGroupIsDestination()
+	{
+		$group = new Group();
+		
+		$group
+			->appendChild(new Control\Symbol\Asterisk())
+			->appendChild(new Control\Word\Word('foo'))
+			->appendChild(new Text('bar'));
+			
+		$expected = '';
+		$actual   = $group->format('text');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
 	
 	/* !getChild() */
 	
@@ -668,6 +688,38 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		
 		return;	
 	}
+	
+	
+	/* !isDestination */
+	
+	/**
+	 * isDestination() should return false if the group's first child is not the 
+	 *     asterisk control symbol
+	 */
+	public function testIsDestination_returnsTrue_ifFirstChildIsNotAsterisk()
+	{
+		$group = new Group();
+		$group->appendChild(new Text('foo'));
+		
+		$this->assertFalse($group->isDestination());
+		
+		return;
+	}
+	 
+	/**
+	 * isDestination() should return true if the group's first child is the asterisk
+	 *     control symbol
+	 */
+	public function testIsDestination_returnsTrue_ifFirstChildIsAsterisk()
+	{
+		$group = new Group();
+		$group->appendChild(new Control\Symbol\Asterisk());
+		
+		$this->assertTrue($group->isDestination());
+		
+		return;
+	}
+	
 	
 	
 	/* !render() */

@@ -267,6 +267,21 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * save() should throw an InvalidArgumentException if $format is not a string
+	 *
+	 * @dataProvider  notAStringProvider
+	 */
+	public function testSave_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$document = new Document();
+		$document->save('foo', $format);
+		
+		return;
+	}
+	
+	/**
 	 * save() should return false if save fails
 	 */
 	public function testSave_returnsFalse_ifSaveFails()
