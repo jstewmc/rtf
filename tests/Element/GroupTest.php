@@ -41,6 +41,20 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		];
 	}
 	
+	public function notAStringProvider()
+	{
+		return [
+			[null],
+			[false],
+			[1.0],
+			[1],
+			// ['foo'],
+			[[]],
+			[new \StdClass()]
+		];
+	}
+	
+	
 	/* !Get/set methods */
 	
 	/**
@@ -323,6 +337,224 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		
 		$this->assertSame($expected, $actual);
 	
+		return;
+	}
+	
+	
+	/* !getControlWords() */
+	
+	/**
+	 * getControlWords() should throw InvalidArgumentException if $word is not a string
+	 *
+	 * @dataProvider  notAStringProvider
+	 */
+	public function testGetControlWords_throwsInvalidArgumentException_ifWordIsNotAString($word)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->getControlWords($word);
+		
+		return;
+	}
+	
+	/**
+	 * getControlWords() should throw InvalidArgumentException if $parameter is not null,
+	 *     false, or integer
+	 */
+	public function testGetControlWords_throwsInvalidArgumentException_ifParameterIsInvalid()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->getControlWords('foo', []);
+		
+		return;
+	}
+	
+	/**
+	 * getControlWords() should return array if children do not exist
+	 */
+	public function testGetControlWords_returnsArray_ifChildrenDoNotExist()
+	{
+		$group = new Group();
+		
+		$expected = [];
+		$actual   = $group->getControlWords('foo');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * getControlWords() should return array if child does not exist
+	 */
+	public function testGetControlWords_returnsArray_ifChildDoesNotExist()
+	{
+		$group = new Group();
+		
+		$group->appendChild(new Text('foo'));
+		
+		$expected = [];
+		$actual   = $group->getControlWords('bar');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * getControlWords() should return array if child does exist
+	 */
+	public function testGetControlWords_returnsArray_ifChildDoesExist()
+	{
+		$one = new Control\Word\B();
+		$two = new Control\Word\B(0);
+		
+		$group = new Group();
+		
+		$group->appendChild($one)->appendChild($two);
+		
+		$expected = [$one, $two];
+		$actual   = $group->getControlWords('b');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
+	/**
+	 * getControlWords() should return array if children are groups
+	 */
+	public function testGetControlWords_returnsArray_ifChildIsGroup()
+	{
+		$one = new Control\Word\B();
+		$two = new Control\Word\B();
+		
+		$group = new Group();
+		
+		$group
+			->appendChild($one)
+			->appendChild((new Group())
+				->appendChild($two)
+			);
+		
+		$expected = [$one, $two];
+		$actual   = $group->getControlWords('b');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
+	/* !getControlSymbols() */
+	
+	/**
+	 * getControlSymbols() should throw InvalidArgumentException if $symbol is not a string
+	 *
+	 * @dataProvider  notAStringProvider
+	 */
+	public function testGetControlSymbols_throwsInvalidArgumentException_ifWordIsNotAString($symbol)
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->getControlSymbols($symbol);
+		
+		return;
+	}
+	
+	/**
+	 * getControlSymbols() should throw InvalidArgumentException if $parameter is not null,
+	 *     false, or integer
+	 */
+	public function testGetControlSymbols_throwsInvalidArgumentException_ifParameterIsInvalid()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->getControlSymbols('+', []);
+		
+		return;
+	}
+	
+	/**
+	 * getControlSymbols() should return array if children do not exist
+	 */
+	public function testGetControlSymbols_returnsArray_ifChildrenDoNotExist()
+	{
+		$group = new Group();
+		
+		$expected = [];
+		$actual   = $group->getControlSymbols('+');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * getControlSymbols() should return array if child does not exist
+	 */
+	public function testGetControlSymbols_returnsArray_ifChildDoesNotExist()
+	{
+		$group = new Group();
+		
+		$group->appendChild(new Text('foo'));
+		
+		$expected = [];
+		$actual   = $group->getControlSymbols('+');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * getControlSymbols() should return array if child does exist
+	 */
+	public function testGetControlSymbols_returnsArray_ifChildDoesExist()
+	{
+		$one = new Control\Symbol\Tilde();
+		$two = new Control\Symbol\Tilde();
+		
+		$group = new Group();
+		
+		$group->appendChild($one)->appendChild($two);
+		
+		$expected = [$one, $two];
+		$actual   = $group->getControlSymbols('~');
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
+	/**
+	 * getControlSymbols() should return array if children are groups
+	 */
+	public function testGetControlSymbols_returnsArray_ifChildIsGroup()
+	{
+		$one = new Control\Symbol\Tilde('~');
+		$two = new Control\Symbol\Tilde('~');
+		
+		$group = new Group();
+		
+		$group
+			->appendChild($one)
+			->appendChild((new Group())
+				->appendChild($two)
+			);
+		
+		$expected = [$one, $two];
+		$actual   = $group->getControlSymbols('~');
+		
+		$this->assertEquals($expected, $actual);
+		
 		return;
 	}
 	

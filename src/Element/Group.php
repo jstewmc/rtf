@@ -157,6 +157,118 @@ class Group extends Element
 	}
 	
 	/**
+	 * Returns an array of control words with $word and, optionally, $parameter
+	 *
+	 * @param  string          $word       the control word's word
+	 * @param  int|null|false  $parameter  the control word's integer parameter, 
+	 *     null for any parameter, or false for no parameter (optional; if omitted, 
+	 *     defaults to null)
+	 * @return  Jstewmc\Rtf\Element\Control\Word\Word[]
+	 * @throws  InvalidArgumentException  if $word is not a string
+	 * @throws  InvalidArgumentException  if $parameter is not a null, false, or number
+	 * @since  0.1.0
+	 */
+	public function getControlWords($word, $parameter = null)
+	{
+		$words = [];
+		
+		// if $word is a string
+		if (is_string($word)) {
+			// if $parameter is null, false, or an integer
+			$isNull  = $parameter === null;
+			$isFalse = $parameter === false;
+			$isInt   = is_numeric($parameter) && is_int(+$parameter);
+			if ($isNull || $isFalse || $isInt) {
+				// loop through the group's children
+				foreach ($this->children as $child) {
+					// if the child is a group, call the method recursively
+					// otherwise, if the child is a word, check its word and parameter
+					//
+					if ($child instanceof Group) {
+						$words = array_merge($words, $child->getControlWords($word, $parameter));
+					} elseif ($child instanceof Control\Word\Word) {
+						// if the words match
+						if ($child->getWord() == $word) {
+							// if the parameter is ignored, correctly undefined or equal, append the child
+							$isIgnored   = $parameter === null;
+							$isUndefined = $parameter === false && $child->getParameter() === null;
+							$isEqual     = $child->getParameter() == $parameter;
+							if ($isIgnored || $isUndefind || $isEqual) {
+								$words[] = $child;
+							}
+						}
+					}
+				}
+			} else {
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects parameter two, parameter, to be false, null, or integer"
+				);
+			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, word, to be a string"
+			);
+		}
+		
+		return $words;
+	}
+	
+	/**
+	 * Returns an array of control symbol elements with $symbol and, optionally,
+	 *     $parameter
+	 *
+	 * @param  string             $symbol     the symbol's symbol
+	 * @param  string|null|false  $parameter  the symbol's string parameter; null, 
+	 *     any parameter; or, false, no parameter (optional; if omitted, defaults to
+	 *     null)
+	 * @return  Jstewc\Element\Control\Symbol\Symbol[] 
+	 * @throws  InvalidArgumentException  if $word is not a string
+	 * @throws  InvalidArgumentException  if $parameter is not a string or null
+	 * @since  0.1.0
+	 */ 
+	public function getControlSymbols($symbol, $parameter = null)
+	{
+		$symbols = [];
+		
+		// if $symbol is a string
+		if (is_string($symbol)) {
+			// if $parameter is null, false, or a string
+			if ($parameter === null || $parameter === false || is_string($parameter)) {
+				// loop through the group's children
+				foreach ($this->children as $child) {
+					// if the child is a group, call the method recursively
+					// otherwise, if the child is a word, check its word and parameter
+					//
+					if ($child instanceof Group) {
+						$symbols = array_merge($symbols, $child->getControlSymbols($symbol, $parameter));
+					} elseif ($child instanceof Control\Symbol\Symbol) {
+						// if the words match
+						if ($child->getSymbol() == $symbol) {
+							// if the parameter is ignored, correctly undefined or equal, append the child
+							$isIgnored   = $parameter === null;
+							$isUndefined = $parameter === false && $child->getParameter() === null;
+							$isEqual     = $child->getParameter() == $parameter;
+							if ($isIgnored || $isUndefind || $isEqual) {
+								$symbols[] = $child;
+							}
+						}
+					}
+				}
+			} else {
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects parameter two, parameter, to be false, null, or string"
+				);
+			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, symbol, to be a string"
+			);
+		}
+		
+		return $symbols;
+	}
+	
+	/**
 	 * Returns the element's index in this group's children (if it exists)
 	 *
 	 * Warning! This method may return a boolean false, but it may also return an
