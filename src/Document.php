@@ -187,19 +187,28 @@ class Document
 	 * @param  string  $destination  the destination's file name
 	 * @return bool
 	 * @throws  InvalidArgumentException  if $destination is not a string
+	 * @throws  InvalidArgumentException  if $format is not a string
 	 * @since  0.1.0
 	 */
-	public function save($destination)
+	public function save($destination, $format = 'rtf')
 	{
+		$isSuccess = false;
+		
 		if (is_string($destination)) {
-			return (bool) file_put_contents($destination, $this->write());	
+			if (is_string($format)) {
+				$isSuccess = (bool) file_put_contents($destination, $this->write($format));
+			} else {
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects paramete two, format, to be a string"
+				);
+			}
 		} else {
 			throw new \InvalidArgumentException(
 				__METHOD__."() expects parameter one, filename, to be a string"
 			);
 		}
 		
-		return false;
+		return $isSuccess;
 	}
 	
 	/**
