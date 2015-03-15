@@ -239,14 +239,14 @@ The document's HTML string contains `section`, `paragraph`, and `span` elements 
 
 You can save the document to a file:
 
-```
+```php
 use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-$document->save('/path/to/file.txt');   // puts contents "foo"
-$document->save('/path/to/file.rtf');   // puts contents "{\b foo\b0}"
-$document->save('/path/to/file.html');  // puts contents "<section style="">..."
+$document->save('/path/to/file.txt', 'text');   // puts contents "foo"
+$document->save('/path/to/file.rtf', 'rtf');    // puts contents "{\b foo\b0}"
+$document->save('/path/to/file.html', 'html');  // puts contents "<section style="">..."
 ```
 
 When a document is used as a string, it will return an RTF string:
@@ -348,15 +348,15 @@ use Jstewmc\Rtf;
 
 $group = new Element\Group();
 
-$b1  = new Element\Control\Word\B();
+$b   = new Element\Control\Word\B();
 $foo = new Element\Text('foo');
 $b0  = new Element\Control\Word\B(0);
 
-$group->appendChild($b1)->appendChild($foo)->appendChild($b2);
+$group->appendChild($b)->appendChild($foo)->appendChild($b0);
 
-$group->getControlWords('b') == [$b1, $b0];    // returns true
-$group->getControlWords('b', 0) == [$b0];      // returns true
-$group->getControlWords('b', false) == [$b1];  // returns true
+$group->getControlWords('b') == [$b, $b0];    // returns true
+$group->getControlWords('b', 0) == [$b0];     // returns true
+$group->getControlWords('b', false) == [$b];  // returns true
 
 ```
 
