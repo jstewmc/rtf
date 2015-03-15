@@ -101,10 +101,8 @@ class Parser
 			$symbol->setSymbol($token->getSymbol());	
 		}
 				
-		// if the token has a parameter, set it on the element
-		if ($token->getParameter() !== null) {
-			$symbol->setParameter($token->getParameter());
-		}
+		// set the symbol's parameter
+		$symbol->setParameter($token->getParameter());
 		
 		// append the element
 		$symbol->setParent($group);
@@ -135,10 +133,8 @@ class Parser
 			$word->setWord($token->getWord());
 		}
 		
-		// if the token has a parameter, set it on the element
-		if ($token->getParameter() !== null) {
-			$word->setParameter($token->getParameter());
-		}
+		// set the element's parameter
+		$word->setParameter($token->getParameter());
 		
 		// append the element
 		$word->setParent($group);

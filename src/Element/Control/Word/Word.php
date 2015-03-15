@@ -123,16 +123,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	 */
 	protected function toRtf()
 	{
-		$string = "\\{$this->word}";
-		
-		// if the parameter's value is not the default value, append it
-		$properties = get_class_vars(get_class($this));
-		if ($this->parameter !== $properties['parameter']) {
-			$string .= "{$this->parameter}";
-		}
-		
-		// append a delimiting space
-		$string .= ' ';
+		$string = "\\{$this->word}{$this->parameter} ";
 		
 		// if the control word has a parent and it is the last child remove the space
 		if ( ! empty($this->parent) && $this->isLastChild()) {
