@@ -544,3 +544,10 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 ## Version
 
 See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details.
+
+## Acknowledgements
+
+Many thanks to the following for helping me get started:
+
+* [PHP: Reading the clean text from RTF](http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php)
+* [A working RTF to HTML converter in PHP](http://www.websofia.com/2014/05/a-working-rtf-to-html-converter-in-php/)
