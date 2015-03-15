@@ -16,13 +16,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class V extends Word
 {
-	/* !Protected properties */
-	
-	/**
-	 * @var  int  the control word's parameter; defaults to 1
-	 */
-	protected $parameter = 1;
-	
 	/* !Public methods */
 	
 	/**
@@ -32,7 +25,9 @@ class V extends Word
 	 */
 	public function run()
 	{
-		$this->style->getCharacter()->setIsVisible((bool) $this->parameter);
+		$this->style->getCharacter()->setIsVisible(
+			$this->parameter === null || (bool) $this->parameter
+		);
 		
 		return;
 	}

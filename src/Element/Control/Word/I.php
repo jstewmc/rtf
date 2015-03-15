@@ -15,24 +15,18 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class I extends Word
 {
-	/* !Protected properties */
-	
-	/**
-	 * @var  int  the control word's parameter; defaults to 1 (aka, "on")
-	 */
-	protected $parameter = 1;
-	
-		
 	/* !Public methods */
 	
 	/**
-	 * Runs the control
+	 * Runs the command
 	 *
 	 * @return  void
 	 */
 	public function run()
 	{
-		$this->style->getCharacter()->setIsItalic((bool) $this->parameter);
+		$this->style->getCharacter()->setIsItalic(
+			$this->parameter === null || (bool) $this->parameter
+		);
 		
 		return;
 	}

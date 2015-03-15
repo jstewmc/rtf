@@ -17,14 +17,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class Ul extends Word
 {
-	/* !Public properties */
-	
-	/**
-	 * @var  int  the control word's parameter; defaults to 1
-	 */
-	protected $parameter = 1;
-	
-	
 	/* !Public methods */
 	
 	/**
@@ -34,7 +26,9 @@ class Ul extends Word
 	 */
 	public function run()
 	{
-		$this->style->getCharacter()->setIsUnderline((bool) $this->parameter);
+		$this->style->getCharacter()->setIsUnderline(
+			$this->parameter === null || (bool) $this->parameter
+		);
 		
 		return;
 	}

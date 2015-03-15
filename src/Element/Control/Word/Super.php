@@ -25,7 +25,9 @@ class Super extends Word
 	 */
 	public function run()
 	{
-		$this->style->getCharacter()->setIsSuperscript((bool) $this->parameter);
+		$this->style->getCharacter()->setIsSuperscript(
+			$this->parameter === null || (bool) $this->parameter
+		);
 		
 		return;
 	}

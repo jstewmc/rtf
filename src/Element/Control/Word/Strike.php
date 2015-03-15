@@ -16,14 +16,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class Strike extends Word
 {
-	/* !Protected properties */
-	
-	/** 
-	 * @var  int  the control word's parameter; defaults to 1 (aka, "on")
-	 */
-	protected $parameter = 1;
-	
-	
 	/* !Public methods */
 	
 	/**
@@ -33,6 +25,8 @@ class Strike extends Word
 	 */
 	public function run()
 	{
-		return $this->style->getCharacter()->setIsStrikethrough((bool) $this->parameter);
+		return $this->style->getCharacter()->setIsStrikethrough(
+			$this->parameter === null || (bool) $this->parameter
+		);
 	}
 }

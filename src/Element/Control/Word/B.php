@@ -15,14 +15,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class B extends Word
 {
-	/* !Protected properties */
-	
-	/**
-	 * @var  int  the control word's parameter; defaults to 1 (aka, "on")
-	 */
-	protected $parameter = 1;
-	
-	
 	/* !Public methods */
 	
 	/**
@@ -32,7 +24,9 @@ class B extends Word
 	 */
 	public function run()
 	{
-		$this->style->getCharacter()->setIsBold((bool) $this->parameter);
+		$this->style->getCharacter()->setIsBold(
+			$this->parameter === null || (bool) $this->parameter
+		);
 		
 		return;
 	}
