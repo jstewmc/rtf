@@ -341,6 +341,27 @@ $group->removeChild($bar);        // returns $bar, the removed element
 $group->getChildren() == [$baz];  // returns true
 ```
 
+You can search for a specific control word or control symbol:
+
+```php
+use Jstewmc\Rtf;
+
+$group = new Element\Group();
+
+$b1  = new Element\Control\Word\B();
+$foo = new Element\Text('foo');
+$b0  = new Element\Control\Word\B(0);
+
+$group->appendChild($b1)->appendChild($foo)->appendChild($b2);
+
+$group->getControlWords('b') == [$b1, $b0];    // returns true
+$group->getControlWords('b', 0) == [$b0];      // returns true
+$group->getControlWords('b', false) == [$b1];  // returns true
+
+```
+
+Keep in mind, you'd probably call this on the document's root group to return an array of all the specific control words or control symbols in the document. 
+
 ### All elements
 
 You can append and prepend any element (including groups) to a group:
@@ -511,14 +532,6 @@ Once a document has been rendered (i.e., the document's `read()` or `load()` met
 Obviously, the biggest area that needs some love is control words and control symbols. This library supports a paltry few. I didn't really need many control words for my purposes. So, I didn't create them. However, I designed the library so control words and control symbols could be easily added. 
 
 If you're interested in contributing, see [CONTRIBUTING.md](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md) for details.
-
-## TODO
-
-There are few things I'd like to work on going forward:
-
-* *Search for elements* - For now, there is no way to search for an element like the DOM's `getElementByTagName()` or jQuery's `find()` and `filter()` methods. I'd like to add that.
-* *Adding extensions* - I designed the library to make it easy to add control words and control symbols. However, I haven't thought about adding a library of control words and symbols yet (my ultimate goal).
-* *Style magic methods* - I'm not totally happy about users having to know where a state's properties belong. For example, if a user wants to check if a text element is bold, they have to know to call `$element->getStyle()->getCharacter()->getIsBold();`. They have to know that the `isBold` property belongs to the character-state. A magic method that abstracts away the underlying state structure might be better (e.g., `$element->getStyle()->getIsBold();`). 
 
 ## Author
 
