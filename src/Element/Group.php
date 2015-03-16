@@ -323,52 +323,66 @@ class Group extends Element
 	}
 	
 	/**
-	 * Returns true if the group has $element, optionally, at $index
+	 * Returns true if the group has the child
 	 *
-	 * I'll accept one or two arguments. If given both an element and an index, I'll
-	 * return true if the element exists at the index. If given an element only, I'll
-	 * return true if the element exists at *any* index. If given an index only, I'll
-	 * return true if *any* element exists at the index.
+	 * I'll accept one or two arguments: if both an element and an index are given 
+	 * (in any order), I'll return true if *the* element exists at the index; if 
+	 * only an element is given, I'll return true if the element exists at *any* 
+	 * index; and, finally, if only an index is given, I'll return true if *any* 
+	 * element exists at the index.
 	 *
-	 * @param  Jstewmc\Rtf\Element|null  $element  the element to test (optional; if
-	 *     omitted, defaults to null)
-	 * @param  int|null  $index  the index to test (optional; if omitted, defaults to
-	 *     null)
+	 * @param  Jstewmc\Rtf\Element|integer  $one  the element or index to test
+	 * @param  Jstewmc\Rtf\Element|integer|null  $two  the element or index to test
+	 *     (optional; if omitted, defaults to null)
 	 * @return  bool
-	 * @throws  BadMethodCallException    if $element and $index are null
-	 * @throws  InvalidArgumentException  if $index is not a number
+	 * @throws  InvalidArgumentException  if $one is not an element or integer
+	 * @throws  InvalidArgumentException  if $two is not null, an element, or an
+	 *     integer
+	 * @throws  BadMethodCallException    if an element, and element or both are not
+	 *     given
 	 * @since  0.1.0
 	 */
-	public function hasChild(Element $element = null, $index = null)
+	public function hasChild($one, $two = null)
 	{
 		$hasChild = false;
 		
-		// if $element or $index was passed
-		$hasElement = $element !== null;
-		$hasIndex   = $index !== null;
-		if ($hasElement || $hasIndex) {
-			// if $index is null or a valid integer
-			if ( ! $hasIndex || (is_numeric($index) && is_int(+$index))) {
-				// if we're testing a particular element at a particular index
-				// elseif we're testing a particular element at any index
-				// elseif we're testing any element at a particular index
-				//
-				if ($hasElement && $hasIndex) {
-					$hasChild = $this->getIndex($element) === $index;
-				} elseif ($hasElement) {
-					$hasChild = $this->getIndex($element) !== false;
-				} elseif ($hasIndex) {
-					$hasChild = array_key_exists($index, $this->children) 
-						&& ! empty($this->children[$index]);
+		// if the first argument is an Element or an index
+		$isOneElement = $one instanceof Element;
+		$isOneIndex   = is_numeric($one) && is_int(+$one);
+		if ($isOneElement || $isOneIndex) {
+			// if the second argument is null, an Element, or an Index
+			$isTwoNull    = $two === null;
+			$isTwoElement = $two instanceof Element;
+			$isTwoIndex   = is_numeric($two) && is_int(+$two);
+			if ($isTwoNull || $isTwoElement || $isTwoIndex) {
+				// decide what to do
+				if ($isOneElement && $isTwoNull) {
+					// return true if *the* element exists at *any* index
+					$hasChild = $this->getIndex($one) !== false;
+				} elseif ($isOneElement && $isTwoIndex) {
+					// return true if *the* element exists at *the* index
+					$hasChild = $this->getIndex($one) === $two;
+				} elseif ($isOneIndex && $isTwoNull) {
+					// return true if *any* element exists at *the* index
+					$hasChild = array_key_exists($one, $this->children) 
+						&& ! empty($this->children[$one]);
+				} elseif ($isOneIndex && $isTwoElement) {
+					// return true if *the* element exists at *the* index
+					$hasChild = $this->getIndex($two) === $one;
+				} else {
+					throw new \BadMethodCallException(
+						__METHOD__."() expects one or two parameters: an element, an index, or both "
+							. "(in any order)"
+					);
 				}
 			} else {
 				throw new \InvalidArgumentException(
-					__METHOD__."() expects optional parameter two, index, to be an integer"
+					__METHOD__."() expects parameter two to be null, Element, or integer"
 				);
 			}
 		} else {
-			throw new \BadMethodCallException(
-				__METHOD__."() expects one or two parameters"
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one to be an Element or integer"
 			);
 		}
 		

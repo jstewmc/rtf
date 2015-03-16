@@ -720,25 +720,38 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		$this->setExpectedException('BadMethodCallException');
 		
 		$group = new Group();
-		$group->hasChild(null, null);
+		$group->hasChild(0, 0);
 		
 		return;
 	}
 	
 	/**
 	 * hasChild() should throw an InvalidArgumentException if $index is not an integer
-	 *
-	 * @dataProvider  neitherAnIntegerNOrNullProvider
+	 *    or element
 	 */
-	public function testHasChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
+	public function testHasChild_throwsInvalidArgumentException_ifOneIsNotAnIntegerOrElement()
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
 		$group = new Group();
-		$group->hasChild(null, $index);
+		$group->hasChild('foo');
 		
 		return;
 	}
+	
+	/**
+	 * hasChild() should throw an InvalidArgumentException if $index is not an integer
+	 *    or element
+	 */
+	public function testHasChild_throwsInvalidArgumentException_ifTwoIsNotAnIntegerOrElementOrNull()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$group = new Group();
+		$group->hasChild(1, 'foo');
+		
+		return;
+	}	
 	
 	/**
 	 * hasChild() should return false if parent has no children
@@ -747,7 +760,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	{
 		$group = new Group();
 		
-		$this->assertFalse($group->hasChild(null, 0));
+		$this->assertFalse($group->hasChild(0));
 		$this->assertFalse($group->hasChild(new Element()));		
 		$this->assertFalse($group->hasChild(new Element(), 0));
 		
@@ -762,7 +775,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		$group = new Group();
 		$group->appendChild(new Text('foo'));
 		
-		$this->assertFalse($group->hasChild(null, 1));
+		$this->assertFalse($group->hasChild(1));
 		$this->assertFalse($group->hasChild(new Element()));
 		$this->assertFalse($group->hasChild(new Element(), 0));
 		
@@ -779,7 +792,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		$group = new Group();
 		$group->appendChild($foo);
 		
-		$this->assertTrue($group->hasChild(null, 0));
+		$this->assertTrue($group->hasChild(0));
 		$this->assertTrue($group->hasChild($foo));
 		$this->assertTrue($group->hasChild($foo, 0));
 		
