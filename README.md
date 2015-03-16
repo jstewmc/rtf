@@ -31,6 +31,8 @@ In February 2015, I started a project that required reading and writing RTF file
 
 I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
 
+Feel free to check out the [API documentation](), [report an issue](https://github.com/jstewmc/rtf/issues), [contribute](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md), or [ask a question](mailto:clayjs0@gmail.com).
+
 ## Rich Text Format (RTF)
 
 This library adheres to the [Rich Text Format Version 1.5 Specification (1997)](http://www.biblioscape.com/rtf15_spec.htm), and it adds supports for the ignored control word `\*`.
@@ -570,7 +572,9 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ## Version
 
-See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details.
+See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details, or the following API documentation:
+
+[Version 0.1.0]()
 
 ## Acknowledgements
 
