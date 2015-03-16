@@ -184,27 +184,62 @@ class Document
 	/**
 	 * Saves the document to $destination
 	 *
-	 * @param  string  $destination  the destination's file name
+	 * @param  string       $destination  the destination's file name
+	 * @param  string|null  $format       the file's format (possible string values 
+	 *     are 'html', 'rtf', and 'text') (optional; if omitted, defaults to null 
+	 *     and the file's format is assumed from the file name)
 	 * @return bool
 	 * @throws  InvalidArgumentException  if $destination is not a string
-	 * @throws  InvalidArgumentException  if $format is not a string
+	 * @throws  InvalidArgumentException  if $format is not a string or null
+	 * @throws  BadMethodCallException    if $format is null and $destination does
+	 *     not end in '.htm', '.html', '.rtf', or '.txt'
 	 * @since  0.1.0
 	 */
-	public function save($destination, $format = 'rtf')
+	public function save($destination, $format = null)
 	{
 		$isSuccess = false;
 		
+		// if $destination is a string
 		if (is_string($destination)) {
-			if (is_string($format)) {
+			// if $format is null or a string
+			if ($format === null || is_string($format)) {
+				// if format is null
+				if ($format === null) {
+					// get the format from the destination's file name
+					$period    = strrpos($destination, '.');
+					$extension = substr($destination, $period + 1);
+					switch (strtolower($extension)) {
+						
+						case 'htm':
+						case 'html':
+							$format = 'html';
+							break;
+						
+						case 'rtf':
+							$format = 'rtf';
+							break;
+						
+						case 'txt':
+							$format = 'text';
+							break;
+							
+						default:
+							throw new \BadMethodCallException(
+								__METHOD__."() expects parameter one, destination, to end in '.htm', "
+									. "'.html', '.rtf', or '.txt' if parameter two, format, is null"
+							);
+					}
+				}
+				// put the document's contents
 				$isSuccess = (bool) file_put_contents($destination, $this->write($format));
 			} else {
 				throw new \InvalidArgumentException(
-					__METHOD__."() expects paramete two, format, to be a string"
+					__METHOD__."() expects parameter two, format, to be 'html', 'rtf', 'text', or null"
 				);
 			}
 		} else {
 			throw new \InvalidArgumentException(
-				__METHOD__."() expects parameter one, filename, to be a string"
+				__METHOD__."() expects parameter one, destination, to be a string file name"
 			);
 		}
 		

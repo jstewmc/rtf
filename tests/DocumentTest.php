@@ -27,6 +27,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 		];
 	}
 	
+	public function neitherAStringNorNullProvider()
+	{
+		return [
+			// [null],
+			[true],
+			[1],
+			[1.0],
+			// ['foo'],
+			[[]],
+			[new \StdClass()]
+		];
+	}
+	
+	
 	/* !getRoot() / setRoot() */
 	
 	/**
@@ -267,9 +281,9 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * save() should throw an InvalidArgumentException if $format is not a string
+	 * save() should throw an InvalidArgumentException if $format is not a string or null
 	 *
-	 * @dataProvider  notAStringProvider
+	 * @dataProvider  neitherAStringNorNullProvider
 	 */
 	public function testSave_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
@@ -277,6 +291,20 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 		
 		$document = new Document();
 		$document->save('foo', $format);
+		
+		return;
+	}
+	
+	/**
+	 * save() should throw a BadMethodCallException if $format is null and destination 
+	 *     doesn't end in 'html', 'rtf', or 'txt'
+	 */
+	public function testSave_throwsBadMethodCallException_ifExtensionIsNotValid()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$document = new Document();
+		$document->save('foo');
 		
 		return;
 	}
