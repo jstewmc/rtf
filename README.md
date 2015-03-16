@@ -282,7 +282,7 @@ use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-$document->save('/path/to/file.foo', 'text');   // puts contents "foo"
+$document->save('/path/to/file.foo', 'text');  // puts contents "foo"
 ```
 
 When a document is used as a string, it will return an RTF string:
@@ -348,18 +348,14 @@ $foo === $group->getFirstChild();  // returns true
 $bar === $group->getChild(1);      // returns true
 $baz === $group->getLastChild();   // returns true
 
-// the hasChild() method takes an element, an index, or both; if only an 
-//     element is given, the method will return true if *the* element exists at 
-//     *any* index; if only an index is given, the method will return true if 
-//     *any* element exists at *the* index; and, if both are given, the method 
-//     will return true if *the* element exists at *the* index
-//
-$group->hasChild(null, 0);    // returns true
+// the hasChild() method accepts an element, an index, or both (in any order)
+$group->hasChild(0);          // returns true
 $group->hasChild($foo);       // returns true
-$group->hasChild($foo, 0);    // returns true 
-$group->hasChild(null, 999);  // returns false
+$group->hasChild($foo, 0);    // returns true
+$group->hasChild(0, $foo);    // returns true 
+$group->hasChild(999);        // returns false
 $group->hasChild($qux);       // returns false
-$group->hasChild($qux, 0);    // returns false
+$group->hasChild($qux, 999);  // returns false
 ```
 
 You can remove and replace a child element:
