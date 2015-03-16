@@ -27,14 +27,18 @@ echo $document;   // prints "{\b bar\b0}"
 
 ## About
 
-In February 2015, I started a project that required reading and writing RTF files. Actually, it required reading and writing files in the Court Reporter extension of the RTF language, RTF-CRE. I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
+In February 2015, I started a project that required reading and writing RTF files. Actually, it required reading and writing files in the Court Reporter extension of the RTF language, [RTF-CRE](http://www.legalxml.org/workgroups/substantive/transcripts/cre-spec.htm). 
+
+I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
 
 ## Rich Text Format (RTF)
-This library adheres to the [Rich Text Format Version 1.5 Specification (1997)](http://www.biblioscape.com/rtf15_spec.htm).
+
+This library adheres to the [Rich Text Format Version 1.5 Specification (1997)](http://www.biblioscape.com/rtf15_spec.htm), and it adds supports for the ignored control word `\*`.
 
 If you aren't familiar with the Rich Text Format (RTF) language, it's relatively simple. There are four main language components: groups, control words, control symbols, and text.
 
 ### Groups
+
 Groups are the fundamental building blocks of an RTF document. A group consists of text, control words, control symbols, or other groups enclosed in braces ("{" and "}").
 
 Like an XML document, an RTF document should have a root group. Within the root group there is a *header*, a group of document-formatting control words that, if they occur, must do so before any text, and the *body*, the content of the document.
@@ -42,6 +46,7 @@ Like an XML document, an RTF document should have a root group. Within the root 
 Groups can be nested. Generally, formatting within a group affects only the text in that group, and text within a group inherits the formatting of the parent group. 
 
 ### Control words
+
 A control word is a specially-formatted command used to perform actions in an RTF document such as: insert special characters, set paragraph-formatting, set character-formatting, etc. 
 
 A control word takes the following form: `\<word>[<delimiter>]`.
@@ -57,23 +62,38 @@ A control word takes the following form: `\<word>[<delimiter>]`.
 The parameters of certain control words (for example, bold, `\b`) have only two states. When such a control word has no parameter (or has a non-zero parameter), it is assumed that the control word turns on the property. When such a control word has a parameter of `0`, it is assumed to turn off the property.
 
 ### Control symbols
+
 A control symbol consists of a backslash followed by a single, non-alphabetic character (aka, a symbol). A control symbol usually inserts a special character. For example, the control symbol `\~` represents a non-breaking space. 
 
 Generally, control symbols take no delimiters. However, the apostrophe control symbol takes a two-digit hexadecimal parameter (e.g., `\'hh`).
 
 ### Text
+
 Text is any character that isn't a group-open, group-close, control word, or control symbol.
 
 Special characters like the backlash ("\"), open-bracket ("{"), and close-bracket ("}") are escaped with the backslash character ("\").
 
 ### Line endings
+
 The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters or so, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word. 
 
 This library will ignore an *un-escaped* line-feed or carriage return. However, it will treat an *escaped* line-feed or carriage-return as an implicit `\par` control word.
 
+### Destinations
+
+A destination is a group of related text that could appear in a different position (aka, "destination") within the document. Destinations may also be text that is used but should not appear in a document.
+
+For the purposes of this library, destinations must be preceeded by the ignored control symbol, `\*`.
+
+Because this library doesn't support any destination control words (yet), all destinations are ignored when formatting the document as text or html.
+
+### Unsupported control words and symbols
+
+If a control word or symbol is not supported by this library, it's ignored when formatting the document as text or html.
+
 ## How it works
 
-To create a document, this library lexes an RTF string into language tokens, parses the language tokens into the parse tree, and renders the parse tree into the document tree.
+To create a document, this library lexes an RTF string into language tokens; parses the language tokens into the parse tree; and renders the parse tree into the document.
 
 ### Lexer
 
@@ -124,7 +144,7 @@ The above example would output the following:
 
 ### Parser
 
-Given an array of tokens, the Parser creates the document's elements and returns the document's root group.
+Given an array of tokens, the Parser creates the document's nested elements, and it returns the document's root group.
 
 ```php
 use Jstewmc\Rtf;
@@ -187,7 +207,7 @@ $root
 
 ## Document
 
-The `Document` class takes care of lexing, parsing, and rendering a string for you.
+The `Document` class takes care of lexing, parsing, rendering, and formatting a string for you.
 
 You can create a document from a string using the `read()` method or the constructor:
 
@@ -231,10 +251,10 @@ echo $document->write('text');  // prints "foo"
 echo $document->write('html');  // prints "<section style=""><p style="">..."
 ```
 
-The document's HTML string contains `section`, `paragraph`, and `span` elements to capture the document's section-, paragraph-, and character-formatting, respectively. For example, the last line in the example above would output the following:
+The document's HTML string contains `section`, `paragraph`, and `span` elements to capture the document's section-, paragraph-, and character-formatting, respectively. For example, the last line in the example above would output the following (admittedly ugly) html:
 
 ```
-<section style=""><p style=""><span style="font-weight: bold;">foo</span></p></section>"
+<section style=""><p style=""><span style="font-weight: bold;">foo</span></p></section>
 ```
 
 You can save the document to a file:
@@ -244,9 +264,25 @@ use Jstewmc\Rtf;
 
 $document = new Document('{\b foo\b0}');
 
-$document->save('/path/to/file.txt', 'text');   // puts contents "foo"
-$document->save('/path/to/file.rtf', 'rtf');    // puts contents "{\b foo\b0}"
-$document->save('/path/to/file.html', 'html');  // puts contents "<section style="">..."
+$document->save('/path/to/file.txt');   // puts contents "foo"
+$document->save('/path/to/file.rtf');   // puts contents "{\b foo\b0}"
+$document->save('/path/to/file.html');  // puts contents "<section style="">..."
+```
+
+By default, the `save()` method will assume the file's format from the destination's file extension. The following extensions are supported:
+
+* `htm` and `html`
+* `rtf`
+* `txt`
+
+If you use a non-standard file extension, you can specify the file's format as the method's second argument:
+
+```php
+use Jstewmc\Rtf;
+
+$document = new Document('{\b foo\b0}');
+
+$document->save('/path/to/file.foo', 'text');   // puts contents "foo"
 ```
 
 When a document is used as a string, it will return an RTF string:
@@ -312,9 +348,15 @@ $foo === $group->getFirstChild();  // returns true
 $bar === $group->getChild(1);      // returns true
 $baz === $group->getLastChild();   // returns true
 
+// the hasChild() method takes an element, an index, or both; if only an 
+//     element is given, the method will return true if *the* element exists at 
+//     *any* index; if only an index is given, the method will return true if 
+//     *any* element exists at *the* index; and, if both are given, the method 
+//     will return true if *the* element exists at *the* index
+//
 $group->hasChild(null, 0);    // returns true
 $group->hasChild($foo);       // returns true
-$group->hasChild($foo, 0);    // returns true
+$group->hasChild($foo, 0);    // returns true 
 $group->hasChild(null, 999);  // returns false
 $group->hasChild($qux);       // returns false
 $group->hasChild($qux, 0);    // returns false
@@ -341,7 +383,7 @@ $group->removeChild($bar);        // returns $bar, the removed element
 $group->getChildren() == [$baz];  // returns true
 ```
 
-You can search for a specific control word or control symbol:
+You can select a specific control word or control symbol:
 
 ```php
 use Jstewmc\Rtf;
@@ -357,10 +399,9 @@ $group->appendChild($b)->appendChild($foo)->appendChild($b0);
 $group->getControlWords('b') == [$b, $b0];    // returns true
 $group->getControlWords('b', 0) == [$b0];     // returns true
 $group->getControlWords('b', false) == [$b];  // returns true
-
 ```
 
-Keep in mind, you'd probably call this on the document's root group to return an array of all the specific control words or control symbols in the document. 
+Of course, you'd probably call the `getControlWords()` method on the document's root group to return an array of all the specific control words or control symbols in the document. 
 
 ### All elements
 
@@ -438,9 +479,7 @@ $group->getChildren() == [$bar];  // returns true
 
 ### Supported elements
 
-There are hundreds of RTF control words and several dozen control symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details). 
-
-This library supports a small subset of control words and control symbols:
+This library supports a small subset of the several hundred possible RTF control words and control symbols (see [RTF Specification 1.5](http://www.biblioscape.com/rtf15_spec.htm) or [Latex2Rtf Documentation](http://latex2rtf.sourceforge.net/rtfspec_7.html#rtfspec_specialchar) for details):
 
 * Character formatting control words
   * `\b`, bold
@@ -482,19 +521,11 @@ This library doesn't support the following control words:
 * Bullets and numbering
 * And much more!
 
-If this library encounters a control word or control symbol it doesn't support, it'll create a generic control word or control symbol element, `Element\Control\Word` or `Element\Control\Symbol`, respectively. 
-
-When outputting the document to a text or html string, unsupported control words are ignored, and their text appears in the document unless the group is a destination.
-
-### Destinations
-
-A destination is a collection of related text that could appear in a different position, or destination, within the document. Destinations may also be text that is used but should not appear in a document. Destinations should be preceeded with the "ignored" `\*` control word, and their text should be ignored if the reader doesn't understand the destination.
-
-Because this library doesn't support any destination control words yet, all destinations are ignored when formatting the document as text or html.
+If this library encounters a control word or control symbol it doesn't support, it'll create a generic control word or control symbol element, `Element\Control\Word` or `Element\Control\Symbol`, respectively. When formatting the document as html or plain text, unsupported control words are ignored, and their text appears in the document, unless the group is a destination.
 
 ### Style
 
-The RTF specification lumps an element's style into one huge "group state". I didn't think that was a good idea. So, I created an element's style, like an HTML element's style, and document-, section-, paragraph-, and character-states.
+The RTF specification lumps an element's style into one huge "group state". I didn't think that was a good idea. So, I gave each element a style property, like an HTML element. An element's style is sub-divided into document-, section-, paragraph-, and character-states.
 
 For any element, the following properties are available:
 
@@ -547,7 +578,7 @@ See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for 
 
 ## Acknowledgements
 
-Many thanks to the following for helping me get started:
+Many thanks to the authors of the following articles for helping me get started:
 
 * [PHP: Reading the clean text from RTF](http://webcheatsheet.com/php/reading_the_clean_text_from_rtf.php)
 * [A working RTF to HTML converter in PHP](http://www.websofia.com/2014/05/a-working-rtf-to-html-converter-in-php/)
