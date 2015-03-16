@@ -31,7 +31,7 @@ In February 2015, I started a project that required reading and writing RTF file
 
 I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
 
-Feel free to check out the [API documentation](), [report an issue](https://github.com/jstewmc/rtf/issues), [contribute](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md), or [ask a question](mailto:clayjs0@gmail.com).
+Feel free to check out the [API documentation](http://jstewmc.github.io/rtf/api/0.1.0/), [report an issue](https://github.com/jstewmc/rtf/issues), [contribute](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md), or [ask a question](mailto:clayjs0@gmail.com).
 
 ## Rich Text Format (RTF)
 
@@ -574,7 +574,7 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details, or the following API documentation:
 
-[Version 0.1.0]()
+[Version 0.1.0](http://jstewmc.github.io/rtf/api/0.1.0/)
 
 ## Acknowledgements
 
