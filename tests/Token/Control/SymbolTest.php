@@ -1,6 +1,7 @@
 <?php
 
 use Jstewmc\Rtf\Token\Control\Symbol;
+use Jstewmc\Stream;
 
 /**
  * A test suite for the control symbol class
@@ -84,91 +85,91 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	}
 	
 	
-	/* !createFromSource() */
+	/* !createFromStream() */
 	
 	/**
-	 * createFromSource() should throw an InvalidArgumentException if the current character in 
+	 * createFromStream() should throw an InvalidArgumentException if the current character in 
 	 *     $characters is not a backslash ("\")
 	 */
-	public function testCreateFromSource_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
+	public function testCreateFromStream_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$characters = ['a', 'b', 'c'];
-		$symbol = Symbol::createFromSource($characters);
+		$stream = new Stream\Text('abc');
+		$symbol = Symbol::createFromStream($stream);
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should throw an InvalidArgumentException if the next character in 
+	 * createFromStream() should throw an InvalidArgumentException if the next character in 
 	 *     $characters is alpha-numeric
 	 */
-	public function testCreateFromSource_throwsInvalidArgumentException_ifNextCharacterIsAlphanumeric()
+	public function testCreateFromStream_throwsInvalidArgumentException_ifNextCharacterIsAlphanumeric()
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$characters = ['\\', 'b', 'c'];
-		$symbol = Symbol::createFromSource($characters);
+		$stream = new Stream\Text('\\bc');
+		$symbol = Symbol::createFromStream($stream);
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return false if $characters is empty
+	 * createFromStream() should return false if $characters is empty
 	 */
-	public function testCreateFromSource_returnsFalse_ifCharactersIsEmpty()
+	public function testCreateFromStream_returnsFalse_ifCharactersIsEmpty()
 	{
-		$characters = [];
+		$stream = new Stream\Text();
 		
-		$this->assertFalse(Symbol::createFromSource($characters));
+		$this->assertFalse(Symbol::createFromStream($stream));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return false if the next character in $characters is empty
+	 * createFromStream() should return false if the next character in $characters is empty
 	 */
-	public function testCreateFromSource_returnsFalse_ifNextCharacterIsEmpty()
+	public function testCreateFromStream_returnsFalse_ifNextCharacterIsEmpty()
 	{
-		$characters = ['\\'];
+		$stream = new Stream\Text('\\');
 		
-		$this->assertFalse(Symbol::createFromSource($characters));
+		$this->assertFalse(Symbol::createFromStream($stream));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a Symbol if the next character is not alphanumeric
+	 * createFromStream() should return a Symbol if the next character is not alphanumeric
 	 */
-	public function testCreateFromSource_returnsSymbol_ifNextCharacterIsSymbol()
+	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbol()
 	{
-		$characters = ['\\', '_'];
+		$stream = new Stream\Text('\\_');
 		
-		$symbol = Symbol::createFromSource($characters);
+		$symbol = Symbol::createFromStream($characters);
 		
 		$this->assertTrue($symbol instanceof Symbol);
 		$this->assertEquals('_', $symbol->getSymbol());
 		$this->assertNull($symbol->getParameter());
-		$this->assertEquals(1, key($characters));
+		// $this->assertEquals(1, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a Symbol with parameters if the next character is
+	 * createFromStream() should return a Symbol with parameters if the next character is
 	 *     an apostrophe
 	 */
-	public function testCreateFromSource_returnsSymbol_ifNextCharacterIsApostrophe()
+	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsApostrophe()
 	{
-		$characters = ['\\', '\'', 'a', 'b'];
+		$stream = new Stream\Text("\\'ab");
 		
-		$symbol = Symbol::createFromSource($characters);
+		$symbol = Symbol::createFromStream($stream);
 		
 		$this->assertTrue($symbol instanceof Symbol);
 		$this->assertEquals('\'', $symbol->getSymbol());
 		$this->assertEquals('ab', $symbol->getParameter());
-		$this->assertEquals(3, key($characters));
+		// $this->assertEquals(3, key($characters));
 		
 		return;
 	}

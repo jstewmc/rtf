@@ -120,52 +120,49 @@ class Symbol extends Control
 	/* !Public methods */
 	
 	/**
-	 * Creates a control symbol token from source
+	 * Creates a control symbol token from stream
 	 *
-	 * @param  string[]  $characters  an array of characters (the current character
+	 * @param  Jstewmc\Stream  $stream  a stream of characters (the current character
 	 *     must be the backslash character, and the next character should be non-
 	 *     alphanumeric)
 	 * @return  Jstewmc\Rtf\Token\Control\Symbol|false
-	 * @throws  InvalidArgumentException  if the current character in $characters is
+	 * @throws  InvalidArgumentException  if the current character in $stream is
 	 *     not a backslash
-	 * @throws  InvalidArgumentException  if the next character in $characters is not
+	 * @throws  InvalidArgumentException  if the next character in $stream is not
 	 *     a non-alphanumeric character
-	 * @since  0.1.0
+	 * @since  0.2.0
 	 */
-	public static function createFromSource(Array &$characters)
+	public static function createFromStream(\Jstewmc\Stream $stream)
 	{
 		$symbol = false;
 		
-		// if $characters is not empty
-		if ( ! empty($characters)) {
-			// if the current character is a backslash
-			if (current($characters) == '\\') {
-				// if the next character exists
-				if (next($characters) !== false) {
-					// if the now current character is not alphanumeric
-					if ( ! ctype_alnum(current($characters))) {
-						// create a new control symbol
-						$symbol = new Symbol(current($characters));
-						// if the current character is an apostrophe, get the symbol's parameter
-						if (current($characters) == '\'') {
-							$parameter = next($characters) . next($characters);
-							$symbol->setParameter($parameter);
-						}
-					} else {
-						throw new \InvalidArgumentException(
-							__METHOD__."() expects the next element in parameter one, characters, to "
-								. "be a non-alphanumeric character"
-						);
+		// if the current character is a backslash
+		if ($stream->current() === '\\') {
+			// if the next character exists
+			if ($stream->next() !== false) {
+				// if the now current character is not alphanumeric
+				if ( ! ctype_alnum($stream->current())) {
+					// create a new control symbol
+					$symbol = new Symbol($stream->current());
+					// if the current character is an apostrophe, get the symbol's parameter
+					if ($stream->current() === '\'') {
+						$parameter = $stream->next() . $stream->next();
+						$symbol->setParameter($parameter);
 					}
 				} else {
-					// hmm, do nothing?
+					throw new \InvalidArgumentException(
+						__METHOD__."() expects the next element in parameter one, characters, to "
+							. "be a non-alphanumeric character"
+					);
 				}
 			} else {
-				throw new \InvalidArgumentException(
-					__METHOD__."() expects the current element in parameter one, characters, to "
-						. "be the backslash character"
-				);
+				// hmm, do nothing?
 			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects the current element in parameter one, characters, to "
+					. "be the backslash character"
+			);
 		}
 		
 		return $symbol;
