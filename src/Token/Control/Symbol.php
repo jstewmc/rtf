@@ -135,7 +135,7 @@ class Symbol extends Control
 	 *     argument $characters, an array of characters, with $stream, an instance 
 	 *     of Jstewmc\STream
 	 */
-	public static function createFromStream(\Jstewmc\Stream $stream)
+	public static function createFromStream(\Jstewmc\Stream\Stream $stream)
 	{
 		$symbol = false;
 		

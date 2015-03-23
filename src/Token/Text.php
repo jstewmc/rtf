@@ -81,14 +81,14 @@ class Text extends Token
 	/**
 	 * Creates a new text token from a stream
 	 *
-	 * @param  Jstewmc\Stream  $stream  a stream of characters
+	 * @param  Jstewmc\Stream\Stream  $stream  a stream of characters
 	 * @return  Jstewmc\Rtf\Token\Text|false
 	 * @since   0.1.0
 	 * @since   0.2.0  renamed from createFromSource() to createFromStream();
 	 *     replaced argument $characters, an array of characters, with $stream, an
 	 *     instance of Jstewmc\Stream
 	 */
-	public static function createFromStream(\Jstewmc\Stream $stream)
+	public static function createFromStream(\Jstewmc\Stream\Stream $stream)
 	{
 		$token = false;
 		
@@ -132,6 +132,8 @@ class Text extends Token
 					$text .= $character;
 				}
 			}
+			// advance to the next character
+			$stream->next();
 		}
 		
 		// if $text is not empty, create a new token

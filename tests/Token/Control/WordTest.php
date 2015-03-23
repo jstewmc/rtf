@@ -1,6 +1,7 @@
 <?php
 
 use Jstewmc\Rtf\Token\Control\Word;
+use Jstewmc\Stream;
 
 /**
  * A test suite for the control word class

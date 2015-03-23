@@ -156,7 +156,7 @@ class Word extends Control
 	 *     argument $characters, an array of characters, to $stream, an instance of
 	 *     Jstewmc\Stream
 	 */
-	public static function createFromStream(\Jstewmc\Stream $stream) 
+	public static function createFromStream(\Jstewmc\Stream\Stream $stream) 
 	{
 		$token = false;
 				
@@ -219,7 +219,7 @@ class Word extends Control
 	 * @since  0.2.0  replace argument $characters, an array of characters, with $stream
 	 *     an instance of Jstewmc\Stream
 	 */
-	protected static function readWord(\Jstewmc\Stream $stream) 
+	protected static function readWord(\Jstewmc\Stream\Stream $stream) 
 	{
 		$word = '';
 				
@@ -252,7 +252,7 @@ class Word extends Control
 	 * @since  0.2.0  replace argument $characters, an array of characters, with $stream
 	 *     an instance of Jstewmc\Stream
 	 */
-	protected static function readParameter(\Jstewmc\Stream $stream)
+	protected static function readParameter(\Jstewmc\Stream\Stream $stream)
 	{
 		$parameter = '';
 		

@@ -1,6 +1,7 @@
 <?php
 
 use Jstewmc\Rtf\Token\Text;
+use Jstewmc\Stream;
 
 /**
  * A test suite for the Token\Text class

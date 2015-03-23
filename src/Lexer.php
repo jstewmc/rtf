@@ -26,7 +26,7 @@ class Lexer
 	 * @param  Jstewmc\Stream  $stream  the source code stream
 	 * @return  Jstewmc\Rtf\Token[]  an array of tokens
 	 */
-	public function lex(\Jstewmc\Stream $stream)
+	public function lex(\Jstewmc\Stream\Stream $stream)
 	{	
 		$tokens = [];
 		
