@@ -49,162 +49,161 @@ class WordTest extends PHPUnit_Framework_Testcase
 	/* !__construct() */
 	
 	
-	/* !createFromSource() */
+	/* !createFromStream() */
 	
 	/**
-	 * createFromSource() should throw an InvalidArgumentException if the current
-	 *     character in $characters is not a backslash
+	 * createFromStream() should throw an InvalidArgumentException if the current
+	 *     character in $stream is not a backslash
 	 */
-	public function testCreateFromSource_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
+	public function testCreateFromStream_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$characters = ['f', 'o', 'o'];
+		$stream = new Stream\Text('foo');
 		
-		Word::createFromSource($characters);
+		Word::createFromStream($stream);
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should throw an InvalidArgumentException if the next
-	 *     character in $characters is not alphabetic
+	 * createFromStream() should throw an InvalidArgumentException if the next
+	 *     character in $stream is not alphabetic
 	 */
-	public function testCreateFromSource_throwsInvalidArgumentException_ifNextCharacterIsNotAlphabetic()
+	public function testCreateFromStream_throwsInvalidArgumentException_ifNextCharacterIsNotAlphabetic()
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$characters = ['\\', '1'];
+		$stream = new Stream\Text('\\1');
 		
-		Word::createFromSource($characters);
+		Word::createFromStream($stream);
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return false if $characters is empty
+	 * createFromStream() should return false if $stream is empty
 	 */
-	public function testCreateFromSource_returnsFalse_ifCharactersIsEmpty()
+	public function testCreateFromStream_returnsFalse_ifCharactersIsEmpty()
 	{
-		$characters = [];
+		$stream = new Stream\Text();
 		
-		return $this->assertFalse(Word::createFromSource($characters));
+		return $this->assertFalse(Word::createFromStream($stream));
 	}
 	
 	/**
-	 * createFromSource() should return false if the next character in $characters
+	 * createFromStream() should return false if the next character in $stream
 	 *     is empty
 	 */
-	public function testCreateFromSource_returnsFalse_ifNextCharacterIsEmpty()
+	public function testCreateFromStream_returnsFalse_ifNextCharacterIsEmpty()
 	{
-		$characters = ['\\'];
+		$stream = new Stream\Text('\\');
 		
-		return $this->assertFalse(Word::createFromSource($characters));
+		return $this->assertFalse(Word::createFromStream($stream));
 	}
 	
 	/**
-	 * createFromSource() should return a word token if a parameter does not exist and
+	 * createFromStream() should return a word token if a parameter does not exist and
 	 *     the delimiter is the space character
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesNotExistAndDelimiterIsSpace()
+	public function testCreateFromStream_returnsToken_ifParameterDoesNotExistAndDelimiterIsSpace()
 	{
+		$stream = new Stream\Text('\\foo bar');
 		
-		$characters = ['\\', 'f', 'o', 'o', ' ', 'b', 'a', 'r'];
-		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
-		$this->assertEquals(4, key($characters));
+		// $this->assertEquals(4, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a word token if a parameter does not exist and
+	 * createFromStream() should return a word token if a parameter does not exist and
 	 *     the delimiter is not alphanumeric character
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesNotExistAndDelimiterIsCharacter()
+	public function testCreateFromStream_returnsToken_ifParameterDoesNotExistAndDelimiterIsCharacter()
 	{
-		$characters = ['\\', 'f', 'o', 'o', '+', 'b', 'a', 'r'];
+		$stream = new Stream\Text('\\foo+bar');
 		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
-		$this->assertEquals(3, key($characters));
+		// $this->assertEquals(3, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a word token if parameter does exist and it's a
+	 * createFromStream() should return a word token if parameter does exist and it's a
 	 *     positive number
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesExistAndPositive()
+	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndPositive()
 	{
-		$characters = ['\\', 'f', 'o', 'o', '1', '2', '3', ' ', 'b', 'a', 'r'];
+		$stream = new Stream\Text('\\foo123 bar');
 		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(123, $word->getParameter());
-		$this->assertEquals(7, key($characters));
+		// $this->assertEquals(7, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a word token if parameter does exist and it's a
+	 * createFromStream() should return a word token if parameter does exist and it's a
 	 *     negative number
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesExistAndNegative()
+	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndNegative()
 	{
-		$characters = ['\\', 'f', 'o', 'o', '-', '1', '2', '3', ' ', 'b', 'a', 'r'];
+		$stream = new Stream\Text('\\foo-123 bar');
 		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(-123, $word->getParameter());
-		$this->assertEquals(8, key($characters));
+		// $this->assertEquals(8, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a word token if parameter does exist and it's 
+	 * createFromStream() should return a word token if parameter does exist and it's 
 	 *     delimited by a space
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesExistAndDelimiterIsSpace()
+	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndDelimiterIsSpace()
 	{
-		$characters = ['\\', 'f', 'o', 'o', '1', ' ', 'b', 'a', 'r'];
+		$stream = new Stream\Text('\\foo1 bar');
 		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(1, $word->getParameter());
-		$this->assertEquals(5, key($characters));
+		// $this->assertEquals(5, key($characters));
 		
 		return;
 	}
 	
 	/**
-	 * createFromSource() should return a word token if parameter does exist and it's
+	 * createFromStream() should return a word token if parameter does exist and it's
 	 *     delimited by any non-alphanumeric character
 	 */
-	public function testCreateFromSource_returnsToken_ifParameterDoesExistAndDelimiterIsCharacter()
+	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndDelimiterIsCharacter()
 	{
-		$characters = ['\\', 'f', 'o', 'o', '1', '+', 'b', 'a', 'r'];
+		$stream = new Stream\Text('\\foo1+bar');
 		
-		$word = Word::createFromSource($characters);
+		$word = Word::createFromStream($stream);
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(1, $word->getParameter());
-		$this->assertEquals(4, key($characters));
+		// $this->assertEquals(4, key($characters));
 		
 		return;
 	}

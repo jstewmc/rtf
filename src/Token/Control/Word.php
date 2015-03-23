@@ -142,91 +142,93 @@ class Word extends Control
 	/* !Public methods */
 	
 	/**
-	 * Creates a control word token from an RTF source
+	 * Creates a control word token from a stream of characters
 	 *
-	 * @param  string[]  $characters  an array of characters (the current character 
+	 * @param  Jstewmc\Stream  $stream  a stream of characters (the current character 
 	 *     in $characters must be the backslash character ("\"))
-	 * @return  Jstewmc\RtfLexer\Token\Control\Word|false
-	 * @throws  InvalidArgumentException  if the current character in $characters is
+	 * @return  Jstewmc\Rtf\Token\Control\Word|false
+	 * @throws  InvalidArgumentException  if the current character in $stream is
 	 *     not the backslash character ("\")
-	 * @throws  InvalidArgumentException  if the next character in $characters is not
+	 * @throws  InvalidArgumentException  if the next character in $stream is not
 	 *     an alphabetic character
 	 * @since  0.1.0
+	 * @since  0.2.0  rename from createFromSource() to createFromStream(); update
+	 *     argument from $characters array to $stream, a Jstewmc\Stream instance
 	 */
-	public static function createFromSource(Array &$characters) 
+	public static function createFromStream(\Jstewmc\Stream $stream) 
 	{
-		$word = false;
-		
-		// if $characters is not empty
-		if ( ! empty($characters)) {
-			// if the current character is the backslash character
-			if (current($characters) == '\\') {
-				// if the next character exists
-				if (next($characters) !== false) {
-					// if the now current character is an alphabetic character
-					if (ctype_alpha(current($characters))) {
-						// get the control word's word
-						$word = self::readWord($characters);
-						
-						// if the current character is a digit or hyphen, get the word's parameter
-						if (ctype_digit(current($characters)) || current($characters) == '-') {
-							$parameter = self::readParameter($characters);
-						} else {
-							$parameter = null;
-						}
-						
-						// if the current character is not a space delimiter, it should not be 
-						//    consumed; rollback to the previous character
-						//
-						if (current($characters) !== ' ') {
-							prev($characters);
-						}
-						
-						// create the control word token
-						$word = new Word($word, $parameter);
+		$token = false;
+				
+		// if the current character is the backslash character
+		if ($stream->current() === '\\') {
+			// if the next character exists
+			if ($stream->next() !== false) {
+				// if the now current character is an alphabetic character
+				if (ctype_alpha($stream->current())) {
+					// get the control word's word
+					$word = self::readWord($stream);
+					
+					// if the current character is a digit or hyphen, get the word's parameter
+					if (ctype_digit($stream->current()) || $stream->current() == '-') {
+						$parameter = self::readParameter($stream);
 					} else {
-						throw new \InvalidArgumentException(
-							__METHOD__."() expects the next element in parameter one, characters, to "
-								. "be an alphabetic character"
-						);
+						$parameter = null;
 					}
+					
+					// if the current character is not a space delimiter, it should not be 
+					//    consumed; rollback to the previous character
+					//
+					if ($stream->current() !== ' ') {
+						$stream->previous();
+					}
+					
+					// create the control word token
+					$token = new Word($word, $parameter);
 				} else {
-					// hmmm, do nothing?
+					throw new \InvalidArgumentException(
+						__METHOD__."() expects the next element in parameter one, characters, to "
+							. "be an alphabetic character"
+					);
 				}
 			} else {
-				throw new \InvalidArgumentException(
-					__METHOD__."() expects the current element in parameter one, characters, to "
-						. "be the backslash character"
-				);	
+				// hmmm, do nothing?
 			}
+		} else {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects the current element in parameter one, characters, to "
+					. "be the backslash character"
+			);	
 		}
 		
-		return $word;
+		return $token;
 	}
 	
 	
 	/* !Protected methods */
 	
 	/**
-	 * Reads a control word's word from a $characters array
+	 * Reads a control word's word from the character stream
 	 *
-	 * @param  string[]  $characters  an array of characters (the current character
+	 * @param  Jstewmc\Stream  $stream  a stream of characters (the current character
 	 *     must be a alphabetic character)
 	 * @return  string 
-	 * @throws  InvalidArgumentException  if the current element in $characters is not
+	 * @throws  InvalidArgumentException  if the current element in $stream is not
 	 *     an alphabetic character
 	 * @since  0.1.0
+	 * @since  0.2.0  update argument from $characters array to $stream, an instance  
+	 *     of Jstewmc\Stream
 	 */
-	protected static function readWord(Array &$characters) 
+	protected static function readWord(\Jstewmc\Stream $stream) 
 	{
 		$word = '';
 				
 		// if the current character is an alphabetic character
-		if (ctype_alpha(current($characters))) {
+		if (ctype_alpha($stream->current())) {
 			// loop through the alphabetic characters and build the word
-			do {
-				$word .= current($characters);
-			} while (ctype_alpha(next($characters)));
+			while (ctype_alpha($stream->current())) {
+				$word .= $stream->current();
+				$stream->next();
+			}
 		} else {
 			throw new \InvalidArgumentException(
 				__METHOD__."() expects the current element in parameter one, characters, "
@@ -238,34 +240,36 @@ class Word extends Control
 	}
 	
 	/**
-	 * Reads a control word's parameter from the $characters array
+	 * Reads a control word's parameter from the characters stream
 	 *
-	 * @param  string[]  $characters  an array of characters (the current character
+	 * @param  Jstewmc\Stream  $stream  a stream of characters (the current character
 	 *     must be a digit or hyphen)
 	 * @return  int
-	 * @throws  InvalidArgumentException  if $characters is not an array
-	 * @throws  InvalidArgumentException  if the current character in $characters is
+	 * @throws  InvalidArgumentException  if the current character in $stream is
 	 *     not a digit or hyphen
 	 * @since  0.1.0
+	 * @since  0.2.0  update argument from $characters array to $stream, an instance
+	 *     of Jstewmc\Stream
 	 */
-	protected static function readParameter(Array &$characters)
+	protected static function readParameter(\Jstewmc\Stream $stream)
 	{
 		$parameter = '';
 		
 		// if the current character is a digit or hyphen ("-")
-		if (ctype_digit(current($characters)) || current($characters) == '-') {
+		if (ctype_digit($stream->current()) || $stream->current() == '-') {
 			// determine if the parameter is negative
-			$isNegative = (current($characters) == '-'); 
+			$isNegative = ($stream->current() == '-'); 
 			
 			// if the number is negative, consume the hyphen
 			if ($isNegative) {
-				next($characters);
+				$stream->next();
 			}
 			
 			// loop through the digits and append them to the parameter
-			do {
-				$parameter .= current($characters);
-			} while (ctype_digit(next($characters)));
+			while (ctype_digit($stream->current())) {
+				$parameter .= $stream->current();
+				$stream->next();
+			} 
 						
 			// evaluate the parameter's numeric value
 			$parameter = +$parameter;
