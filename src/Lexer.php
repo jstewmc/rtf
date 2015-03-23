@@ -23,76 +23,67 @@ class Lexer
 	/**
 	 * Lexes source code into tokens
 	 *
-	 * @param  string  $source  the source code to lex
-	 * @return  Jstewmc\RtfLexer\Token[]  an array of tokens
-	 * @throws  InvalidArgumentException  if $source is not a string
+	 * @param  Jstewmc\Stream  $stream  the source code stream
+	 * @return  Jstewmc\Rtf\Token[]  an array of tokens
 	 */
-	public function lex($source)
+	public function lex(\Jstewmc\Stream $stream)
 	{	
 		$tokens = [];
 		
-		// if $source is a string
-		if (is_string($source)) {
-			// if $source is not empty
-			if ( ! empty($source)) {
-				// loop through the characters
-				$characters = str_split($source);
-				do {
-					// if the current character is not an ignored character
-					if ( ! in_array(current($characters), ["\n", "\r", "\f", "\0"])) {
-						// switch on the current character
-						switch (current($characters)) {
-							
-							case '{':
-								$token = new Token\Group\Open();
-								break;
-							
-							case '}':
-								$token = new Token\Group\Close();
-								break;
-							
-							case '\\':
-								// if the next character exists
-								$key = key($characters) + 1;
-								if (array_key_exists($key, $characters)) {
-									// the next character may be a literal character, an escaped new-line or 
-									//     carriage-return (i.e., an implicit "\par" control word), a control 
-									//     word, or a control symbol
-									//
-									$next = $characters[$key];
-									if (in_array($next, ['\\', '{', '}'])) {
-										$token = Token\Text::createFromSource($characters);
-									} elseif ($next == "\n" || $next == "\r") {
-										$token = new Token\Control\Word('par');
-										next($characters);  // consume the current "\" character
-									} elseif (ctype_alpha($next)) {
-										$token = Token\Control\Word::createFromSource($characters);
-									} else {
-										$token = Token\Control\Symbol::createFromSource($characters);
-									}
-								}
-								break;
-							
-							case "\t":
-								// tab characters should be converted to "\tab" control words
-								$token = new Token\Control\Word('tab');
-								break;
-							
-							default:
-								$token = Token\Text::createFromSource($characters);
+		// while a current character exists
+		while ($stream->current()) {
+			// if the current character is not an ignored character
+			if ( ! in_array($stream->current(), ["\n", "\r", "\f", "\0"])) {
+				// switch on the current character
+				switch ($stream->current()) {
+					
+					case '{':
+						$token = new Token\Group\Open();
+						break;
+					
+					case '}':
+						$token = new Token\Group\Close();
+						break;
+					
+					case '\\':
+						// look ahead to the next character, but make sure you rollback to the 
+						//     current character
+						// 
+						$next = $stream->next();
+						$stream->previous();
+						// if a next character exists
+						if ($next !== false) {
+							// the next character may be a literal character, an escaped new-line or 
+							//     carriage-return (i.e., an implicit "\par" control word), a control 
+							//     word, or a control symbol
+							//
+							if (in_array($next, ['\\', '{', '}'])) {
+								$token = Token\Text::createFromStream($stream);
+							} elseif ($next == "\n" || $next == "\r") {
+								$token = new Token\Control\Word('par');
+								$stream->next();  // consume the current "\" character
+							} elseif (ctype_alpha($next)) {
+								$token = Token\Control\Word::createFromStream($stream);
+							} else {
+								$token = Token\Control\Symbol::createFromStream($stream);
+							}
 						}
-						
-						// if the token was created successfully
-						if ($token) {
-							$tokens[] = $token;
-						}
-					}
-				} while (next($characters));
+						break;
+					
+					case "\t":
+						// tab characters should be converted to "\tab" control words
+						$token = new Token\Control\Word('tab');
+						break;
+					
+					default:
+						$token = Token\Text::createFromStream($stream);
+				}
+				
+				// if the token was created successfully
+				if ($token) {
+					$tokens[] = $token;
+				}
 			}
-		} else {
-			throw new \InvalidArgumentException(
-				__METHOD__."() expects parameter one, source, to be a string"
-			);
 		}
 		
 		return $tokens;
