@@ -79,72 +79,60 @@ class Text extends Token
 	/* !Public methods */
 	
 	/**
-	 * Creates a new text token from source
+	 * Creates a new text token from a stream
 	 *
-	 * @param  string[]  $source  an array of characters
+	 * @param  Jstewmc\Stream  $stream  a stream of characters
 	 * @return  Jstewmc\Rtf\Token\Text|false
-	 * @throws  InvalidArgumentException  if $characters is not an array
 	 * @since   0.1.0
 	 */
-	public static function createFromSource(&$characters)
+	public static function createFromStream(\Jstewmc\Stream $stream)
 	{
-		$text = false;
+		$text = '';
 		
-		// if $characters is an array
-		if (is_array($characters)) {
-			// if $characters is not empty
-			if ( ! empty($characters)) {
-				// loop through the characters until a group-open, group-close, control word,
-				//     or control symbol occurs
-				//
-				$text = '';
-				do {
-					// if the current characer isn't ignored
-					$character = current($characters);
-					if ( ! in_array($character, ["\n", "\r", "\f", "\0"])) {
-	 					// if the current character is a backslash
-						if ($character == '\\') {
-							// if the next character exists
-							$key = key($characters) + 1;
-							if (array_key_exists($key, $characters)) {
-								// if the next character is a control character
-								if (in_array($characters[$key], ['\\', '{', '}'])) {
-									// it's a literal control character
-									// ignore the backslash and append the character
-									//
-									$text .= next($characters);
-								} else {
-									// otherwise, the backslash is the start of a control word
-									// rollback to the previous character (so it isn't consumed)
-									//
-									prev($characters);
-									break;
-								}
-							} else {
-								// hmmm, do nothing?
-							}
-						} elseif ($character == '{' || $character == '}') {
-							// otherwise, the current group is closing or a sub-group is opening
-							// rollback to the previous character (so it isn't consumed)
+		// loop through the characters until a group-open, group-close, control word,
+		//     or control symbol occurs
+		//
+		while (false !== ($character = $stream->current())) {
+			// if the current characer isn't ignored
+			if ( ! in_array($character, ["\n", "\r", "\f", "\0"])) {
+				// if the current character is a backslash
+				if ($character == '\\') {
+					// if the next character exists
+					if (false !== ($next = $stream->next())) {
+						// if the next character is a control character
+						if (in_array($next, ['\\', '{', '}'])) {
+							// it's a literal control character
+							// ignore the backslash and append the character
 							//
-							prev($characters);
-							break;
+							$text .= $next;
 						} else {
-							// otherwise, it's text!
-							$text .= $character;
+							// otherwise, the backslash is the start of a control word
+							// rollback two characters (i.e., put the pointer on the character before
+							//     the control word's backslash)
+							//
+							$stream->previous();
+							$stream->previous();
+							break;
 						}
+					} else {
+						// hmmm, do nothing?
 					}
-				} while (next($characters));
-				
-				// if $text is not empty, create a new token
-				if ( ! empty($text)) {
-					$text = new Text($text);	
+				} elseif ($character == '{' || $character == '}') {
+					// otherwise, the current group is closing or a sub-group is opening
+					// rollback to the previous character (so it isn't consumed)
+					//
+					$stream->previous();
+					break;
+				} else {
+					// otherwise, it's text!
+					$text .= $character;
 				}
 			}
-		} else {
-			throw new \InvalidArgumentException(
-				__METHOD__."() expects parameter one, characters, to be an array"
-			);	
+		}
+		
+		// if $text is not empty, create a new token
+		if ( ! empty($text)) {
+			$text = new Text($text);	
 		}
 			
 		return $text;
