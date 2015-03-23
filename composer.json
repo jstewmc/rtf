@@ -9,7 +9,9 @@
 			"email": "clayjs0@gmail.com"	
 		}
 	],
-	"require": {},
+	"require": {
+		"jstewmc/stream": "dev-master"
+	},
 	"require-dev": {
 		"phpunit/phpunit": "4.2.*"
 	},

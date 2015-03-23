@@ -152,8 +152,9 @@ class Word extends Control
 	 * @throws  InvalidArgumentException  if the next character in $stream is not
 	 *     an alphabetic character
 	 * @since  0.1.0
-	 * @since  0.2.0  rename from createFromSource() to createFromStream(); update
-	 *     argument from $characters array to $stream, a Jstewmc\Stream instance
+	 * @since  0.2.0  renamed from createFromSource() to createFromStream(); replaced
+	 *     argument $characters, an array of characters, to $stream, an instance of
+	 *     Jstewmc\Stream
 	 */
 	public static function createFromStream(\Jstewmc\Stream $stream) 
 	{
@@ -215,8 +216,8 @@ class Word extends Control
 	 * @throws  InvalidArgumentException  if the current element in $stream is not
 	 *     an alphabetic character
 	 * @since  0.1.0
-	 * @since  0.2.0  update argument from $characters array to $stream, an instance  
-	 *     of Jstewmc\Stream
+	 * @since  0.2.0  replace argument $characters, an array of characters, with $stream
+	 *     an instance of Jstewmc\Stream
 	 */
 	protected static function readWord(\Jstewmc\Stream $stream) 
 	{
@@ -248,8 +249,8 @@ class Word extends Control
 	 * @throws  InvalidArgumentException  if the current character in $stream is
 	 *     not a digit or hyphen
 	 * @since  0.1.0
-	 * @since  0.2.0  update argument from $characters array to $stream, an instance
-	 *     of Jstewmc\Stream
+	 * @since  0.2.0  replace argument $characters, an array of characters, with $stream
+	 *     an instance of Jstewmc\Stream
 	 */
 	protected static function readParameter(\Jstewmc\Stream $stream)
 	{

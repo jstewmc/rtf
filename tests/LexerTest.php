@@ -2,6 +2,7 @@
 	
 use Jstewmc\Rtf\Lexer;
 use Jstewmc\Rtf\Token;
+use Jstewmc\Stream;
 
 /**
  * A test suite for the Lexer class
@@ -32,29 +33,16 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	/* !lex() */
 	
 	/**
-	 * lex() should throw an InvalidArgumentException if $source is not a string 
-	 *
-	 * @dataProvider  notAStringProvider
+	 * lex() should return an empty array if $stream is empty
 	 */
-	public function testLex_throwsInvalidArgumentException_ifSourceIsNotAString($source)
+	public function testLex_returnsString_ifStreamIsEmpty()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$stream = new Stream\Text();
 		
-		$lexer = new Lexer();
-		$lexer->lex($source);
-		
-		return;
-	}
-	
-	/**
-	 * lex() should return an empty array if $source is empty
-	 */
-	public function testLex_returnsString_ifSourceIsEmpty()
-	{
 		$lexer = new Lexer();
 		
 		$expected = [];
-		$actual = $lexer->lex('');
+		$actual = $lexer->lex($stream);
 		
 		$this->assertEquals($expected, $actual);
 		
@@ -66,10 +54,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupOpen()
 	{
-		$source = '{';
+		$stream = new Stream\Text('{');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Group\Open()];
 		$actual   = $tokens;
@@ -84,10 +72,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupClose()
 	{
-		$source = '}';
+		$stream = new Stream\Text('}');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Group\Close()];
 		$actual   = $tokens;
@@ -102,10 +90,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlWord()
 	{
-		$source = '\foo';
+		$stream = new Stream\Text('\foo');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Control\Word('foo')];
 		$actual   = $tokens;
@@ -120,10 +108,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlSymbol()
 	{
-		$source = '\+';
+		$stream = new Stream\Text('\+');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Control\Symbol('+')];
 		$actual   = $tokens;
@@ -138,10 +126,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesText()
 	{
-		$source = 'foo';
+		$stream = new Stream\Text('foo');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Text('foo')];
 		$actual = $tokens;
@@ -157,10 +145,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	public function testLex_lexesLiteralCharacter()
 	{
 		// remember PHP uses the "\" as its own escape character
-		$source = '\\\\';
+		$stream = new Stream\Text('\\\\');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Text('\\')];
 		$actual   = $tokens;
@@ -175,10 +163,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesLineFeedEscaped()
 	{
-		$source = "\\\n";
+		$stream = new Stream\Text("\\\n");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Control\Word('par')];
 		$actual   = $tokens;
@@ -193,10 +181,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesLineFeedUnescaped()
 	{
-		$source = "f\noo";
+		$stream = new Stream\Text("f\noo");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Text('foo')];
 		$actual = $tokens;
@@ -211,10 +199,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesCarriageReturnEscaped()
 	{
-		$source = "\\\r";
+		$stream = new Stream\Text("\\\r");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Control\Word('par')];
 		$actual   = $tokens;
@@ -229,10 +217,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesCarriageReturnUnescaped()
 	{
-		$source = "f\roo";
+		$stream = new Stream\Text("f\roo");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Text('foo')];
 		$actual = $tokens;
@@ -247,10 +235,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesTabCharacter()
 	{
-		$source = "\t";
+		$stream = new Stream\Text("\t");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [new Token\Control\Word('tab')];
 		$actual   = $tokens;
@@ -265,10 +253,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroup()
 	{
-		$source = "{\b foo \b0 bar}";
+		$stream = new Stream\Text("{\b foo \b0 bar}");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [
 			new Token\Group\Open(),
@@ -290,10 +278,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupNested()
 	{
-		$source = "{\b {\i foo}} bar";
+		$stream = new Stream\Text("{\b {\i foo}} bar");
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [
 			new Token\Group\Open(),
@@ -317,7 +305,7 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesDocumentSmall()
 	{
-		$source = 
+		$stream = new Stream\Text(
 			'{'
 				. '\rtf1\ansi\deff0'
 				. '{'
@@ -334,10 +322,10 @@ class LexerTest extends PHPUnit_Framework_TestCase
 				. 'He doesn\'t care to walk, \par'."\n"
 				. 'He doesn\'t bark, he doesn\'t howl.\par'."\n"
 				. 'He goes "Tick, tock. Tick, tock."\par'
-			. '}';
+			. '}');
 		
 		$lexer = new Lexer();
-		$tokens = $lexer->lex($source);
+		$tokens = $lexer->lex($stream);
 		
 		$expected = [
 			new Token\Group\Open(),

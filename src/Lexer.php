@@ -84,6 +84,8 @@ class Lexer
 					$tokens[] = $token;
 				}
 			}
+			// advance to the next character in the stream
+			$stream->next();
 		}
 		
 		return $tokens;

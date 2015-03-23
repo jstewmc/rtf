@@ -84,14 +84,18 @@ class Text extends Token
 	 * @param  Jstewmc\Stream  $stream  a stream of characters
 	 * @return  Jstewmc\Rtf\Token\Text|false
 	 * @since   0.1.0
+	 * @since   0.2.0  renamed from createFromSource() to createFromStream();
+	 *     replaced argument $characters, an array of characters, with $stream, an
+	 *     instance of Jstewmc\Stream
 	 */
 	public static function createFromStream(\Jstewmc\Stream $stream)
 	{
-		$text = '';
+		$token = false;
 		
 		// loop through the characters until a group-open, group-close, control word,
-		//     or control symbol occurs
+		//     or control symbol occurs and append the plain-text
 		//
+		$text = '';
 		while (false !== ($character = $stream->current())) {
 			// if the current characer isn't ignored
 			if ( ! in_array($character, ["\n", "\r", "\f", "\0"])) {
@@ -132,9 +136,9 @@ class Text extends Token
 		
 		// if $text is not empty, create a new token
 		if ( ! empty($text)) {
-			$text = new Text($text);	
+			$token = new Text($text);	
 		}
 			
-		return $text;
+		return $token;
 	}
 }

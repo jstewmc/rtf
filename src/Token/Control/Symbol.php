@@ -130,7 +130,10 @@ class Symbol extends Control
 	 *     not a backslash
 	 * @throws  InvalidArgumentException  if the next character in $stream is not
 	 *     a non-alphanumeric character
-	 * @since  0.2.0
+	 * @since  0.1.0
+	 * @since  0.2.0  renamed from createFromSource() to createFromStream; replaced
+	 *     argument $characters, an array of characters, with $stream, an instance 
+	 *     of Jstewmc\STream
 	 */
 	public static function createFromStream(\Jstewmc\Stream $stream)
 	{
