@@ -99,19 +99,19 @@ To create a document, this library lexes an RTF string into language tokens; par
 
 ### Lexer
 
-The Lexer breaks an RTF string into group-open, group-close, control word, control symbol, and text tokens.
+The Lexer breaks a [stream of characters](https://github.com/jstewmc/stream) into group-open, group-close, control word, control symbol, and text tokens.
 
 ```php
 use Jstewmc\Rtf;
 
-// set the rtf source
-$source = '{foo {\b bar\b0}}';
+// create a text stream
+$stream = new \Jstewmc\Stream\Text('{foo {\b bar\b0}}');
 
 // create the lexer
 $lexer = Lexer();
 
 // lex the source into tokens
-$tokens = $lexer->lex($source);
+$tokens = $lexer->lex($stream);
 
 // loop through the tokens and echo them to the screen for this example
 // in the real world, you would pass them to a parser
