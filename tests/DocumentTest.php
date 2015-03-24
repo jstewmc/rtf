@@ -222,12 +222,11 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	/**
 	 * read() should return true if $source is empty
 	 */
-	public function testRead_returnsTrue_ifSourceIsEmpty()
+	public function testRead_returnsFalse_ifSourceIsEmpty()
 	{
 		$document = new Document();
 		
-		$this->assertTrue($document->read(''));
-		$this->assertEquals(new Element\Group(), $document->getRoot());
+		$this->assertFalse($document->read(''));
 		
 		return;
 	}

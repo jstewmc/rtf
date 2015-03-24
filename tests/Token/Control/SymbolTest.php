@@ -146,7 +146,7 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	{
 		$stream = new Stream\Text('\\_');
 		
-		$symbol = Symbol::createFromStream($characters);
+		$symbol = Symbol::createFromStream($stream);
 		
 		$this->assertTrue($symbol instanceof Symbol);
 		$this->assertEquals('_', $symbol->getSymbol());

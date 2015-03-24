@@ -201,7 +201,7 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasCarriageReturnEscaped()
 	{
-		$characters = new Stream\Text("foo\\\rbar");
+		$stream = new Stream\Text("foo\\\rbar");
 		
 		$token = Text::createFromStream($stream);
 		

@@ -97,46 +97,31 @@ class Document
 	/* !Public methods */
 	
 	/**
-	 * Loads the document from $source file
+	 * Creates a document from a file
 	 *
 	 * @param  string  $source  the source's file name
-	 * @return  bool  true if great success!
+	 * @return  bool  true on success or false on failure
 	 * @throws  InvalidArgumentException  if $source is not a string
 	 * @throws  InvalidArgumentException  if $source does not exist or is not readable
-	 * @throws  RuntimeException          if $source cannot be read for some reason
 	 * @since  0.1.0
 	 */
 	public function load($source)
 	{
-		// if $source is a string
-		if (is_string($source)) {
-			// if $source exists and is readable
-			if (is_readable($source)) {
-				// if we can get the file's contents
-				if (false !== ($contents = file_get_contents($source))) {
-					// read the file's contents
-					return $this->read($contents);
-				} else {
-					throw new \RuntimeException(
-						__METHOD__."() failed to get the file's contents for an unknown reason"
-					);
-				}
-			} else {
-				throw new \InvalidArgumentException(
-					__METHOD__."() expects parameter one, source, to be a readable file"
-				);
-			}
-		} else {
+		// if $source is not a string, short-circuit
+		if ( ! is_string($source)) {
 			throw new \InvalidArgumentException(
 				__METHOD__."() expects parameter one, source, to be a string file name"
 			);
 		}
 		
-		return false;
+		// otherwise, create a new file stream
+		$stream = new \Jstewmc\Stream\File($source);
+		
+		return $this->create($stream);
 	}
 	
 	/**
-	 * Reads the document from $string
+	 * Creates a document from a string
 	 *
 	 * @param  string  $string  the source string
 	 * @return  bool  true if great success!
@@ -145,40 +130,17 @@ class Document
 	 */
 	public function read($string)
 	{
-		$isSuccess = false;
-		
-		// if $string is actually a string
-		if (is_string($string)) {
-			// if $source isn't an empty string
-			if ($string !== '') {
-				// lex the string into tokens
-				$lexer = new Lexer();
-				$tokens = $lexer->lex($string);
-				
-				// parse the tokens into the parse tree's root group
-				$parser = new Parser();
-				$group = $parser->parse($tokens);	
-				
-				// render the parse tree's root into the document root
-				$renderer = new Renderer();
-				$root = $renderer->render($group);
-				
-				// great success!
-				$this->root = $root;
-				$isSuccess = true;
-			} else {
-				// hmmm, the string was empty, and there is nothing to read
-				// well, it's not an error, so return true
-				//
-				$isSuccess = true;
-			}
-		} else {
+		// if $string is not a string, short-circuit
+		if ( ! is_string($string)) {
 			throw new \InvalidArgumentException(
 				__METHOD__."() expects parameter one, string, to, er, be a string"
 			);
 		}
 		
-		return $isSuccess;
+		// otherwise, create a new text stream
+		$stream = new \Jstewmc\Stream\Text($string);
+		
+		return $this->create($stream);
 	}
 	
 	/**
@@ -270,5 +232,42 @@ class Document
 		}
 		
 		return $string;
+	}
+	
+	
+	/* !Protected methods */
+	
+	/**
+	 * Creates the document from a stream
+	 *
+	 * If the stream has no tokens, I'll clear the document's root.
+	 *
+	 * @param  Jstewmc\Stream\Stream  $stream  the document's character stream
+	 * @return  bool
+	 */
+	protected function create(\Jstewmc\Stream\Stream $stream)
+	{
+		// lex the string into tokens
+		$lexer = new Lexer();
+		$tokens = $lexer->lex($stream);
+		
+		// if tokens exist
+		if ( ! empty($tokens)) {
+			// parse the tokens into the parse tree's root group
+			$parser = new Parser();
+			$group = $parser->parse($tokens);	
+			// if a root exists
+			if ($group !== null) {
+				// render the parse tree's root into the document root
+				$renderer = new Renderer();
+				$this->root = $renderer->render($group);	
+			} else {
+				$this->root = null;
+			}
+		} else {
+			$this->root = null;
+		}
+		
+		return (bool) $this->root;
 	}
 }

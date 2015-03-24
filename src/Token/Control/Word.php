@@ -160,45 +160,48 @@ class Word extends Control
 	{
 		$token = false;
 				
-		// if the current character is the backslash character
-		if ($stream->current() === '\\') {
-			// if the next character exists
-			if ($stream->next() !== false) {
-				// if the now current character is an alphabetic character
-				if (ctype_alpha($stream->current())) {
-					// get the control word's word
-					$word = self::readWord($stream);
-					
-					// if the current character is a digit or hyphen, get the word's parameter
-					if (ctype_digit($stream->current()) || $stream->current() == '-') {
-						$parameter = self::readParameter($stream);
+		// if a current character exists
+		if ($stream->current()) {
+			// if the current character is the backslash character
+			if ($stream->current() === '\\') {
+				// if the next character exists
+				if ($stream->next() !== false) {
+					// if the now current character is an alphabetic character
+					if (ctype_alpha($stream->current())) {
+						// get the control word's word
+						$word = self::readWord($stream);
+						
+						// if the current character is a digit or hyphen, get the word's parameter
+						if (ctype_digit($stream->current()) || $stream->current() == '-') {
+							$parameter = self::readParameter($stream);
+						} else {
+							$parameter = null;
+						}
+						
+						// if the current character is not a space delimiter, it should not be 
+						//    consumed; rollback to the previous character
+						//
+						if ($stream->current() !== ' ') {
+							$stream->previous();
+						}
+						
+						// create the control word token
+						$token = new Word($word, $parameter);
 					} else {
-						$parameter = null;
+						throw new \InvalidArgumentException(
+							__METHOD__."() expects the next element in parameter one, characters, to "
+								. "be an alphabetic character"
+						);
 					}
-					
-					// if the current character is not a space delimiter, it should not be 
-					//    consumed; rollback to the previous character
-					//
-					if ($stream->current() !== ' ') {
-						$stream->previous();
-					}
-					
-					// create the control word token
-					$token = new Word($word, $parameter);
 				} else {
-					throw new \InvalidArgumentException(
-						__METHOD__."() expects the next element in parameter one, characters, to "
-							. "be an alphabetic character"
-					);
+					// hmmm, do nothing?
 				}
 			} else {
-				// hmmm, do nothing?
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects the current element in parameter one, characters, to "
+						. "be the backslash character"
+				);	
 			}
-		} else {
-			throw new \InvalidArgumentException(
-				__METHOD__."() expects the current element in parameter one, characters, to "
-					. "be the backslash character"
-			);	
 		}
 		
 		return $token;

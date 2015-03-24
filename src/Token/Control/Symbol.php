@@ -139,33 +139,36 @@ class Symbol extends Control
 	{
 		$symbol = false;
 		
-		// if the current character is a backslash
-		if ($stream->current() === '\\') {
-			// if the next character exists
-			if ($stream->next() !== false) {
-				// if the now current character is not alphanumeric
-				if ( ! ctype_alnum($stream->current())) {
-					// create a new control symbol
-					$symbol = new Symbol($stream->current());
-					// if the current character is an apostrophe, get the symbol's parameter
-					if ($stream->current() === '\'') {
-						$parameter = $stream->next() . $stream->next();
-						$symbol->setParameter($parameter);
+		// if a current character exists
+		if ($stream->current()) {
+			// if the current character is a backslash
+			if ($stream->current() === '\\') {
+				// if the next character exists
+				if ($stream->next() !== false) {
+					// if the now current character is not alphanumeric
+					if ( ! ctype_alnum($stream->current())) {
+						// create a new control symbol
+						$symbol = new Symbol($stream->current());
+						// if the current character is an apostrophe, get the symbol's parameter
+						if ($stream->current() === '\'') {
+							$parameter = $stream->next() . $stream->next();
+							$symbol->setParameter($parameter);
+						}
+					} else {
+						throw new \InvalidArgumentException(
+							__METHOD__."() expects the next element in parameter one, characters, to "
+								. "be a non-alphanumeric character"
+						);
 					}
 				} else {
-					throw new \InvalidArgumentException(
-						__METHOD__."() expects the next element in parameter one, characters, to "
-							. "be a non-alphanumeric character"
-					);
+					// hmm, do nothing?
 				}
 			} else {
-				// hmm, do nothing?
+				throw new \InvalidArgumentException(
+					__METHOD__."() expects the current element in parameter one, characters, to "
+						. "be the backslash character"
+				);
 			}
-		} else {
-			throw new \InvalidArgumentException(
-				__METHOD__."() expects the current element in parameter one, characters, to "
-					. "be the backslash character"
-			);
 		}
 		
 		return $symbol;
