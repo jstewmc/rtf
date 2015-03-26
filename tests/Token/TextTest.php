@@ -243,4 +243,16 @@ class TextTest extends PHPUnit_Framework_Testcase
 		
 		return;
 	}
+	
+	public function testCreateFromStream_returnsText_ifCharacterEvaluatesToEmpty()
+	{
+		$stream = new Stream\Text("0");
+		
+		$token = Text::createFromStream($stream);
+		
+		$this->assertTrue($token instanceof Text);
+		$this->assertEquals('0', $token->getText());
+		
+		return;
+	}
 }

@@ -140,6 +140,25 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * lex() should lex text that evaluates to false
+	 *
+	 * @group  foo
+	 */
+	public function testLex_lexesTextThatEvaluatesToFalse()
+	{
+		$stream = new Stream\Text('0');
+		
+		$lexer = new Lexer();
+		
+		$expected = [new Token\Text('0')];
+		$actual   = $lexer->lex($stream);
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
 	 * lex() should lex a literal character
 	 */
 	public function testLex_lexesLiteralCharacter()

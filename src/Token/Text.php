@@ -148,7 +148,9 @@ class Text extends Token
 		}
 		
 		// if $text is not empty, create a new token
-		if ( ! empty($text)) {
+		// keep in mind, empty() will consider '0'to be empty, and it's a valid value
+		//
+		if ( ! empty($text) || $text === '0') {
 			$token = new Text($text);	
 		}
 			

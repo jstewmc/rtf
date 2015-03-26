@@ -46,7 +46,7 @@ class Lexer
 		$tokens = [];
 		
 		// while a current character exists
-		while ($stream->current()) {
+		while ($stream->current() !== false) {
 			// get the current character's token
 			$token = $this->lexOne($stream);
 			// if token created successfully, append it
