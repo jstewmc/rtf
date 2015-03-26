@@ -28,6 +28,25 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * parse() should ignore any text that occurs before the first group-open token
+	 */
+	public function testParse_parsesPretext()
+	{
+		$tokens = [
+			new Token\Text('foo'),
+			new Token\Group\Open(),
+			new Token\Group\Close()	
+		];
+	
+		$parser = new Parser();
+		$root   = $parser->parse($tokens);
+		
+		$this->assertEquals(new Element\Group(), $root);
+		
+		return;
+	}
+	
+	/**
 	 * parse() should parse a group-open and -close
 	 */
 	public function testParse_parsesGroups()

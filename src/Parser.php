@@ -48,20 +48,25 @@ class Parser
 		// loop through the tokens
 		$stack = new \SplStack();
 		foreach ($tokens as $token) {
-			// parse the token by type
+			// if the token is a group-open token
 			if ($token instanceof Token\Group\Open) {
 				$this->parseGroupOpen($token, $stack, $root);
 				if ($root === null) {
 					$root = $stack->bottom();
 				}
-			} elseif ($token instanceof Token\Group\Close) {
-				$this->parseGroupClose($token, $stack);
-			} elseif ($token instanceof Token\Control\Word) {
-				$this->parseControlWord($token, $stack->top());
-			} elseif ($token instanceof Token\Control\Symbol) {
-				$this->parseControlSymbol($token, $stack->top());
-			} elseif ($token instanceof Token\Text) {
-				$this->parseText($token, $stack->top());
+			} else {
+				// if a root group has been opened
+				if ($root !== null) {
+					if ($token instanceof Token\Group\Close) {
+						$this->parseGroupClose($token, $stack);
+					} elseif ($token instanceof Token\Control\Word) {
+						$this->parseControlWord($token, $stack->top());
+					} elseif ($token instanceof Token\Control\Symbol) {
+						$this->parseControlSymbol($token, $stack->top());
+					} elseif ($token instanceof Token\Text) {
+						$this->parseText($token, $stack->top());
+					}
+				}
 			}
 		}
 		
