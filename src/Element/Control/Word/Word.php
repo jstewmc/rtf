@@ -101,7 +101,8 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 		// if the control word's word isn't set
 		if ($this->word === null) {
 			// set it to the classname
-			$this->word = strtolower(end(explode('\\', get_class($this))));
+			$fqns       = explode('\\', get_class($this));
+			$this->word = strtolower(end($fqns));
 		}
 		
 		// if parameter was passed
