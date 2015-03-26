@@ -13,5 +13,16 @@ namespace Jstewmc\Rtf\Token\Group;
 
 class Open extends Group
 {
-	// nothing yet
+	/* !Public methods */
+	
+	/**
+	 * Called when the object is treated as a string
+	 *
+	 * @return  string
+	 * @since  0.2.0
+	 */
+	public function __toString()
+	{
+		return '{';
+	}
 }

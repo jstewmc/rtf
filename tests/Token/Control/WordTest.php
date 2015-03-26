@@ -50,6 +50,59 @@ class WordTest extends PHPUnit_Framework_Testcase
 	/* !__construct() */
 	
 	
+	/* !__toString() */
+	
+	/**
+	 * __toString() should return string if word does not exist
+	 */
+	public function testToString_returnsString_ifWordDoesNotExist()
+	{
+		$token = new Word();
+		
+		$expected = '';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if word does exist
+	 */
+	public function testToString_returnsString_ifWordDoesExist()
+	{
+		$word = 'foo';
+		
+		$token = new Word($word);
+		
+		$expected = '\\foo ';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if word and parameter exist
+	 */
+	public function testToString_returnsString_ifWordAndParameterDoExist()
+	{
+		$word = 'foo';
+		$parameter = 1;
+		
+		$token = new Word($word, $parameter);
+		
+		$expected = '\\foo1 ';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
 	/* !createFromStream() */
 	
 	/**

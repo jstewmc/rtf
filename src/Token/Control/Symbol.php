@@ -116,6 +116,21 @@ class Symbol extends Control
 		return;
 	}
 	
+	/**
+	 * Called when the object is treated as a string
+	 *
+	 * I'll return an empty string if this token's $symbol is empty. Otherwise, I'll 
+	 * return the control symbol as an RTF string. Keep in mind, I'll always include
+	 * a delimiting space, which may or may not match the original document.
+	 *
+	 * @return  string
+	 * @since  0.2.0
+	 */
+	public function __toString()
+	{
+		return $this->symbol ? "\\{$this->symbol}{$this->parameter} " : '';
+	}
+	
 	
 	/* !Public methods */
 	

@@ -13,10 +13,17 @@ use Jstewmc\Rtf\Token\Group\Close;
  
 class CloseTest extends PHPUnit_Framework_Testcase
 {
-	// nothing yet
+	/* !__toString() */
 	
-	public function testFoo()
+	/**
+	 * __toString() should return the close-bracket character ("}")
+	 */
+	public function testToString_returnsString()
 	{
-		return new Close();
-	}	
+		$token = new Close();
+		
+		$this->assertEquals('}', (string) $token);
+		
+		return;
+	}
 }

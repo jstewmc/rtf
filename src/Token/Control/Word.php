@@ -138,6 +138,21 @@ class Word extends Control
 		return;
 	}
 	
+	/**
+	 * Called when the object is treated as a string
+	 *
+	 * If this token's word is empty, I'll return an empty string. Keep in mind, I'll
+	 * always include a space delimiter, which may or may not match the original 
+	 * document.
+	 * 
+	 * @return  string
+	 * @since  0.2.0
+	 */
+	public function __toString()
+	{
+		return $this->word ? "\\{$this->word}{$this->parameter} " : '';
+	}
+	
 	
 	/* !Public methods */
 	

@@ -68,6 +68,38 @@ class TextTest extends PHPUnit_Framework_Testcase
 	}
 	
 	
+	/* !__toString() */
+	
+	/**
+	 * __toString() should return empty string if the text token is empty
+	 */
+	public function testToString_returnsString_ifTextIsEmpty()
+	{
+		$token = new Text();
+		
+		$this->assertEquals('', (string) $token);
+		
+		return;
+	}
+	
+	/**
+	 * __toString() should return empty string if the text token is empty
+	 */
+	public function testToString_returnsString_ifTextIsNotEmpty()
+	{
+		$text = 'foo';
+		
+		$token = new Text($text);
+		
+		$expected = $text;
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
 	/* !createFromStream() */
 	
 	/**

@@ -75,6 +75,17 @@ class Text extends Token
 		return;
 	}
 	
+	/**
+	 * Called when the object is treated as a string
+	 *
+	 * @return  string
+	 * @since  0.2.0
+	 */
+	public function __toString()
+	{
+		return "{$this->text}";
+	}
+	
 	
 	/* !Public methods */
 	

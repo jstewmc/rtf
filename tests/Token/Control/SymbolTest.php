@@ -85,6 +85,59 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	}
 	
 	
+	/* !__toString() */
+	
+	/**
+	 * __toString() should return string if symbol does not exist
+	 */
+	public function testToString_returnsString_SymbolDoesNotExist()
+	{
+		$token = new Symbol();
+		
+		$expected = '';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	 
+	/**
+	 * __toString() should return string if symbol does exist
+	 */
+	public function testToString_returnsString_SymbolDoesExist()
+	{
+		$symbol = '+';
+		
+		$token = new Symbol($symbol);
+		
+		$expected = "\\$symbol ";
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if symbol and parameter do exist
+	 */
+	public function testToString_returnsString_SymbolAndParameterDoExist()
+	{
+		$symbol    = '\'';
+		$parameter = '99';
+		
+		$token = new Symbol($symbol, $parameter);
+		
+		$expected = "\\'99 ";
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	
 	/* !createFromStream() */
 	
 	/**
