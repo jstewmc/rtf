@@ -1,6 +1,6 @@
 {
 	"name": "jstewmc/rtf",
-	"description": "A Rich Text Format (RTF) reader and writer",
+	"description": "Read and write Rich Text Format (RTF) documents with PHP",
 	"license": "MIT",
 	"keywords": ["PHP", "rich", "text", "format", "rtf", "read", "write", "parse", "render", "lex"],
 	"authors": [
