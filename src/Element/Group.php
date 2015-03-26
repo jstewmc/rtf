@@ -269,7 +269,7 @@ class Group extends Element
 	}
 	
 	/**
-	 * Returns the element's index in this group's children (if it exists)
+	 * Returns the child's index in this group's children (if it exists)
 	 *
 	 * Warning! This method may return a boolean false, but it may also return an
 	 * integer value that evaluates to false. Use the strict comparison operator, 
@@ -278,7 +278,7 @@ class Group extends Element
 	 * @param  Jstewm\Rtf\Element\Element  $element  the element to find
 	 * @return  int|false
 	 */
-	public function getIndex(Element $element)
+	public function getChildIndex(Element $element)
 	{
 		foreach ($this->children as $k => $child) {
 			if ($child === $element) {
@@ -358,17 +358,17 @@ class Group extends Element
 				// decide what to do
 				if ($isOneElement && $isTwoNull) {
 					// return true if *the* element exists at *any* index
-					$hasChild = $this->getIndex($one) !== false;
+					$hasChild = $this->getChildIndex($one) !== false;
 				} elseif ($isOneElement && $isTwoIndex) {
 					// return true if *the* element exists at *the* index
-					$hasChild = $this->getIndex($one) === $two;
+					$hasChild = $this->getChildIndex($one) === $two;
 				} elseif ($isOneIndex && $isTwoNull) {
 					// return true if *any* element exists at *the* index
 					$hasChild = array_key_exists($one, $this->children) 
 						&& ! empty($this->children[$one]);
 				} elseif ($isOneIndex && $isTwoElement) {
 					// return true if *the* element exists at *the* index
-					$hasChild = $this->getIndex($two) === $one;
+					$hasChild = $this->getChildIndex($two) === $one;
 				} else {
 					throw new \BadMethodCallException(
 						__METHOD__."() expects one or two parameters: an element, an index, or both "
@@ -534,7 +534,7 @@ class Group extends Element
 		if ($isInteger || $isElement) {
 			// get the element's index
 			if ($isElement) {
-				$index = $this->getIndex($element);
+				$index = $this->getChildIndex($element);
 			} else {
 				$index = $element;
 			}
@@ -579,7 +579,7 @@ class Group extends Element
 		if ($isInteger || $isElement) {
 			// get the element's index
 			if ($isElement) {
-				$index = $this->getIndex($old);
+				$index = $this->getChildIndex($old);
 			} else {
 				$index = $old;
 			}

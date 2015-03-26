@@ -559,24 +559,24 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	}
 	
 	
-	/* !getIndex() */
+	/* !getChildIndex() */
 	
 	/**
-	 * getIndex() should return false if children do not exist
+	 * getChildIndex() should return false if children do not exist
 	 */
-	public function testGetIndex_returnsFalse_ifChildrenDoNotExist()
+	public function testGetChildIndex_returnsFalse_ifChildrenDoNotExist()
 	{
 		$group = new Group();
 		
-		$this->assertFalse($group->getIndex(new Text('foo')));
+		$this->assertFalse($group->getChildIndex(new Text('foo')));
 		
 		return;
 	}
 	
 	/**
-	 * getIndex() should return false if child does not exist
+	 * getChildIndex() should return false if child does not exist
 	 */
-	public function testGetIndex_returnsFalse_ifChildDoesNotExist()
+	public function testGetChildIndex_returnsFalse_ifChildDoesNotExist()
 	{
 		$group = new Group();
 		
@@ -585,15 +585,15 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		
 		$group->appendChild($foo);
 		
-		$this->assertFalse($group->getIndex($bar));
+		$this->assertFalse($group->getChildIndex($bar));
 		
 		return;
 	}
 	
 	/**
-	 * getIndex() should return integer if child does exist
+	 * getChildIndex() should return integer if child does exist
 	 */
-	public function testGetIndex_returnsInteger_ifChildDoesExist()
+	public function testGetChildIndex_returnsInteger_ifChildDoesExist()
 	{
 		$group = new Group();
 		
@@ -603,7 +603,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 		$group->appendChild($foo)->appendChild($bar);
 		
 		$expected = 1;
-		$actual   = $group->getIndex($bar);
+		$actual   = $group->getChildIndex($bar);
 		
 		$this->assertEquals($expected, $actual);
 		

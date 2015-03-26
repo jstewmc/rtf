@@ -139,7 +139,7 @@ class Element
 		
 		// if this element has a parent
 		if ( ! empty($this->parent)) {
-			$index = $this->parent->getIndex($this);
+			$index = $this->parent->getChildIndex($this);
 			// if we didn't find the child, something is wrong 
 			if ($index === false) {
 				throw new \BadMethodCallException(
