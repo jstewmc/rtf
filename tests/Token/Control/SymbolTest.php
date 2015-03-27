@@ -17,6 +17,21 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	/* !Get/set methods */
 	
 	/**
+	 * setIsSpaceDelimited() and getIsSpaceDelimited() should set and get the 
+	 *     isSpaceDelimited flag
+	 */
+	public function testGetSetIsSpaceDelimited()
+	{
+		$token = new Symbol();
+		$token->setIsSpaceDelimited(true);
+		
+		$this->assertTrue($token->getIsSpaceDelimited());
+		
+		return;
+		
+	}
+	
+	/**
 	 * setParameter() and getParameter() should get and set the parameter
 	 */
 	public function testSetAndGetParameter()
@@ -111,6 +126,13 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 		
 		$token = new Symbol($symbol);
 		
+		$expected = "\\$symbol";
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		$token->setIsSpaceDelimited(true);
+		
 		$expected = "\\$symbol ";
 		$actual   = (string) $token;
 		
@@ -128,6 +150,13 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 		$parameter = '99';
 		
 		$token = new Symbol($symbol, $parameter);
+		
+		$expected = "\\'99";
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		$token->setIsSpaceDelimited(true);
 		
 		$expected = "\\'99 ";
 		$actual   = (string) $token;
@@ -204,6 +233,44 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 		$this->assertTrue($symbol instanceof Symbol);
 		$this->assertEquals('_', $symbol->getSymbol());
 		$this->assertNull($symbol->getParameter());
+		// $this->assertEquals(1, key($characters));
+		
+		return;
+	}
+	
+	/**
+	 * createFromStream() should return a Symbol if the next character is not alphanumeric
+	 *     and the delimiter is a space
+	 */
+	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbolAndDelimiterIsSpace()
+	{
+		$stream = new Stream\Text('\\_ ');
+		
+		$symbol = Symbol::createFromStream($stream);
+		
+		$this->assertTrue($symbol instanceof Symbol);
+		$this->assertEquals('_', $symbol->getSymbol());
+		$this->assertNull($symbol->getParameter());
+		$this->assertTrue($symbol->getIsSpaceDelimited());
+		// $this->assertEquals(1, key($characters));
+		
+		return;
+	}
+	
+	/**
+	 * createFromStream() should return a Symbol if the next character is not alphanumeric
+	 *     and the delimiter is alphanumeric
+	 */
+	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbolAndDelimiterIsAlpha()
+	{
+		$stream = new Stream\Text('\\_a');
+		
+		$symbol = Symbol::createFromStream($stream);
+		
+		$this->assertTrue($symbol instanceof Symbol);
+		$this->assertEquals('_', $symbol->getSymbol());
+		$this->assertNull($symbol->getParameter());
+		$this->assertFalse($symbol->getIsSpaceDelimited());
 		// $this->assertEquals(1, key($characters));
 		
 		return;

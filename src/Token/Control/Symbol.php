@@ -119,16 +119,23 @@ class Symbol extends Control
 	/**
 	 * Called when the object is treated as a string
 	 *
-	 * I'll return an empty string if this token's $symbol is empty. Otherwise, I'll 
-	 * return the control symbol as an RTF string. Keep in mind, I'll always include
-	 * a delimiting space, which may or may not match the original document.
+	 * I'll return an empty string if this token's $symbol is empty.
 	 *
 	 * @return  string
 	 * @since  0.2.0
 	 */
 	public function __toString()
 	{
-		return $this->symbol ? "\\{$this->symbol}{$this->parameter} " : '';
+		$string = '';
+		
+		if ($this->symbol) {
+			$string = "\\{$this->symbol}{$this->parameter}";
+			if ($this->isSpaceDelimited) {
+				$string .= ' ';
+			}
+		}
+		
+		return $string;
 	}
 	
 	
@@ -168,6 +175,17 @@ class Symbol extends Control
 						if ($stream->current() === '\'') {
 							$parameter = $stream->next() . $stream->next();
 							$symbol->setParameter($parameter);
+						}
+						// if the next character is a space, the control symbol is space-delimited, 
+						//     and we should set the flag; otherwise, it's not, and we should rollback
+						//     to leave the pointer on the last character in the token (i.e., the
+						//     symbol)
+						//
+						if ($stream->next() === ' ') {
+							$symbol->setIsSpaceDelimited(true);	
+						} else {
+							$symbol->setIsSpaceDelimited(false);
+							$stream->previous();
 						}
 					} else {
 						throw new \InvalidArgumentException(

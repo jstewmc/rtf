@@ -279,9 +279,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 		
 		$expected = [
 			new Token\Group\Open(),
-			new Token\Control\Word('b'),
+			(new Token\Control\Word('b'))->setIsSpaceDelimited(true),
 			new Token\Text('foo '),
-			new Token\Control\Word('b', 0),
+			(new Token\Control\Word('b', 0))->setIsSpaceDelimited(true),
 			new Token\Text('bar'),
 			new Token\Group\Close()
 		];
@@ -304,9 +304,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 		
 		$expected = [
 			new Token\Group\Open(),
-			new Token\Control\Word('b'),
+			(new Token\Control\Word('b'))->setIsSpaceDelimited(true),
 			new Token\Group\Open(),
-			new Token\Control\Word('i'),
+			(new Token\Control\Word('i'))->setIsSpaceDelimited(true),
 			new Token\Text('foo'),
 			new Token\Group\Close(),
 			new Token\Group\Close(),
@@ -356,13 +356,13 @@ class LexerTest extends PHPUnit_Framework_TestCase
 			new Token\Group\Open(),
 			new Token\Control\Word('f', 0),
 			new Token\Control\Word('fnil'),
-			new Token\Control\Word('fcharset', 0),
+			(new Token\Control\Word('fcharset', 0))->setIsSpaceDelimited(true),
 			new Token\Text('Courier New;'),
 			new Token\Group\Close(),
 			new Token\Group\Close(),
 			new Token\Group\Open(),
 			new Token\Control\Symbol('*'),
-			new Token\Control\Word('generator'),
+			(new Token\Control\Word('generator'))->setIsSpaceDelimited(true),
 			new Token\Text('Msftedit 5.41.15.1516;'),
 			new Token\Group\Close(),
 			new Token\Control\Word('viewkind', 4),

@@ -141,16 +141,23 @@ class Word extends Control
 	/**
 	 * Called when the object is treated as a string
 	 *
-	 * If this token's word is empty, I'll return an empty string. Keep in mind, I'll
-	 * always include a space delimiter, which may or may not match the original 
-	 * document.
+	 * If this token's word is empty, I'll return an empty string.
 	 * 
 	 * @return  string
 	 * @since  0.2.0
 	 */
 	public function __toString()
 	{
-		return $this->word ? "\\{$this->word}{$this->parameter} " : '';
+		$string = '';
+		
+		if ($this->word) {
+			$string = "\\{$this->word}{$this->parameter}";
+			if ($this->isSpaceDelimited) {
+				$string .= ' ';
+			}
+		}
+		
+		return $string;
 	}
 	
 	
@@ -193,15 +200,20 @@ class Word extends Control
 							$parameter = null;
 						}
 						
-						// if the current character is not a space delimiter, it should not be 
-						//    consumed; rollback to the previous character
-						//
-						if ($stream->current() !== ' ') {
-							$stream->previous();
-						}
-						
 						// create the control word token
 						$token = new Word($word, $parameter);
+						
+						// if the current character is a space delimiter, set the flag; otherwise, 
+						//    it is not a space character, and it should not be consumed; it's the 
+						//    start of another token; rollback to the previous character to leave
+						//    the pointer on the last character of this token
+						//
+						if ($stream->current() === ' ') {
+							$token->setIsSpaceDelimited(true);
+						} else {
+							$token->setIsSpaceDelimited(false);
+							$stream->previous();
+						}
 					} else {
 						throw new \InvalidArgumentException(
 							__METHOD__."() expects the next element in parameter one, characters, to "

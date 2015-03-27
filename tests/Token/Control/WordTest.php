@@ -16,6 +16,17 @@ class WordTest extends PHPUnit_Framework_Testcase
 {	
 	/* !Get/set methods */
 	
+	public function testGetSetIsSpaceDelimited()
+	{
+		$token = new Word();
+		$token->setIsSpaceDelimited(true);
+		
+		$this->assertTrue($token->getIsSpaceDelimited());
+		
+		return;
+		
+	}
+	
 	public function testGetSetParameter()
 	{
 		$parameter = 1;
@@ -76,6 +87,13 @@ class WordTest extends PHPUnit_Framework_Testcase
 		
 		$token = new Word($word);
 		
+		$expected = '\\foo';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		$token->setIsSpaceDelimited(true);
+		
 		$expected = '\\foo ';
 		$actual   = (string) $token;
 		
@@ -93,6 +111,13 @@ class WordTest extends PHPUnit_Framework_Testcase
 		$parameter = 1;
 		
 		$token = new Word($word, $parameter);
+		
+		$expected = '\\foo1';
+		$actual   = (string) $token;
+		
+		$this->assertEquals($expected, $actual);
+		
+		$token->setIsSpaceDelimited(true);
 		
 		$expected = '\\foo1 ';
 		$actual   = (string) $token;
@@ -168,6 +193,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
+		$this->assertTrue($word->getIsSpaceDelimited());
 		// $this->assertEquals(4, key($characters));
 		
 		return;
@@ -185,6 +211,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 		
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
+		$this->assertFalse($word->getIsSpaceDelimited());
 		// $this->assertEquals(3, key($characters));
 		
 		return;
@@ -239,6 +266,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(1, $word->getParameter());
+		$this->assertTrue($word->getIsSpaceDelimited());
 		// $this->assertEquals(5, key($characters));
 		
 		return;
@@ -257,6 +285,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 		$this->assertTrue($word instanceof Word);
 		$this->assertEquals('foo', $word->getWord());
 		$this->assertEquals(1, $word->getParameter());
+		$this->assertFalse($word->getIsSpaceDelimited());
 		// $this->assertEquals(4, key($characters));
 		
 		return;
