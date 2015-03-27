@@ -105,7 +105,7 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	/**
 	 * __toString() should return string if symbol does not exist
 	 */
-	public function testToString_returnsString_SymbolDoesNotExist()
+	public function testToString_returnsString_ifSymbolDoesNotExist()
 	{
 		$token = new Symbol();
 		
@@ -120,18 +120,11 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	/**
 	 * __toString() should return string if symbol does exist
 	 */
-	public function testToString_returnsString_SymbolDoesExist()
+	public function testToString_returnsString_ifSymbolDoesExist()
 	{
 		$symbol = '+';
 		
 		$token = new Symbol($symbol);
-		
-		$expected = "\\$symbol";
-		$actual   = (string) $token;
-		
-		$this->assertEquals($expected, $actual);
-		
-		$token->setIsSpaceDelimited(true);
 		
 		$expected = "\\$symbol ";
 		$actual   = (string) $token;
@@ -144,21 +137,30 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	/**
 	 * __toString() should return string if symbol and parameter do exist
 	 */
-	public function testToString_returnsString_SymbolAndParameterDoExist()
+	public function testToString_returnsString_ifSymbolAndParameterDoExist()
 	{
 		$symbol    = '\'';
 		$parameter = '99';
 		
 		$token = new Symbol($symbol, $parameter);
 		
-		$expected = "\\'99";
+		$expected = "\\'99 ";
 		$actual   = (string) $token;
 		
 		$this->assertEquals($expected, $actual);
 		
-		$token->setIsSpaceDelimited(true);
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if not space delimited
+	 */
+	public function testToString_returnsString_ifNotSpaceDelimited()
+	{
+		$token = new Symbol('+');
+		$token->setIsSpaceDelimited(false);
 		
-		$expected = "\\'99 ";
+		$expected = '\\+';
 		$actual   = (string) $token;
 		
 		$this->assertEquals($expected, $actual);

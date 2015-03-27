@@ -125,13 +125,15 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
 	 */
 	public function toRtf()
 	{
-		$string = "\\{$this->symbol}{$this->parameter} ";
+		$rtf = '';
 		
-		// if the control word has a parent and it is the last child, remove the space
-		if ( ! empty($this->parent) && $this->isLastChild()) {
-			$string = substr($string, 0, -1);
+		if ($this->symbol) {
+			$rtf = "\\{$this->symbol}{$this->parameter}";
+			if ($this->isSpaceDelimited) {
+				$rtf .= ' ';
+			}	
 		}
 		
-		return $string;
+		return $rtf;
 	}
 }

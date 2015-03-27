@@ -86,16 +86,16 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * lex() should lex a control word
+	 * lex() should lex a control word if it's space delimited
 	 */
-	public function testLex_lexesControlWord()
+	public function testLex_lexesControlWord_ifIsSpaceDelimited()
 	{
-		$stream = new Stream\Text('\foo');
+		$stream = new Stream\Text('\foo ');
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
 		
-		$expected = [new Token\Control\Word('foo')];
+		$expected = [(new Token\Control\Word('foo'))->setIsSpaceDelimited(true)];
 		$actual   = $tokens;
 		
 		$this->assertEquals($expected, $actual);
@@ -104,16 +104,52 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * lex() should lex a control symbol
+	 * lex() should lex a control word
 	 */
-	public function testLex_lexesControlSymbol()
+	public function testLex_lexesControlWord_ifIsNotSpaceDelimited()
+	{
+		$stream = new Stream\Text('\foo');
+		
+		$lexer = new Lexer();
+		$tokens = $lexer->lex($stream);
+		
+		$expected = [(new Token\Control\Word('foo'))->setIsSpaceDelimited(false)];
+		$actual   = $tokens;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * lex() should lex a control symbol if it's space delimited
+	 */
+	public function testLex_lexesControlSymbol_ifIsSpaceDelimited()
+	{
+		$stream = new Stream\Text('\+ ');
+		
+		$lexer = new Lexer();
+		$tokens = $lexer->lex($stream);
+		
+		$expected = [(new Token\Control\Symbol('+'))->setIsSpaceDelimited(true)];
+		$actual   = $tokens;
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;
+	}
+	
+	/**
+	 * lex() should lex a control symbol if it's not space delimited
+	 */
+	public function testLex_lexesControlSymbol_ifIsNotSpaceDelimited()
 	{
 		$stream = new Stream\Text('\+');
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
 		
-		$expected = [new Token\Control\Symbol('+')];
+		$expected = [(new Token\Control\Symbol('+'))->setIsSpaceDelimited(false)];
 		$actual   = $tokens;
 		
 		$this->assertEquals($expected, $actual);
@@ -348,37 +384,37 @@ class LexerTest extends PHPUnit_Framework_TestCase
 		
 		$expected = [
 			new Token\Group\Open(),
-			new Token\Control\Word('rtf', 1),
-			new Token\Control\Word('ansi'),
-			new Token\Control\Word('deff', 0),
+			(new Token\Control\Word('rtf', 1))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('ansi'))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('deff', 0))->setIsSpaceDelimited(false),
 			new Token\Group\Open(),
-			new Token\Control\Word('fonttbl'),
+			(new Token\Control\Word('fonttbl'))->setIsSpaceDelimited(false),
 			new Token\Group\Open(),
-			new Token\Control\Word('f', 0),
-			new Token\Control\Word('fnil'),
+			(new Token\Control\Word('f', 0))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('fnil'))->setIsSpaceDelimited(false),
 			(new Token\Control\Word('fcharset', 0))->setIsSpaceDelimited(true),
 			new Token\Text('Courier New;'),
 			new Token\Group\Close(),
 			new Token\Group\Close(),
 			new Token\Group\Open(),
-			new Token\Control\Symbol('*'),
+			(new Token\Control\Symbol('*'))->setIsSpaceDelimited(false),
 			(new Token\Control\Word('generator'))->setIsSpaceDelimited(true),
 			new Token\Text('Msftedit 5.41.15.1516;'),
 			new Token\Group\Close(),
-			new Token\Control\Word('viewkind', 4),
-			new Token\Control\Word('uc', 1),
-			new Token\Control\Word('pard'),
-			new Token\Control\Word('lang', 1033),
-			new Token\Control\Word('f', 0),
-			new Token\Control\Word('fs', 20),
+			(new Token\Control\Word('viewkind', 4))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('uc', 1))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('pard'))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('lang', 1033))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('f', 0))->setIsSpaceDelimited(false),
+			(new Token\Control\Word('fs', 20))->setIsSpaceDelimited(false),
 			new Token\Text('My dog is not like other dogs.'),
-			new Token\Control\Word('par'),
+			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
 			new Token\Text('He doesn\'t care to walk, '),
-			new Token\Control\Word('par'),
+			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
 			new Token\Text('He doesn\'t bark, he doesn\'t howl.'),
-			new Token\Control\Word('par'),
+			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
 			new Token\Text('He goes "Tick, tock. Tick, tock."'),
-			new Token\Control\Word('par'),
+			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
 			new Token\Group\Close()
 		];
 		$actual = $tokens;

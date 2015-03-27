@@ -108,6 +108,7 @@ class Parser
 				
 		// set the symbol's parameter
 		$symbol->setParameter($token->getParameter());
+		$symbol->setIsSpaceDelimited($token->getIsSpaceDelimited());
 		
 		// append the element
 		$symbol->setParent($group);
@@ -140,6 +141,7 @@ class Parser
 		
 		// set the element's parameter
 		$word->setParameter($token->getParameter());
+		$word->setIsSpaceDelimited($token->getIsSpaceDelimited());
 		
 		// append the element
 		$word->setParent($group);

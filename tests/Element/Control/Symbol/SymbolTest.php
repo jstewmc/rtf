@@ -113,18 +113,18 @@ class SymbolTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
-	 * __toString() should return string if the element is the group's last child
+	 * __toString() should return string if the control symbol is not space delimited
 	 */
-	public function testToString_returnsString_ifElementIsLastChild()
+	public function testToString_returnsString_ifNotSpaceDelimited()
 	{
-		$group = new \Jstewmc\Rtf\Element\Group();
-		
 		$symbol = new Symbol();
-		$symbol->setSymbol('\'');
-		$symbol->setParameter('foo');
-		$symbol->appendTo($group);
+		$symbol->setSymbol('+');
+		$symbol->setIsSpaceDelimited(false);
 		
-		$this->assertEquals('\\\'foo', (string) $symbol);
+		$expected = '\\+';
+		$actual   = (string) $symbol;
+		
+		$this->assertEquals($expected, $actual);
 		
 		return;
 	}

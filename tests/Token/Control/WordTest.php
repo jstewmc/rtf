@@ -87,13 +87,6 @@ class WordTest extends PHPUnit_Framework_Testcase
 		
 		$token = new Word($word);
 		
-		$expected = '\\foo';
-		$actual   = (string) $token;
-		
-		$this->assertEquals($expected, $actual);
-		
-		$token->setIsSpaceDelimited(true);
-		
 		$expected = '\\foo ';
 		$actual   = (string) $token;
 		
@@ -112,14 +105,23 @@ class WordTest extends PHPUnit_Framework_Testcase
 		
 		$token = new Word($word, $parameter);
 		
-		$expected = '\\foo1';
+		$expected = '\\foo1 ';
 		$actual   = (string) $token;
 		
 		$this->assertEquals($expected, $actual);
 		
-		$token->setIsSpaceDelimited(true);
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if control symbol is not space delimited
+	 */
+	public function testToString_returnsString_ifNotSpaceDelimited()
+	{
+		$token = new Word('foo');
+		$token->setIsSpaceDelimited(false);
 		
-		$expected = '\\foo1 ';
+		$expected = '\\foo';
 		$actual   = (string) $token;
 		
 		$this->assertEquals($expected, $actual);

@@ -91,6 +91,20 @@ class WordTest extends \PHPUnit_Framework_TestCase
 	/* !__toString() */
 	
 	/**
+	 * __toString() should return string if not space delimited
+	 */
+	public function testToString_returnsString_ifNotSpaceDelimited()
+	{
+		$word = new Word();
+		$word->setWord('b');
+		$word->setIsSpaceDelimited(false);
+		
+		$this->assertEquals('\\b', (string) $word);
+		
+		return;
+	}
+	
+	/**
 	 * __toString() should return string if parameter does not exist
 	 */
 	public function testToString_returnsString_ifParameterDoesNotExist()

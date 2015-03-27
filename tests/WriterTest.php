@@ -93,7 +93,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 		
 		$writer = new Writer();
 		
-		$expected = '{foo {\b bar\b0}}';
+		$expected = '{foo {\b bar\b0 }}';
 		$actual   = $writer->write($root);
 		
 		$this->assertEquals($expected, $actual);
@@ -146,7 +146,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 		
 		$writer = new Writer();
 		
-		$expected = '{foo {\b bar\b0}}';
+		$expected = '{foo {\b bar\b0 }}';
 		$actual   = $writer->write($root, 'rtf');
 		
 		$this->assertEquals($expected, $actual);

@@ -249,7 +249,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 		$group = (new Element\Group())
 			->appendChild(new Element\Control\Word\B())
 			->appendChild(new Element\Text('foo'))
-			->appendChild(new Element\Control\Word\B(0));
+			->appendChild((new Element\Control\Word\B(0))->setIsSpaceDelimited(false));
 		
 		$renderer = new Renderer();
 		$root = $renderer->render($group);

@@ -17,10 +17,10 @@ abstract class Control extends \Jstewmc\Rtf\Token\Token
 	
 	/**
 	 * @var  bool  a flag indicating whether or not the control word or symbol is
-	 *     space-delimited (e.g., "\foo \bar" versus "\foo\bar")
+	 *     space-delimited (e.g., "\foo \bar" versus "\foo\bar"); defaults to true
 	 * @since  0.2.0
 	 */
-	protected $isSpaceDelimited;
+	protected $isSpaceDelimited = true;
 	
 	
 	/* !Get methods */

@@ -124,13 +124,15 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	 */
 	protected function toRtf()
 	{
-		$string = "\\{$this->word}{$this->parameter} ";
+		$rtf = '';
 		
-		// if the control word has a parent and it is the last child remove the space
-		if ( ! empty($this->parent) && $this->isLastChild()) {
-			$string = substr($string, 0, -1);
+		if ($this->word) {
+			$rtf = "\\{$this->word}{$this->parameter}";
+			if ($this->isSpaceDelimited) {
+				$rtf .= ' ';
+			}	
 		}
 		
-		return $string;
+		return $rtf;
 	}
 }
