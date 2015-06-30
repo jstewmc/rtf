@@ -82,4 +82,14 @@ class Other extends Token
 		
 		return;
 	}
+	
+	/**
+	 * Called when the token is treated like a string
+	 *
+	 * @return  string
+	 */
+	public function __toString()
+	{
+		return "{$this->character}";
+	}
 }

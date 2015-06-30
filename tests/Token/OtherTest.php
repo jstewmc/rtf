@@ -45,6 +45,36 @@ class OtherTest extends PHPUnit_Framework_Testcase
 	}
 	
 	
+	/* !__toString() */
+	
+	/**
+	 * __toString() should return string if character does not exist
+	 */
+	public function testToString_returnsString_ifCharacterDoesNotExist()
+	{
+		$token = new Token\Other();
+		
+		$this->assertEquals('', (string) $token);
+		
+		return;
+	} 
+	
+	/**
+	 * __toString() should return string if character does exist
+	 */
+	public function testToString_returnsString_ifCharacterDoesExist()
+	{
+		$character = "\n";
+		
+		$token = new Token\Other();
+		$token->setCharacter($character);
+		
+		$this->assertEquals("\n", (string) $token);
+		
+		return;
+	}
+	
+	
 	/* !getCharacter() */
 	
 	/**
