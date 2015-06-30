@@ -45,14 +45,10 @@ class Lexer
 	{
 		$tokens = [];
 		
-		// while a current character exists
-		while ($stream->current() !== false) {
-			// get the current character's token
-			$token = $this->lexOne($stream);
-			// if token created successfully, append it
-			if ($token) {
-				$tokens[] = $token;
-			}
+		// while tokens exist
+		while (false !== ($token = $this->lexOne($stream))) {
+			// append le token
+			$tokens[] = $token;
 		}
 		
 		return $tokens;
@@ -73,38 +69,40 @@ class Lexer
 	{
 		$token = false;
 		
-		// switch on the current character
-		switch ($stream->current()) {
-			
-			case '{':
-				$token = $this->lexOpenBracket($stream);
-				break;
-			
-			case '}':
-				$token = $this->lexCloseBracket($stream);
-				break;
-			
-			case '\\':
-				$token = $this->lexBackslash($stream);
-				break;
-			
-			case "\t":
-				$token = $this->lexTab($stream);
-				break;
-			
-			case "\n":
-			case "\r":
-			case "\f":
-			case "\0":
-				// do nothing
-				break;
-			
-			default:
-				$token = $this->lexText($stream);
+		// if the stream has a current character
+		if ($stream->hasCharacter()) {
+			// switch on the current character
+			switch ($stream->current()) {
+				
+				case '{':
+					$token = $this->lexOpenBracket($stream);
+					break;
+				
+				case '}':
+					$token = $this->lexCloseBracket($stream);
+					break;
+				
+				case '\\':
+					$token = $this->lexBackslash($stream);
+					break;
+				
+				case "\t":
+					$token = $this->lexTab($stream);
+					break;
+				
+				case "\n":
+				case "\r":
+				case "\f":
+				case "\0":
+					$token = $this->lexOther($stream);
+					break;
+				
+				default:
+					$token = $this->lexText($stream);
+			}
+			// advance the stream to the next character
+			$stream->next();
 		}
-		
-		// advance the stream to the next character
-		$stream->next();
 
 		return $token;
 	}
@@ -206,6 +204,22 @@ class Lexer
 		}
 
 		return new Token\Group\Open();
+	}
+	
+	/**
+	 * Lexes an "other" character
+	 *
+	 * The RTF source code may include un-escaped carriage-returns ("\r"), un-
+	 * escaped line-feeds ("\n"), form feeds ("\f"), and null ("\0") escape 
+	 * sequences. These characters are generally ignored by the lexer.
+	 *
+	 * @param  Jstewmc\Stream\Stream  $stream  the character stream
+	 * @return  Jstewmc\Token\Other 
+	 * @since  0.3.0
+	 */
+	protected function lexOther(\Jstewmc\Stream\Stream $stream) 
+	{
+		return new Token\Other($stream->current());
 	}
 	
 	/**

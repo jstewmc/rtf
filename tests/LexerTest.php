@@ -409,10 +409,13 @@ class LexerTest extends PHPUnit_Framework_TestCase
 			(new Token\Control\Word('fs', 20))->setIsSpaceDelimited(false),
 			new Token\Text('My dog is not like other dogs.'),
 			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
+			new Token\Other("\n"),
 			new Token\Text('He doesn\'t care to walk, '),
 			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
+			new Token\Other("\n"),
 			new Token\Text('He doesn\'t bark, he doesn\'t howl.'),
 			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
+			new Token\Other("\n"),
 			new Token\Text('He goes "Tick, tock. Tick, tock."'),
 			(new Token\Control\Word('par'))->setIsSpaceDelimited(false),
 			new Token\Group\Close()
