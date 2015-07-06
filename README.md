@@ -556,12 +556,6 @@ $document
 
 Once a document has been rendered (i.e., the document's `read()` or `load()` method has been called), it's style has been computed. Any changes to the document, like inserting or removing elements, will cause a re-render of the element's parent group.
 
-## Contributing
-
-Obviously, the biggest area that needs some love is control words and control symbols. This library supports a paltry few. I didn't really need many control words for my purposes. So, I didn't create them. However, I designed the library so control words and control symbols could be easily added. 
-
-If you're interested in contributing, see [CONTRIBUTING.md](https://github.com/jstewmc/rtf/blob/master/CONTRIBUTING.md) for details.
-
 ## Author
 
 Jack Clayton - [clayjs0@gmail.com](mailto:clayjs0@gmail.com)
