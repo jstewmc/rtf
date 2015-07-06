@@ -114,10 +114,10 @@ class Document
 			);
 		}
 		
-		// otherwise, create a new file stream
-		$stream = new \Jstewmc\Stream\File($source);
+		// otherwise, create a new file chunker
+		$chunker = new \Jstewmc\Chunker\File($source);
 		
-		return $this->create($stream);
+		return $this->create($chunker);
 	}
 	
 	/**
@@ -137,10 +137,10 @@ class Document
 			);
 		}
 		
-		// otherwise, create a new text stream
-		$stream = new \Jstewmc\Stream\Text($string);
+		// otherwise, create a new text chunker
+		$chunker = new \Jstewmc\Chunker\Text($string);
 		
-		return $this->create($stream);
+		return $this->create($chunker);
 	}
 	
 	/**
@@ -238,15 +238,18 @@ class Document
 	/* !Protected methods */
 	
 	/**
-	 * Creates the document from a stream
+	 * Creates the document
 	 *
 	 * If the stream has no tokens, I'll clear the document's root.
 	 *
-	 * @param  Jstewmc\Stream\Stream  $stream  the document's character stream
+	 * @param  Jstewmc\Chunker\Chunker  $chunker  the document's file or text chunker
 	 * @return  bool
 	 */
-	protected function create(\Jstewmc\Stream\Stream $stream)
+	protected function create(\Jstewmc\Chunker\Chunker $chunker)
 	{
+		// create the document's stream
+		$stream = new \Jstewmc\Stream\Stream($chunker);
+		
 		// lex the string into tokens
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);

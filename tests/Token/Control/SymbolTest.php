@@ -2,6 +2,7 @@
 
 use Jstewmc\Rtf\Token\Control\Symbol;
 use Jstewmc\Stream;
+use Jstewmc\Chunker;
 
 /**
  * A test suite for the control symbol class
@@ -179,7 +180,10 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$stream = new Stream\Text('abc');
+		$chunker = new Chunker\Text('abc');
+		
+		$stream = new Stream\Stream($chunker);
+		
 		$symbol = Symbol::createFromStream($stream);
 		
 		return;
@@ -193,7 +197,10 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$stream = new Stream\Text('\\bc');
+		$chunker = new Chunker\Text('\\bc');
+		
+		$stream = new Stream\Stream($chunker);
+		
 		$symbol = Symbol::createFromStream($stream);
 		
 		return;
@@ -204,7 +211,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsFalse_ifCharactersIsEmpty()
 	{
-		$stream = new Stream\Text();
+		$chunker = new Chunker\Text();
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$this->assertFalse(Symbol::createFromStream($stream));
 		
@@ -216,7 +225,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsFalse_ifNextCharacterIsEmpty()
 	{
-		$stream = new Stream\Text('\\');
+		$chunker = new Chunker\Text('\\');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$this->assertFalse(Symbol::createFromStream($stream));
 		
@@ -228,7 +239,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbol()
 	{
-		$stream = new Stream\Text('\\_');
+		$chunker = new Chunker\Text('\\_');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$symbol = Symbol::createFromStream($stream);
 		
@@ -246,7 +259,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbolAndDelimiterIsSpace()
 	{
-		$stream = new Stream\Text('\\_ ');
+		$chunker = new Chunker\Text('\\_ ');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$symbol = Symbol::createFromStream($stream);
 		
@@ -265,7 +280,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsSymbolAndDelimiterIsAlpha()
 	{
-		$stream = new Stream\Text('\\_a');
+		$chunker = new Chunker\Text('\\_a');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$symbol = Symbol::createFromStream($stream);
 		
@@ -284,7 +301,9 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsSymbol_ifNextCharacterIsApostrophe()
 	{
-		$stream = new Stream\Text("\\'ab");
+		$chunker = new Chunker\Text("\\'ab");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$symbol = Symbol::createFromStream($stream);
 		

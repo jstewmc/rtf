@@ -2,6 +2,7 @@
 
 use Jstewmc\Rtf\Token\Text;
 use Jstewmc\Stream;
+use Jstewmc\Chunker;
 
 /**
  * A test suite for the Token\Text class
@@ -107,7 +108,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsFalse_ifCharactersIsEmpty()
 	{
-		$stream = new Stream\Text();
+		$chunker = new Chunker\Text();
+		
+		$stream = new Stream\Stream($chunker);
 		
 		return $this->assertFalse(Text::createFromStream($stream));
 	}
@@ -117,7 +120,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasControlWord()
 	{
-		$stream = new Stream\Text('foo \\bar');
+		$chunker = new Chunker\Text('foo \\bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -133,7 +138,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasControlSymbol()
 	{
-		$stream = new Stream\Text('foo \\+');
+		$chunker = new Chunker\Text('foo \\+');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -149,7 +156,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasGroupOpen()
 	{
-		$stream = new Stream\Text('foo {');
+		$chunker = new Chunker\Text('foo {');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -165,7 +174,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasGroupClose()
 	{
-		$stream = new Stream\Text('foo }');
+		$chunker = new Chunker\Text('foo }');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -182,7 +193,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasLineFeedUnescaped()
 	{
-		$stream = new Stream\Text("foo\nbar");
+		$chunker = new Chunker\Text("foo\nbar");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -199,7 +212,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasLineFeedEscaped()
 	{
-		$stream = new Stream\Text("foo\\\nbar");
+		$chunker = new Chunker\Text("foo\\\nbar");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -216,7 +231,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasCarriageReturnUnescaped()
 	{
-		$stream = new Stream\Text("foo\rbar");
+		$chunker = new Chunker\Text("foo\rbar");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -233,7 +250,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnText_ifCharactersHasCarriageReturnEscaped()
 	{
-		$stream = new Stream\Text("foo\\\rbar");
+		$chunker = new Chunker\Text("foo\\\rbar");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		
@@ -246,7 +265,9 @@ class TextTest extends PHPUnit_Framework_Testcase
 	
 	public function testCreateFromStream_returnsText_ifCharacterEvaluatesToEmpty()
 	{
-		$stream = new Stream\Text("0");
+		$chunker = new Chunker\Text("0");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$token = Text::createFromStream($stream);
 		

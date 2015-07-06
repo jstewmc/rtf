@@ -69,8 +69,8 @@ class Lexer
 	{
 		$token = false;
 		
-		// if the stream has a current character
-		if ($stream->hasCharacter()) {
+		// if the stream has characters
+		if ($stream->hasCharacters()) {
 			// switch on the current character
 			switch ($stream->current()) {
 				

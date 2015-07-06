@@ -10,7 +10,8 @@
 		}
 	],
 	"require": {
-		"jstewmc/stream": "dev-master"
+		"jstewmc/chunker": "0.1.0",
+		"jstewmc/stream": "0.2.1"
 	},
 	"require-dev": {
 		"phpunit/phpunit": "4.2.*"

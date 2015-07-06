@@ -3,6 +3,7 @@
 use Jstewmc\Rtf\Lexer;
 use Jstewmc\Rtf\Token;
 use Jstewmc\Stream;
+use Jstewmc\Chunker;
 
 /**
  * A test suite for the Lexer class
@@ -37,7 +38,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_returnsString_ifStreamIsEmpty()
 	{
-		$stream = new Stream\Text();
+		$chunker = new Chunker\Text();
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		
@@ -54,7 +57,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupOpen()
 	{
-		$stream = new Stream\Text('{');
+		$chunker = new Chunker\Text('{');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -72,7 +77,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupClose()
 	{
-		$stream = new Stream\Text('}');
+		$chunker = new Chunker\Text('}');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -90,7 +97,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlWord_ifIsSpaceDelimited()
 	{
-		$stream = new Stream\Text('\foo ');
+		$chunker = new Chunker\Text('\foo ');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -108,7 +117,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlWord_ifIsNotSpaceDelimited()
 	{
-		$stream = new Stream\Text('\foo');
+		$chunker = new Chunker\Text('\foo');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -126,7 +137,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlSymbol_ifIsSpaceDelimited()
 	{
-		$stream = new Stream\Text('\+ ');
+		$chunker = new Chunker\Text('\+ ');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -144,7 +157,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesControlSymbol_ifIsNotSpaceDelimited()
 	{
-		$stream = new Stream\Text('\+');
+		$chunker = new Chunker\Text('\+');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -162,7 +177,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesText()
 	{
-		$stream = new Stream\Text('foo');
+		$chunker = new Chunker\Text('foo');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -182,7 +199,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesTextThatEvaluatesToFalse()
 	{
-		$stream = new Stream\Text('0');
+		$chunker = new Chunker\Text('0');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		
@@ -200,7 +219,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	public function testLex_lexesLiteralCharacter()
 	{
 		// remember PHP uses the "\" as its own escape character
-		$stream = new Stream\Text('\\\\');
+		$chunker = new Chunker\Text('\\\\');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -218,7 +239,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesLineFeedEscaped()
 	{
-		$stream = new Stream\Text("\\\n");
+		$chunker = new Chunker\Text("\\\n");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -236,7 +259,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesLineFeedUnescaped()
 	{
-		$stream = new Stream\Text("f\noo");
+		$chunker = new Chunker\Text("f\noo");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -254,7 +279,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesCarriageReturnEscaped()
 	{
-		$stream = new Stream\Text("\\\r");
+		$chunker = new Chunker\Text("\\\r");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -272,7 +299,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesCarriageReturnUnescaped()
 	{
-		$stream = new Stream\Text("f\roo");
+		$chunker = new Chunker\Text("f\roo");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -290,7 +319,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesTabCharacter()
 	{
-		$stream = new Stream\Text("\t");
+		$chunker = new Chunker\Text("\t");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -308,7 +339,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroup()
 	{
-		$stream = new Stream\Text("{\b foo \b0 bar}");
+		$chunker = new Chunker\Text("{\b foo \b0 bar}");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -333,7 +366,9 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesGroupNested()
 	{
-		$stream = new Stream\Text("{\b {\i foo}} bar");
+		$chunker = new Chunker\Text("{\b {\i foo}} bar");
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);
@@ -360,7 +395,7 @@ class LexerTest extends PHPUnit_Framework_TestCase
 	 */
 	public function testLex_lexesDocumentSmall()
 	{
-		$stream = new Stream\Text(
+		$chunker = new Chunker\Text(
 			'{'
 				. '\rtf1\ansi\deff0'
 				. '{'
@@ -378,6 +413,8 @@ class LexerTest extends PHPUnit_Framework_TestCase
 				. 'He doesn\'t bark, he doesn\'t howl.\par'."\n"
 				. 'He goes "Tick, tock. Tick, tock."\par'
 			. '}');
+			
+		$stream = new Stream\Stream($chunker);
 		
 		$lexer = new Lexer();
 		$tokens = $lexer->lex($stream);

@@ -2,6 +2,7 @@
 
 use Jstewmc\Rtf\Token\Control\Word;
 use Jstewmc\Stream;
+use Jstewmc\Chunker;
 
 /**
  * A test suite for the control word class
@@ -140,7 +141,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$stream = new Stream\Text('foo');
+		$chunker = new Chunker\Text('foo');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		Word::createFromStream($stream);
 		
@@ -155,7 +158,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	{
 		$this->setExpectedException('InvalidArgumentException');
 		
-		$stream = new Stream\Text('\\1');
+		$chunker = new Chunker\Text('\\1');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		Word::createFromStream($stream);
 		
@@ -167,7 +172,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsFalse_ifCharactersIsEmpty()
 	{
-		$stream = new Stream\Text();
+		$chunker = new Chunker\Text();
+		
+		$stream = new Stream\Stream($chunker);
 		
 		return $this->assertFalse(Word::createFromStream($stream));
 	}
@@ -178,7 +185,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsFalse_ifNextCharacterIsEmpty()
 	{
-		$stream = new Stream\Text('\\');
+		$chunker = new Chunker\Text('\\');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		return $this->assertFalse(Word::createFromStream($stream));
 	}
@@ -189,7 +198,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesNotExistAndDelimiterIsSpace()
 	{
-		$stream = new Stream\Text('\\foo bar');
+		$chunker = new Chunker\Text('\\foo bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		
@@ -207,7 +218,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesNotExistAndDelimiterIsCharacter()
 	{
-		$stream = new Stream\Text('\\foo+bar');
+		$chunker = new Chunker\Text('\\foo+bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		
@@ -225,7 +238,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndPositive()
 	{
-		$stream = new Stream\Text('\\foo123 bar');
+		$chunker = new Chunker\Text('\\foo123 bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		
@@ -243,7 +258,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndNegative()
 	{
-		$stream = new Stream\Text('\\foo-123 bar');
+		$chunker = new Chunker\Text('\\foo-123 bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		
@@ -261,7 +278,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndDelimiterIsSpace()
 	{
-		$stream = new Stream\Text('\\foo1 bar');
+		$chunker = new Chunker\Text('\\foo1 bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		
@@ -280,7 +299,9 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_returnsToken_ifParameterDoesExistAndDelimiterIsCharacter()
 	{
-		$stream = new Stream\Text('\\foo1+bar');
+		$chunker = new Chunker\Text('\\foo1+bar');
+		
+		$stream = new Stream\Stream($chunker);
 		
 		$word = Word::createFromStream($stream);
 		

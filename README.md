@@ -574,7 +574,20 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details, or the following API documentation:
 
-[Version 0.1.0](http://jstewmc.github.io/rtf/api/0.1.0/)
+### Version 0.2.0 - July 6, 2015
+
+* Update `Document::read()` and `Document::load()` to use [Jstewmc\Chunker](https://github.com/jstewmc/chunker).
+* Update lexing methods to use [Jstewmc\Stream](https://github.com/jstewmc/stream) instead of character arrays:
+  * Replace `Token\Text::createFromSource()` with `createFromStream()`
+  * Replace `Token\Control\Word::createFromSource()` with `createFromStream()`
+  * Replace `Token\Control\Symbol::createFromSource()` with `createFromStream()`
+  * Update `Lexer::lex()` to use accept instance of `Jstewmc\Stream\Stream` as argument instead of string
+
+### Version 0.1.0 - March 10, 2015
+
+Initial release
+
+[API Documentation](http://jstewmc.github.io/rtf/api/0.1.0/)
 
 ## Acknowledgements
 
