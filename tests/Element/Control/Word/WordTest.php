@@ -13,6 +13,28 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class WordTest extends \PHPUnit_Framework_TestCase
 {
+	/* !setIsIgnored() / getIsIgnored() */
+	
+	/**
+	 * setIsIgnored() and getIsIgnored() should set and get the control word's is-
+	 *     ignored property, respectively
+	 */
+	public function testSetGetIsIgnored()
+	{
+		$isIgnored = true;
+		
+		$word = new Word();
+		$word->setIsIgnored($isIgnored);
+		
+		$expected = $isIgnored;
+		$actual   = $word->getIsIgnored();
+		
+		$this->assertEquals($expected, $actual);
+		
+		return;	
+	}
+	
+	
 	/* !setWord()/getWord() */
 	
 	/**
@@ -100,6 +122,20 @@ class WordTest extends \PHPUnit_Framework_TestCase
 		$word->setIsSpaceDelimited(false);
 		
 		$this->assertEquals('\\b', (string) $word);
+		
+		return;
+	}
+	
+	/**
+	 * __toString() should return string if the control word is ignored
+	 */
+	public function testToString_returnsString_ifIsIgnored()
+	{
+		$word = new Word();
+		$word->setWord('b');
+		$word->setIsIgnored(true);
+		
+		$this->assertEquals('\\*\\b ', (string) $word);
 		
 		return;
 	}

@@ -16,11 +16,10 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	/* !Protected properties */
 	
 	/**
-	 * @var  string  the control word's word; defaults to the classname if this 
-	 *     property is null on construction
-	 * @since  0.1.0
+	 * @var  bool  a flag indicating whether or not the control word should be 
+	 *     preceeded by the "ignored" control symbol; defaults to false
 	 */
-	protected $word;
+	protected $isIgnored = false;
 	
 	/**
 	 * @var  int  the control word's parameter; the parameters of certain control 
@@ -30,19 +29,25 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	 * @since  0.1.0
 	 */
 	protected $parameter;
+	
+	/**
+	 * @var  string  the control word's word; defaults to the classname if this 
+	 *     property is null on construction
+	 * @since  0.1.0
+	 */
+	protected $word;
 
 	
 	/* !Get methods */
 	
 	/**
-	 * Gets the word's word
+	 * Gets the word's is ignored flag
 	 *
-	 * @return  string
-	 * @since  0.1.0
+	 * @return  bool
 	 */
-	public function getWord()
+	public function getIsIgnored()
 	{
-		return $this->word;
+		return $this->isIgnored;
 	}
 	
 	/**
@@ -56,19 +61,30 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 		return $this->parameter;
 	}
 	
+	/**
+	 * Gets the word's word
+	 *
+	 * @return  string
+	 * @since  0.1.0
+	 */
+	public function getWord()
+	{
+		return $this->word;
+	}
+	
 	
 	/* !Set methods */
 	
 	/**
-	 * Sets the control word's word
+	 * Sets the control word's isIgnored flag
 	 *
-	 * @param  string  $word  the control word's word
+	 * @param  bool  $isIgnored  the control word's is-ignored flag
 	 * @return  self
 	 * @since  0.1.0
 	 */
-	public function setWord($word)
+	public function setIsIgnored($isIgnored) 
 	{
-		$this->word = $word;
+		$this->isIgnored = $isIgnored;
 		
 		return $this;
 	}
@@ -83,6 +99,20 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	public function setParameter($parameter)
 	{
 		$this->parameter = $parameter;
+		
+		return $this;
+	}
+	
+	/**
+	 * Sets the control word's word
+	 *
+	 * @param  string  $word  the control word's word
+	 * @return  self
+	 * @since  0.1.0
+	 */
+	public function setWord($word)
+	{
+		$this->word = $word;
 		
 		return $this;
 	}
@@ -126,8 +156,16 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
 	{
 		$rtf = '';
 		
+		// if a word exists
 		if ($this->word) {
-			$rtf = "\\{$this->word}{$this->parameter}";
+			// if the word is ignored
+			if ($this->isIgnored) {
+				// prepend the ignored control symbol
+				$rtf = '\\*';
+			}
+			// append the word and its parameter
+			$rtf .= "\\{$this->word}{$this->parameter}";
+			// if the word is space-delimited, append the space
 			if ($this->isSpaceDelimited) {
 				$rtf .= ' ';
 			}	

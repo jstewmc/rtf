@@ -246,6 +246,112 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	
+	/* !getNextText() */
+	
+	/**
+	 * getNextText() should throw BadMethodCallException if the element doesn't have a parent
+	 */
+	public function testGetNextText_throwsBadMethodCallException_ifParentDoesNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$element = new Element();
+		$element->getNextText();
+		
+		return;
+	}
+	
+	/**
+	 * getNextText() should throw a BadMethodCallException if siblings don't exist
+	 */
+	public function testGetNextText_throwsBadMethodCallException_ifSiblingsDoNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$parent = new Group();
+		
+		$element = new Element();
+		$element->setParent($parent);
+		
+		$element->getNextText();
+		
+		return;
+	}
+	
+	/**
+	 * getNextText() should throw a BadMethodCallException if the element is not a
+	 *     child of its parent
+	 */
+	public function testGetNextText_throwsBadMethodCallException_ifElementIsNotChild()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$parent = new Group();
+		$parent->appendChild(new Element())->appendChild(new Element());
+		
+		$element = new Element();
+		$element->setParent($parent);
+		
+		$element->getNextText();
+		
+		return;
+	}
+	
+	/**
+	 * getNextText() should return null if the next element does not exist
+	 */
+	public function testGetNextText_returnsNull_ifNextElementDoesNotExist()
+	{
+		$element = new Element();
+		
+		$parent = new Group();
+		$parent->appendChild($element);
+		
+		$element->setParent($parent);
+		
+		$this->assertNull($element->getNextText());
+		
+		return;
+	}
+	
+	/**
+	 * getNextText() should return null if next element is not text
+	 */
+	public function testGetNextText_returnsNull_ifNextElementIsNotText()
+	{
+		$element = new Element();
+		$next    = new Element();
+		
+		$parent = new Group();
+		$parent->appendChild($element)->appendChild($next);
+		
+		$element->setParent($parent);
+		
+		$this->assertNull($element->getNextText());
+		
+		return;
+	}
+	
+	/**
+	 * getNextText() should return null if next element is text
+	 */
+	public function testGetNextText_returnsElement_ifNextElementIsText()
+	{
+		$element = new Element();
+		$next    = new Text();
+		
+		$parent = new Group();
+		$parent->appendChild($element)->appendChild($next);
+		
+		$element->setParent($parent);
+		
+		$this->assertSame($next, $element->getNextText());
+		
+		return;
+	}
+
+	
+	
 	/* !getPreviousSibling() */
 	
 	/**
@@ -327,6 +433,110 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 		$element->setParent($parent);
 		
 		$this->assertSame($previous, $element->getPreviousSibling());
+		
+		return;
+	}
+	
+	
+	/* !getPreviousText() */
+	
+	/**
+	 * getPreviousText() should throw BadMethodCallException if the parent element does not exist
+	 */
+	public function testGetPreviousText_throwsBadMethodCallException_ifParentDoesNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$element = new Element();
+		$element->getPreviousText();
+		
+		return;
+	}
+	
+	/**
+	 * getPreviousText() should throw BadMethodCallException if siblings do not exist
+	 */
+	public function testGetPreviousText_throwsBadMethodCallException_ifSiblingsDoNotExist()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$parent = new Group();
+		
+		$element = new Element();
+		$element->setParent($parent);
+		
+		$element->getPreviousText();
+		
+		return;
+	}
+	
+	/**
+	 * getPreviousText() should throw BadMethodCallException if element is not child
+	 */
+	public function testGetPreviousText_throwsBadMethodCallException_ifElementIsNotChild()
+	{
+		$this->setExpectedException('BadMethodCallException');
+		
+		$parent = new Group();
+		$parent->appendChild(new Element())->appendChild(new Element());
+		
+		$element = new Element();
+		$element->setParent($parent);
+		
+		$element->getPreviousText();
+		
+		return;
+	}
+	
+	/**
+	 * getPreviousText() should return null if previous element does not exist
+	 */
+	public function testGetPreviousText_returnsNull_ifPreviousDoesNotExist()
+	{
+		$element = new Element();
+		
+		$parent = new Group();
+		$parent->appendChild($element);
+		
+		$element->setParent($parent);
+		
+		$this->assertNull($element->getPreviousText());
+		
+		return;
+	}
+	
+	/**
+	 * getPreviousText() should return null if previous element is not text
+	 */
+	public function testGetPreviousText_returnsNull_ifPreviousIsNotText()
+	{
+		$element  = new Element();
+		$previous = new Element();	
+		
+		$parent = new Group();
+		$parent->appendChild($previous)->appendChild($element);
+		
+		$element->setParent($parent);
+		
+		$this->assertNull($element->getPreviousText());
+		
+		return;
+	}
+	
+	/**
+	 * getPreviousText() should return previous if previous element is text
+	 */
+	public function testGetPreviousText_returnsPrevious_ifPreviousIsText()
+	{
+		$element  = new Element();
+		$previous = new Text();	
+		
+		$parent = new Group();
+		$parent->appendChild($previous)->appendChild($element);
+		
+		$element->setParent($parent);
+		
+		$this->assertSame($previous, $element->getPreviousText());
 		
 		return;
 	}

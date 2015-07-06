@@ -566,7 +566,9 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ## Version
 
-See [CHANGELOG.md](https://github.com/jstewmc/rtf/blob/master/CHANGELOG.md) for details, or the following API documentation:
+### Version 0.2.1 - July 6, 2015
+
+* Add RTF-CRE control words
 
 ### Version 0.2.0 - July 6, 2015
 

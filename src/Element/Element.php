@@ -180,6 +180,35 @@ class Element
 	}
 	
 	/**
+	 * Returns this element's next text element or null if no next text element 
+	 *     exists
+	 *
+	 * @return  Jstewmc\Rtf\Element\Text|null
+	 * @throws  BadMethodCallException  if the element doesn't have a parent
+	 * @throws  BadMethodCallException  if the element's parent doesn't have children
+	 * @throws  BadMethodCallException  if the element is not a child of its parent 
+	 */
+	public function getNextText()
+	{
+		$text = null;
+		
+		// get the element's next sibling element
+		$next = $this->getNextSibling();
+		
+		// while the next sibling element exists and is not a text element
+		while ($next !== null && ! $next instanceof \Jstewmc\Rtf\Element\Text) {
+			$next = $next->getNextSibling();
+		}
+		
+		// if a next text element exists
+		if ($next !== null && $next instanceof \Jstewmc\Rtf\Element\Text) {
+			$text = $next;
+		}
+		
+		return $text;
+	}
+	
+	/**
 	 * Returns this element's previous sibling or null if no sibling exists
 	 *
 	 * @return  Jstewmc\Rtf\Element\Element|null
@@ -201,6 +230,35 @@ class Element
 		}
 		
 		return $previous;
+	}
+	
+	/**
+	 * Returns this element's previous text element or null if not previous text
+	 *     element exists
+	 *
+	 * @return  Jstewmc\Rtf\Element\Text|null
+	 * @throws  BadMethodCallException  if the element doesn't have a parent
+	 * @throws  BadMethodCallException  if the element's parent doesn't have children
+	 * @throws  BadMethodCallException  if the element is not a child of its parent 
+	 */
+	public function getPreviousText()
+	{
+		$text = null;
+		
+		// get the element's preivous sibling element
+		$previous = $this->getPreviousSibling();
+		
+		// while the previous sibling element exists and is not a text element
+		while ($previous !== null && ! $previous instanceof \Jstewmc\Rtf\Element\Text) {
+			$previous = $previous->getPreviousSibling();
+		}
+		
+		// if a previous text element exists
+		if ($previous !== null && $previous instanceof \Jstewmc\Rtf\Element\Text) {
+			$text = $previous;
+		}
+		
+		return $text;
 	}
 	
 	/**
