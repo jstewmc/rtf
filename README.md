@@ -299,6 +299,23 @@ echo (string) $document;  // prints "{\b foo\b0}"
 echo ''.$document;        // prints "{\b foo\b0}"
 ```
 
+## Snippet
+
+You can also lex, parse, and render a snippet of RTF with the Snippet class.
+
+```php
+use Jstewmc\Rtf;
+
+$snippet = new Snippet('\cxds ing');
+
+echo $snippet; 
+echo $snippet->getFirstElement();  // prints "\cxds "
+echo $snippet->getLastElement();   // prints "ing"
+```
+
+A snippet behaves like a group with `getChildren()`, `appendChild()`, `prependChild()`, etc methods.
+
+
 ## Elements
 
 A document is composed of elements, much like an HTML document. 
@@ -565,6 +582,10 @@ Jack Clayton - [clayjs0@gmail.com](mailto:clayjs0@gmail.com)
 This library is released under the [MIT license](https://github.com/jstewmc/rtf/blob/master/LICENSE).
 
 ## Version
+
+### Version 0.4.0 - August 10, 2015
+
+* Add Snippet class
 
 ### Version 0.3.0 - July 6, 2015
 
