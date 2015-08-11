@@ -583,9 +583,13 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ## Version
 
+### Version 0.4.1 - August 11, 2015
+
+* Fix logic error in `Snippet` class
+
 ### Version 0.4.0 - August 10, 2015
 
-* Add Snippet class
+* Add `Snippet` class
 
 ### Version 0.3.0 - July 6, 2015
 
