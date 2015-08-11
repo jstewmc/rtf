@@ -93,8 +93,10 @@ class Snippet extends Element\Group
 		// get the snippet (which is posing as a group) as a string
 		$string = (new Writer())->write($this, $format);
 		
-		// shift leading "{" and the trailing "}" off the string
-		$string = substr($string, 1, -1);
+		// if the format is "rtf", remove the group-open and group-close we added
+		if ($format === 'rtf') {
+			$string = substr($string, 1, -1);	
+		}
 		
 		return $string;
 	}
