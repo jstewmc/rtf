@@ -66,8 +66,8 @@ class Parser
 					$root = $stack->bottom();
 				}
 			} else {
-				// if a root group has been opened
-				if ($root !== null) {
+				// if at least a root group exists
+				if ($stack->count()) {
 					if ($token instanceof Token\Group\Close) {
 						$this->parseGroupClose($token, $stack);
 					} elseif ($token instanceof Token\Control\Word) {
@@ -77,6 +77,14 @@ class Parser
 					} elseif ($token instanceof Token\Text) {
 						$this->parseText($token, $stack->top());
 					}
+				} else {
+					// otherwise, ignore the tokens
+					// hmmm, this is good because if text preceeds the root group 
+					//     (observed in wild) it's ignored as it should be; however, 
+					//     it's also bad, because if an extra bracket closes the 
+					//     root-group early (also observed in the wild), it's not an 
+					//     error
+					//
 				}
 			}
 		}
