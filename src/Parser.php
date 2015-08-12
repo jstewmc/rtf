@@ -39,10 +39,21 @@ class Parser
 	 * @param  Jstewmc\Rtf\Token[]  $tokens  an array of tokens to parse
 	 * @return  Jstewmc\Rtf\Element\Group|null  the parse tree's root group (or
 	 *     null if $tokens is an empty array)
+	 * @throws  InvalidArgumentException  if groups are mismatched in $tokens
 	 * @since  0.1.0
+	 * @since  0.4.2  add test for group-open and group-close mismatch
 	 */
 	public function parse(Array $tokens)
 	{	
+		// if groups are mis-matched, short-circuit
+		if ($this->countGroupOpen($tokens) !== $this->countGroupClose($tokens)) {
+			throw new \InvalidArgumentException(
+				__METHOD__."() expects parameter one, tokens, to be valid RTF "
+				 . "string; however, the number of groups opened does not equal "
+				 . "the number of groups closed"
+			);
+		}
+		
 		$root  = null;
 		
 		// loop through the tokens
@@ -75,6 +86,34 @@ class Parser
 	
 	
 	/* !Protected methods */
+	
+	/**
+	 * Returns the number of group-close tokens in $tokens
+	 *
+	 * @param  Jstewmc\Rtf\Token\Token  $tokens  the tokens to test
+	 * @return  int
+	 * @since  0.4.2
+	 */
+	protected function countGroupClose(Array $tokens)
+	{
+		return array_reduce($tokens, function ($carry, $item) {
+			return $carry += $item instanceof Token\Group\Close;
+		}, 0);
+	}
+	
+	/**
+	 * Counts the number of group-open tokens
+	 *
+	 * @param  Jstewmc\Rtf\Token\Token  $tokens  the tokens to test
+	 * @return  int
+	 * @since  0.4.2
+	 */
+	protected function countGroupOpen(Array $tokens)
+	{
+		return array_reduce($tokens, function ($carry, $item) {
+			return $carry += $item instanceof Token\Group\Open;
+		}, 0);
+	}
 	
 	/**
 	 * Parses a control symbol token

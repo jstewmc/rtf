@@ -68,6 +68,24 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 	}
 	
 	/**
+	 * parse() should throw InvalidArgumentException if groups are mismatched
+	 */
+	public function test_parse_throwsInvalidArgumentException_ifGroupsMismatched()
+	{
+		$this->setExpectedException('InvalidArgumentException');
+		
+		$tokens = [
+			new Token\Group\Open(),
+			new Token\Group\Close(),
+			new Token\Group\Close()
+		];
+		
+		(new Parser())->parse($tokens);
+		
+		return;
+	}
+	
+	/**
 	 * parse() should parse nested groups
 	 */
 	public function testParse_parsesGroupsNested()
