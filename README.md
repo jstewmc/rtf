@@ -583,19 +583,23 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ## Version
 
-### Version 0.4.1 - August 11, 2015
+### 0.4.2 - August 12, 2015
+
+* Add check for mismatched group-open and group-close tokens to `Parser`
+
+### 0.4.1 - August 11, 2015
 
 * Fix logic error in `Snippet` class
 
-### Version 0.4.0 - August 10, 2015
+### 0.4.0 - August 10, 2015
 
 * Add `Snippet` class
 
-### Version 0.3.0 - July 6, 2015
+### 0.3.0 - July 6, 2015
 
 * Add RTF-CRE control words
 
-### Version 0.2.0 - July 6, 2015
+### 0.2.0 - July 6, 2015
 
 * Update `Document::read()` and `Document::load()` to use [Jstewmc\Chunker](https://github.com/jstewmc/chunker).
 * Update lexing methods to use [Jstewmc\Stream](https://github.com/jstewmc/stream) instead of character arrays:
@@ -604,7 +608,7 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
   * Replace `Token\Control\Symbol::createFromSource()` with `createFromStream()`
   * Update `Lexer::lex()` to use accept instance of `Jstewmc\Stream\Stream` as argument instead of string
 
-### Version 0.1.0 - March 10, 2015
+### 0.1.0 - March 10, 2015
 
 Initial release
 
