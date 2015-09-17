@@ -583,6 +583,10 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ## Version
 
+### dev-master
+
+* Doh! It would help if I merged the branch into master first!
+
 ### 0.4.3 - September 17, 2015
 
 * Fix `\cxds` control word. The `\cxds` control word should glue two words together without a space between them. However, up to now, it only deleted the previous space, not the spaces to either side. 
