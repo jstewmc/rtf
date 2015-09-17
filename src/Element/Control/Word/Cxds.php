@@ -5,7 +5,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 /**
  * The "\cxds" control word
  *
- * The "\cxds" control word deletes the previous space (i.e., "CX Delete Space").
+ * The "\cxds" control word glues the words on either side of the control word 
+ * together without a space between them (i.e., "CX Delete Space").
  *
  * For example:
  *
@@ -34,12 +35,21 @@ class Cxds extends Word
 	 */
 	public function run()
 	{
-		// if the control word as a previous text element
+		// if the control word has a previous text element
 		if (null !== ($text = $this->getPreviousText())) {
-			// if the last character in the text element's text is the space character
+			// if the last character in the text is the space character
 			if (substr($text->getText(), -1, 1) == ' ') {
 				// remove it
 				$text->setText(substr($text->getText(), 0, -1));
+			}
+		}
+		
+		// if the control word has a next text element
+		if (null !== ($text = $this->getNextText())) {
+			// if the first character in the text is the space character
+			if (substr($text->getText(), 0, 1) == ' ') {
+				// remove it
+				$text->setText(substr($text->getText(), 1));
 			}
 		}
 		
