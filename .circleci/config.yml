@@ -20,7 +20,7 @@ jobs:
           key: v74-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: ./vendor/bin/phpunit
+      - run: ./vendor/bin/phpunit --dont-report-useless-tests
   build-php80:
     docker:
       - image: circleci/php:8.0-node-browsers
@@ -36,7 +36,7 @@ jobs:
           key: v80-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: ./vendor/bin/phpunit
+      - run: ./vendor/bin/phpunit --dont-report-useless-tests
 
 workflows:
   version: 2
