@@ -72,7 +72,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * appendTo() should append the element
      */
-    public function testAppendTo_appendsElement()
+    public function testAppendToAppendsElement()
     {
         $group = new Group();
         
@@ -97,7 +97,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getIndex() should throw BadMethodCallException if the parent does not exist
      */
-    public function testGetIndex_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testGetIndexThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -111,7 +111,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getIndex() should throw BadMethodCallException if siblings do not exist
      */
-    public function testGetIndex_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testGetIndexThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -128,7 +128,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getIndex() should throw BadMethodCallException if the element is not a child of its parent
      */
-    public function testGetIndex_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testGetIndexThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -146,7 +146,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getIndex() should return integer if the element is a child of its parent
      */
-    public function testGetIndex_returnsInteger_ifElementIsChild()
+    public function testGetIndexReturnsIntegerWhenElementIsChild()
     {
         $child = new Element();
         
@@ -164,7 +164,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * nextSibling() should throw BadMethodCallException if the element doesn't have a parent
      */
-    public function testGetNextSibling_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testGetNextSiblingThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -177,7 +177,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextSibling() should throw a BadMethodCallException if siblings don't exist
      */
-    public function testGetNextSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testGetNextSiblingThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -195,7 +195,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * getNextSibling() should throw a BadMethodCallException if the element is not a
      *     of its parent
      */
-    public function testGetNextSibling_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testGetNextSiblingThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -213,7 +213,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getnextSibling() should return null if the next element does not exist
      */
-    public function testGetNextSibling_returnsNull_ifNextElementDoesNotExist()
+    public function testGetNextSiblingReturnsNullWhenNextElementDoesNotExist()
     {
         $element = new Element();
         
@@ -230,7 +230,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextSibling() should return next element if it exists
      */
-    public function testGetNextSibling_returnsElement_ifNextElementDoesExist()
+    public function testGetNextSiblingReturnsElementWhenNextElementDoesExist()
     {
         $element = new Element();
         $next    = new Element();
@@ -251,7 +251,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextText() should throw BadMethodCallException if the element doesn't have a parent
      */
-    public function testGetNextText_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testGetNextTextThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -264,7 +264,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextText() should throw a BadMethodCallException if siblings don't exist
      */
-    public function testGetNextText_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testGetNextTextThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -282,7 +282,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * getNextText() should throw a BadMethodCallException if the element is not a
      *     child of its parent
      */
-    public function testGetNextText_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testGetNextTextThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -300,7 +300,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextText() should return null if the next element does not exist
      */
-    public function testGetNextText_returnsNull_ifNextElementDoesNotExist()
+    public function testGetNextTextReturnsNullWhenNextElementDoesNotExist()
     {
         $element = new Element();
         
@@ -317,7 +317,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextText() should return null if next element is not text
      */
-    public function testGetNextText_returnsNull_ifNextElementIsNotText()
+    public function testGetNextTextReturnsNullWhenNextElementIsNotText()
     {
         $element = new Element();
         $next    = new Element();
@@ -335,7 +335,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getNextText() should return null if next element is text
      */
-    public function testGetNextText_returnsElement_ifNextElementIsText()
+    public function testGetNextTextReturnsElementWhenNextElementIsText()
     {
         $element = new Element();
         $next    = new Text();
@@ -357,7 +357,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousSibling() should throw BadMethodCallException if the parent element does not exist
      */
-    public function testGetPreviousSibling_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testGetPreviousSiblingThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -370,7 +370,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousSibling() should throw BadMethodCallException if siblings do not exist
      */
-    public function testGetPreviousSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testGetPreviousSiblingThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -387,7 +387,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousSibling() should throw BadMethodCallException if element is not child
      */
-    public function testGetPreviousSibling_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testGetPreviousSiblingThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -405,7 +405,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousSibling() should return null if previous element does not exist
      */
-    public function testGetPreviousSibling_returnsNull_ifPreviousDoesNotExist()
+    public function testGetPreviousSiblingReturnsNullWhenPreviousDoesNotExist()
     {
         $element = new Element();
         
@@ -422,7 +422,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousSibling() should return previous element if it exists
      */
-    public function testGetPreviousSibling_returnsElement_ifPreviousDoesExist()
+    public function testGetPreviousSiblingReturnsElementWhenPreviousDoesExist()
     {
         $element  = new Element();
         $previous = new Element();
@@ -443,7 +443,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should throw BadMethodCallException if the parent element does not exist
      */
-    public function testGetPreviousText_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testGetPreviousTextThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -456,7 +456,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should throw BadMethodCallException if siblings do not exist
      */
-    public function testGetPreviousText_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testGetPreviousTextThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -473,7 +473,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should throw BadMethodCallException if element is not child
      */
-    public function testGetPreviousText_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testGetPreviousTextThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -491,7 +491,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should return null if previous element does not exist
      */
-    public function testGetPreviousText_returnsNull_ifPreviousDoesNotExist()
+    public function testGetPreviousTextReturnsNullWhenPreviousDoesNotExist()
     {
         $element = new Element();
         
@@ -508,7 +508,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should return null if previous element is not text
      */
-    public function testGetPreviousText_returnsNull_ifPreviousIsNotText()
+    public function testGetPreviousTextReturnsNullWhenPreviousIsNotText()
     {
         $element  = new Element();
         $previous = new Element();
@@ -526,7 +526,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * getPreviousText() should return previous if previous element is text
      */
-    public function testGetPreviousText_returnsPrevious_ifPreviousIsText()
+    public function testGetPreviousTextReturnsPreviousWhenPreviousIsText()
     {
         $element  = new Element();
         $previous = new Text();
@@ -549,7 +549,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
     {
         $this->expectException(\InvalidArgumentException::class);
         
@@ -562,7 +562,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should throw an InvalidArgumentException if $format is not a valid format
      */
-    public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotValid()
     {
         $this->expectException(\InvalidArgumentException::class);
         
@@ -575,7 +575,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         $element = new Element();
         
@@ -587,7 +587,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is rtf
      */
-    public function testFormat_returnsString_ifFormatIsRtf()
+    public function testFormatReturnsStringWhenFormatIsRtf()
     {
         $element = new Element();
         
@@ -599,7 +599,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is text
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $element = new Element();
         
@@ -614,7 +614,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertAfter() should throw BadMethodCallException if the $element's parent does not exist
      */
-    public function testInsertAfter_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testInsertAfterThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -630,7 +630,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * insertAfter() should throw BadMethodCallException if $element's parent doesn't have
      *     children
      */
-    public function testInsertAfter_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testInsertAfterThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -649,7 +649,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertAfter() should throw BadMethodCallException if $element is not a child
      */
-    public function testInsertAfter_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testInsertAfterThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -669,7 +669,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertAfter() should return element if $element is a child of parent
      */
-    public function testInsertAfter_returnsElement_ifElementIsChild()
+    public function testInsertAfterReturnsElementWhenElementIsChild()
     {
         $foo = new Text('foo');
         $bar = new Text('bar');
@@ -692,7 +692,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertbefore() should throw BadMethodCallException if the $element's parent does not exist
      */
-    public function testInsertBefore_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testInsertBeforeThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -708,7 +708,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * insertBefore() should throw BadMethodCallException if $element's parent doesn't have
      *     children
      */
-    public function testInsertBefore_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testInsertBeforeThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -727,7 +727,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertBefore() should throw BadMethodCallException if $element is not a child
      */
-    public function testInsertBefore_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testInsertBeforeThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -747,7 +747,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * insertBefore() should return element if $element is a child of parent
      */
-    public function testInsertBefore_returnsElement_ifElementIsChild()
+    public function testInsertBeforeReturnsElementWhenElementIsChild()
     {
         $foo = new Text('foo');
         $bar = new Text('bar');
@@ -770,7 +770,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isFirstChild() should throw BadMethodCallException if the $element's parent does not exist
      */
-    public function testIsFirstChild_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testIsFirstChildThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -784,7 +784,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * isFirstChild() should throw BadMethodCallException if $element's parent doesn't have
      *     children
      */
-    public function testIsFirstChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testIsFirstChildThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -801,7 +801,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isFirstChild() should throw BadMethodCallException if $element is not a child
      */
-    public function testIsFirstChild_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testIsFirstChildThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -819,7 +819,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isFirstChild() should return false if the element is not the first child
      */
-    public function testIsFirstChild_returnsFalse_ifElementIsNotFirstChild()
+    public function testIsFirstChildReturnsFalseWhenElementIsNotFirstChild()
     {
         $foo = new Text('foo');
         
@@ -834,7 +834,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isFirstChild() should return false if the element is the first child
      */
-    public function testIsFirstChild_returnsTrue_ifElementIsFirstChild()
+    public function testIsFirstChildReturnsTrueWhenElementIsFirstChild()
     {
         $foo = new Text('foo');
         
@@ -852,7 +852,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isLastChild() should throw BadMethodCallException if the $element's parent does not exist
      */
-    public function testIsLastChild_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testIsLastChildThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -866,7 +866,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      * isLastChild() should throw BadMethodCallException if $element's parent doesn't have
      *     children
      */
-    public function testIsLastChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testIsLastChildThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -883,7 +883,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isLastChild() should throw BadMethodCallException if $element is not a child
      */
-    public function testIsLastChild_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testIsLastChildThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -901,7 +901,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isLastChild() should return false if the element is not the Last child
      */
-    public function testIsLastChild_returnsFalse_ifElementIsNotLastChild()
+    public function testIsLastChildReturnsFalseWhenElementIsNotLastChild()
     {
         $foo = new Text('foo');
         
@@ -916,7 +916,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * isLastChild() should return false if the element is the Last child
      */
-    public function testIsLastChild_returnsTrue_ifElementIsLastChild()
+    public function testIsLastChildReturnsTrueWhenElementIsLastChild()
     {
         $foo = new Text('foo');
         
@@ -934,7 +934,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * prependTo() should prepend the element
      */
-    public function testPrependTo_prependsElement()
+    public function testPrependToPrependsElement()
     {
         $group = new Group();
         
@@ -958,7 +958,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putNextSibling() should throw BadMethodCallException if the parent does not exist
      */
-    public function testPutNextSibling_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testPutNextSiblingThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -972,7 +972,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putNextSibling() should throw BadMethodCallException if siblings do not exist
      */
-    public function testPutNextSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testPutNextSiblingThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -989,7 +989,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putNextSibling() should throw BadMethodCallException if element is not child
      */
-    public function testPutNextSibling_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testPutNextSiblingThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -1007,7 +1007,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putNextSibling() should insert between elements
      */
-    public function testPutNextSibling_insertsElement_ifBetweenElements()
+    public function testPutNextSiblingInsertsElementWhenBetweenElements()
     {
         $element = new Element();
         
@@ -1027,7 +1027,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putNextSibling() should insert after elements
      */
-    public function testPutNextSibling_insertsElement_ifAfterElements()
+    public function testPutNextSiblingInsertsElementWhenAfterElements()
     {
         $element = new Element();
         
@@ -1050,7 +1050,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putPreviousSibling() should throw BadMethodCallException if the parent does not exist
      */
-    public function testPutPreviousSibling_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testPutPreviousSiblingThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -1064,7 +1064,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putPreviousSibling() should throw BadMethodCallException if siblings do not exist
      */
-    public function testPutPreviousSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
+    public function testPutPreviousSiblingThrowsBadMethodCallExceptionWhenSiblingsDoNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -1081,7 +1081,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putPreviousSibling() should throw BadMethodCallException if element is not child
      */
-    public function testPutPreviousSibling_throwsBadMethodCallException_ifElementIsNotChild()
+    public function testPutPreviousSiblingThrowsBadMethodCallExceptionWhenElementIsNotChild()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -1099,7 +1099,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putPreviousSibling() should insert between elements
      */
-    public function testPutPreviousSibling_insertsElement_ifBeforeElements()
+    public function testPutPreviousSiblingInsertsElementWhenBeforeElements()
     {
         $element = new Element();
         
@@ -1119,7 +1119,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * putPreviousSibling() should insert after elements
      */
-    public function testPutPreviousSibling_insertsElement_ifBetweenElements()
+    public function testPutPreviousSiblingInsertsElementWhenBetweenElements()
     {
         $element = new Element();
         
@@ -1142,7 +1142,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceWith() should throw a BadMethodCallException if the parent does not exist
      */
-    public function testReplaceWith_throwsBadMethodCallException_ifParentDoesNotExist()
+    public function testReplaceWithThrowsBadMethodCallExceptionWhenParentDoesNotExist()
     {
         $this->expectException(\BadMethodCallException::class);
         
@@ -1157,7 +1157,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceWith() should return the replaced element if the parent does exist
      */
-    public function testReplaceWith_returnsElement_ifParentDoesExist()
+    public function testReplaceWithReturnsElementWhenParentDoesExist()
     {
         $foo = new Text('foo');
         $bar = new Text('bar');

@@ -18,7 +18,7 @@ class UlnoneTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should not underline (regardless of parameter's value)
      */
-    public function testRun_doesNotUnderline()
+    public function testRunDoesNotUnderline()
     {
         $style = new \Jstewmc\Rtf\Style();
         

@@ -18,7 +18,7 @@ class SuperTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should superscript the characters if the parameter is not zero
      */
-    public function testRun_doesSuperscript_ifParameterIsNotZero()
+    public function testRunDoesSuperscriptWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -38,7 +38,7 @@ class SuperTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should superscript the characters if the parameter is zero
      */
-    public function testRun_doesNotSuperscript_ifParameterIsZero()
+    public function testRunDoesNotSuperscriptWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

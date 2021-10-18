@@ -40,7 +40,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return text element if text is null
      */
-    public function testConstruct_returnsElement_ifTextIsNotString()
+    public function testConstructReturnsElementWhenTextIsNotString()
     {
         $text = new Text();
         
@@ -53,7 +53,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return text element if text is string
      */
-    public function testConstruct_returnsElement_ifTextIsString()
+    public function testConstructReturnsElementWhenTextIsString()
     {
         $string = 'foo';
         
@@ -71,7 +71,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if text does not exist
      */
-    public function testToString_returnsString_ifTextDoesNotExist()
+    public function testToStringReturnsStringWhenTextDoesNotExist()
     {
         $text = new Text();
         
@@ -83,7 +83,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if text does exist
      */
-    public function testToString_returnsString_ifTextDoesExist()
+    public function testToStringReturnsStringWhenTextDoesExist()
     {
         $string = 'foo';
         
@@ -103,7 +103,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         $text = new Text('foo & bar');
         
@@ -118,7 +118,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is rtf
      */
-    public function testFormat_returnsString_ifFormatIsRtf()
+    public function testFormatReturnsStringWhenFormatIsRtf()
     {
         $text = new Text('foo \ bar');
         
@@ -133,7 +133,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is text
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $text = new Text('foo & bar');
         

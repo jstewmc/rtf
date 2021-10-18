@@ -18,7 +18,7 @@ class UTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         // "&#60" is the less-than character
         $word = new U(60);
@@ -34,7 +34,7 @@ class UTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is text
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $word = new U(60);
         

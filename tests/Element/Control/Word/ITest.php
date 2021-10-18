@@ -18,7 +18,7 @@ class ITest extends \PHPUnit\Framework\TestCase
     /**
      * run() should italisize the characters if the parameter is not zero
      */
-    public function testRun_doesItalicize_ifParameterIsNotZero()
+    public function testRunDoesItalicizeWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -38,7 +38,7 @@ class ITest extends \PHPUnit\Framework\TestCase
     /**
      * run() should italicize the characters if the parameter is zero
      */
-    public function testRun_doesNotItalicize_ifParameterIsZero()
+    public function testRunDoesNotItalicizeWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

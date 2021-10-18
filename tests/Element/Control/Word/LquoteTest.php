@@ -18,7 +18,7 @@ class LquoteTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         $word = new Lquote();
         
@@ -33,7 +33,7 @@ class LquoteTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $word = new Lquote();
         

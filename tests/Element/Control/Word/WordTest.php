@@ -82,7 +82,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return word element if $parameter is null
      */
-    public function testConstruct_returnsElement_ifParameterIsNull()
+    public function testConstructReturnsElementWhenParameterIsNull()
     {
         $word = new Word();
         
@@ -96,7 +96,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return word element if parameter is not null
      */
-    public function testConstruct_returnsElement_ifParameterIsNotNull()
+    public function testConstructReturnsElementWhenParameterIsNotNull()
     {
         $parameter = 1;
         
@@ -115,7 +115,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if not space delimited
      */
-    public function testToString_returnsString_ifNotSpaceDelimited()
+    public function testToStringReturnsStringWhenNotSpaceDelimited()
     {
         $word = new Word();
         $word->setWord('b');
@@ -129,7 +129,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if the control word is ignored
      */
-    public function testToString_returnsString_ifIsIgnored()
+    public function testToStringReturnsStringWhenIsIgnored()
     {
         $word = new Word();
         $word->setWord('b');
@@ -143,7 +143,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if parameter does not exist
      */
-    public function testToString_returnsString_ifParameterDoesNotExist()
+    public function testToStringReturnsStringWhenParameterDoesNotExist()
     {
         $word = new Word();
         $word->setWord('b');
@@ -156,7 +156,7 @@ class WordTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if parameter does exist
      */
-    public function testToString_returnsString_ifParameterDoesExist()
+    public function testToStringReturnsStringWhenParameterDoesExist()
     {
         $word = new Word();
         $word->setWord('b');

@@ -1,6 +1,6 @@
 <?php
 
-use Jstewmc\Rtf\Token\Group\Close;
+namespace Jstewmc\Rtf\Token\Group;
 
 /**
  * A test suite for the Token\Group\Close class
@@ -10,20 +10,20 @@ use Jstewmc\Rtf\Token\Group\Close;
  * @license    MIT
  * @since      0.1.0
  */
- 
+
 class CloseTest extends \PHPUnit\Framework\TestCase
 {
     /* !__toString() */
-    
+
     /**
      * __toString() should return the close-bracket character ("}")
      */
-    public function testToString_returnsString()
+    public function testToStringReturnsString()
     {
         $token = new Close();
-        
+
         $this->assertEquals('}', (string)$token);
-        
+
         return;
     }
 }

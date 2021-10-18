@@ -36,7 +36,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+    public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
     {
         $this->expectException(\InvalidArgumentException::class);
         
@@ -50,7 +50,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
      * write() should throw an InvalidArgumentException if $format is not 'html', 'rtf', or
      * 'text'
      */
-    public function testWrite_throwsInvalidArgumentException_ifFormatIsNotValid()
+    public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsNotValid()
     {
         $this->expectException(\InvalidArgumentException::class);
         
@@ -63,7 +63,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if elements do not exist
      */
-    public function testWrite_returnsString_ifElementsDoNotExist()
+    public function testWriteReturnsStringWhenElementsDoNotExist()
     {
         $writer = new Writer();
          
@@ -78,7 +78,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if elements do exist
      */
-    public function testWrite_returnsString_ifElementsDoExist()
+    public function testWriteReturnsStringWhenElementsDoExist()
     {
         $group = (new Element\Group())
             ->appendChild(new Element\Text('foo '))
@@ -103,7 +103,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if format is html
      */
-    public function testWrite_returnsString_ifFormatIsHtml()
+    public function testWriteReturnsStringWhenFormatIsHtml()
     {
         $group = (new Element\Group())
             ->appendChild(new Element\Text('foo '))
@@ -129,7 +129,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if format is rtf
      */
-    public function testWrite_returnsString_ifFormatIsRtf()
+    public function testWriteReturnsStringWhenFormatIsRtf()
     {
         $group = (new Element\Group())
             ->appendChild(new Element\Text('foo '))
@@ -154,7 +154,7 @@ class WriterTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if format is text
      */
-    public function testWrite_returnsString_ifFormatIsText()
+    public function testWriteReturnsStringWhenFormatIsText()
     {
         $group = (new Element\Group())
             ->appendChild(new Element\Text('foo '))

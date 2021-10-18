@@ -143,7 +143,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     /**
      * merge() should merge styles if the states are the same
      */
-    public function testMerge_doesMergeStyles_ifStatesAreSame()
+    public function testMergeDoesMergeStylesWhenStatesAreSame()
     {
         $style1 = new Style();
         $style2 = new Style();
@@ -161,7 +161,7 @@ class StyleTest extends \PHPUnit\Framework\TestCase
     /**
      * merge() should not merge style if the states are different
      */
-    public function testMerge_doesNotMergeStyles_ifStatesAreDifferent()
+    public function testMergeDoesNotMergeStylesWhenStatesAreDifferent()
     {
         $style1 = new Style();
         

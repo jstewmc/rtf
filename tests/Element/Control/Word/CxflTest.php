@@ -12,40 +12,40 @@ use Jstewmc\Rtf\Style;
 class CxflTest extends \PHPUnit\Framework\TestCase
 {
     /* !run() */
-    
+
     /**
      * run() should do nothing if a next text element does not exist
      */
-    public function testRun_doesNothing_ifNextTextElementDoesNotExist()
+    public function testRunDoesNothingWhenNextTextElementDoesNotExist()
     {
         $word = new Cxfl();
-        
+
         $parent = (new Group())
             ->setStyle(new Style())
             ->appendChild($word)->render();
-        
+
         // hmm, I don't know what to assert here
         // I guess we just want to be sure nothing bad happens?
-        
+
         return;
     }
-    
+
     /**
      * run() should lower-case the next text element's first character if it does exist
      */
-    public function testRun_lowerCasesFirstCharacter_ifNextTextElementDoesExist()
+    public function testRunLowerCasesFirstCharacterWhenNextTextElementDoesExist()
     {
         $word = new Cxfl();
         $text = (new Text())->setText('FOO');  // note the upper-case
-        
+
         $parent = (new Group())
             ->setStyle(new Style())
             ->appendChild($word)
             ->appendChild($text)
             ->render();
-        
+
         $this->assertEquals('fOO', $text->getText());
-        
+
         return;
     }
 }

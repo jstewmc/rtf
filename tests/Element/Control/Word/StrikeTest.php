@@ -18,7 +18,7 @@ class StrikeTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should strikethrough the character is parameter is not zero
      */
-    public function testRun_doesStrikethrough_ifParameterIsNotZero()
+    public function testRunDoesStrikethroughWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -38,7 +38,7 @@ class StrikeTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should update the element's style
      */
-    public function testRun_doesNotStrikethrough_ifParameterIsZero()
+    public function testRunDoesNotStrikethroughWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

@@ -18,7 +18,7 @@ class ApostropheTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return a string if the format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         $word = new Apostrophe('22');
         
@@ -33,7 +33,7 @@ class ApostropheTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return a string if the format is html
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $word = new Apostrophe('22');
         

@@ -95,7 +95,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return a string if children do not exist
      */
-    public function testToString_returnsString_ifChildrenDoNotExist()
+    public function testToStringReturnsStringWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -107,7 +107,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return a string if children do exist
      */
-    public function testToString_returnsString_ifChildrenDoExist()
+    public function testToStringReturnsStringWhenChildrenDoExist()
     {
         $group = new Group();
 
@@ -130,7 +130,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * appendChild() should append the element if zero children exist
      */
-    public function testAppendChild_appendsChild_ifZeroChildrenExist()
+    public function testAppendChildAppendsChildWhenZeroChildrenExist()
     {
         $child = new Element();
 
@@ -148,7 +148,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * appendChild() should append the element to the end if many children exist
      */
-    public function testAppendChild_appendsChild_ifManyChildrenExist()
+    public function testAppendChildAppendsChildWhenManyChildrenExist()
     {
         $group = new Group();
 
@@ -176,7 +176,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * appendChild() should not render the group if it's not rendered
      */
-    public function testAppendChild_doesNotRender_ifGroupIsNotRendered()
+    public function testAppendChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
 
@@ -192,7 +192,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * appendChild() should render the group if it's rendered
      */
-    public function testAppendChild_doesRender_ifGroupIsRendered()
+    public function testAppendChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
         $group->setStyle(new \Jstewmc\Rtf\Style());
@@ -213,7 +213,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is html
      */
-    public function testFormat_returnsString_ifFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml()
     {
         $group = new Group();
 
@@ -237,7 +237,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is rtf
      */
-    public function testFormat_returnsString_ifFormatIsRtf()
+    public function testFormatReturnsStringWhenFormatIsRtf()
     {
         $group = new Group();
 
@@ -257,7 +257,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return string if format is text
      */
-    public function testFormat_returnsString_ifFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText()
     {
         $group = new Group();
 
@@ -277,7 +277,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * format() should return (empty) string if group is destination
      */
-    public function testFormat_returnsString_ifGroupIsDestination()
+    public function testFormatReturnsStringWhenGroupIsDestination()
     {
         $group = new Group();
 
@@ -302,7 +302,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAnIntegerProvider()
      */
-    public function testGetChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
+    public function testGetChildThrowsInvalidArgumentExceptionWhenIndexIsNotAnInteger($index)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -315,7 +315,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getChild() should throw an OutOfBoundsException if index is invalid
      */
-    public function testGetChild_throwsOutOfBoundsException_ifIndexIsNotValid()
+    public function testGetChildThrowsOutOfBoundsExceptionWhenIndexIsNotValid()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -328,7 +328,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getChild() should return element if index is valid
      */
-    public function testGetChild_returnsElement_ifIndexIsValid()
+    public function testGetChildReturnsElementWhenIndexIsValid()
     {
         $child = new Element();
 
@@ -351,7 +351,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testGetControlWords_throwsInvalidArgumentException_ifWordIsNotAString($word)
+    public function testGetControlWordsThrowsInvalidArgumentExceptionWhenWordIsNotAString($word)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -365,7 +365,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * getControlWords() should throw InvalidArgumentException if $parameter is not null,
      *     false, or integer
      */
-    public function testGetControlWords_throwsInvalidArgumentException_ifParameterIsInvalid()
+    public function testGetControlWordsThrowsInvalidArgumentExceptionWhenParameterIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -378,7 +378,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlWords() should return array if children do not exist
      */
-    public function testGetControlWords_returnsArray_ifChildrenDoNotExist()
+    public function testGetControlWordsReturnsArrayWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -393,7 +393,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlWords() should return array if child does not exist
      */
-    public function testGetControlWords_returnsArray_ifChildDoesNotExist()
+    public function testGetControlWordsReturnsArrayWhenChildDoesNotExist()
     {
         $group = new Group();
 
@@ -410,7 +410,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlWords() should return array if child does exist
      */
-    public function testGetControlWords_returnsArray_ifChildDoesExist()
+    public function testGetControlWordsReturnsArrayWhenChildDoesExist()
     {
         $one = new Control\Word\B();
         $two = new Control\Word\B(0);
@@ -431,7 +431,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlWords() should return array if children are groups
      */
-    public function testGetControlWords_returnsArray_ifChildIsGroup()
+    public function testGetControlWordsReturnsArrayWhenChildIsGroup()
     {
         $one = new Control\Word\B();
         $two = new Control\Word\B();
@@ -459,7 +459,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testGetControlSymbols_throwsInvalidArgumentException_ifWordIsNotAString($symbol)
+    public function testGetControlSymbolsThrowsInvalidArgumentExceptionWhenWordIsNotAString($symbol)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -473,7 +473,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * getControlSymbols() should throw InvalidArgumentException if $parameter is not null,
      *     false, or integer
      */
-    public function testGetControlSymbols_throwsInvalidArgumentException_ifParameterIsInvalid()
+    public function testGetControlSymbolsThrowsInvalidArgumentExceptionWhenParameterIsInvalid()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -486,7 +486,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlSymbols() should return array if children do not exist
      */
-    public function testGetControlSymbols_returnsArray_ifChildrenDoNotExist()
+    public function testGetControlSymbolsReturnsArrayWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -501,7 +501,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlSymbols() should return array if child does not exist
      */
-    public function testGetControlSymbols_returnsArray_ifChildDoesNotExist()
+    public function testGetControlSymbolsReturnsArrayWhenChildDoesNotExist()
     {
         $group = new Group();
 
@@ -518,7 +518,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlSymbols() should return array if child does exist
      */
-    public function testGetControlSymbols_returnsArray_ifChildDoesExist()
+    public function testGetControlSymbolsReturnsArrayWhenChildDoesExist()
     {
         $one = new Control\Symbol\Tilde();
         $two = new Control\Symbol\Tilde();
@@ -539,7 +539,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getControlSymbols() should return array if children are groups
      */
-    public function testGetControlSymbols_returnsArray_ifChildIsGroup()
+    public function testGetControlSymbolsReturnsArrayWhenChildIsGroup()
     {
         $one = new Control\Symbol\Tilde('~');
         $two = new Control\Symbol\Tilde('~');
@@ -565,7 +565,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getChildIndex() should return false if children do not exist
      */
-    public function testGetChildIndex_returnsFalse_ifChildrenDoNotExist()
+    public function testGetChildIndexReturnsFalseWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -577,7 +577,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getChildIndex() should return false if child does not exist
      */
-    public function testGetChildIndex_returnsFalse_ifChildDoesNotExist()
+    public function testGetChildIndexReturnsFalseWhenChildDoesNotExist()
     {
         $group = new Group();
 
@@ -594,7 +594,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getChildIndex() should return integer if child does exist
      */
-    public function testGetChildIndex_returnsInteger_ifChildDoesExist()
+    public function testGetChildIndexReturnsIntegerWhenChildDoesExist()
     {
         $group = new Group();
 
@@ -617,7 +617,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getFirstChild() should return null if children do not exist
      */
-    public function testGetFirstChild_returnsNull_ifChildrenDoNotExist()
+    public function testGetFirstChildReturnsNullWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -629,7 +629,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getFirstChild() should return element if children do exist
      */
-    public function testGetFirstChild_returnsElement_ifChildrenDoExist()
+    public function testGetFirstChildReturnsElementWhenChildrenDoExist()
     {
         $first  = new Element();
         $middle = new Element();
@@ -652,7 +652,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getLastChild() should return null if children do not exist
      */
-    public function testGetLastChild_returnsNull_ifChildrenDoNotExist()
+    public function testGetLastChildReturnsNullWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -664,7 +664,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getLastChild() should return element if children do exist
      */
-    public function testGetLastChild_returnsElement_ifChildrenDoExist()
+    public function testGetLastChildReturnsElementWhenChildrenDoExist()
     {
         $first  = new Element();
         $middle = new Element();
@@ -687,7 +687,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getLength() should return integer, specifically 0, if children do not exist
      */
-    public function testGetLength_returnsInteger_ifChildrenDoNotExist()
+    public function testGetLengthReturnsIntegerWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -699,7 +699,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * getLength() should return integer if children do exist
      */
-    public function testGetLength_returnsInteger_ifChildrenDoExist()
+    public function testGetLengthReturnsIntegerWhenChildrenDoExist()
     {
         $group = new Group();
 
@@ -716,7 +716,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * hasChild() should throw a BadMethodCallException if $element and $index are null
      */
-    public function testHasCHild_throwsBadMethodCallException_ifElementAndIndexAreNull()
+    public function testHasCHildThrowsBadMethodCallExceptionWhenElementAndIndexAreNull()
     {
         $this->expectException(\BadMethodCallException::class);
 
@@ -730,7 +730,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * hasChild() should throw an InvalidArgumentException if $index is not an integer
      *    or element
      */
-    public function testHasChild_throwsInvalidArgumentException_ifOneIsNotAnIntegerOrElement()
+    public function testHasChildThrowsInvalidArgumentExceptionWhenOneIsNotAnIntegerOrElement()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -744,7 +744,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * hasChild() should throw an InvalidArgumentException if $index is not an integer
      *    or element
      */
-    public function testHasChild_throwsInvalidArgumentException_ifTwoIsNotAnIntegerOrElementOrNull()
+    public function testHasChildThrowsInvalidArgumentExceptionWhenTwoIsNotAnIntegerOrElementOrNull()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -757,7 +757,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * hasChild() should return false if parent has no children
      */
-    public function testHasChild_returnsFalse_ifChildrenDoNotExist()
+    public function testHasChildReturnsFalseWhenChildrenDoNotExist()
     {
         $group = new Group();
 
@@ -771,7 +771,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * hasChild() should return false if parent does not have child
      */
-    public function testHasChild_returnsFalse_ifChildDoesNotExist()
+    public function testHasChildReturnsFalseWhenChildDoesNotExist()
     {
         $group = new Group();
         $group->appendChild(new Text('foo'));
@@ -786,7 +786,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * hasChild() should return true if parent does have child by index
      */
-    public function testHasChild_returnsTrue_ifChildDoesExist()
+    public function testHasChildReturnsTrueWhenChildDoesExist()
     {
         $foo = new Text('foo');
 
@@ -808,7 +808,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAnIntegerProvider
      */
-    public function testInsertChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
+    public function testInsertChildThrowsInvalidArgumentExceptionWhenIndexIsNotAnInteger($index)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -821,7 +821,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should throw an OutOfBoundsException if $index is too high
      */
-    public function testInsertChild_throwsOutOfBoundsException_ifIndexIsTooHigh()
+    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooHigh()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -834,7 +834,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should throw an OutOfBoundsException if $index to too low
      */
-    public function testInsertChild_throwsOutOfBoundsException_ifIndexIsTooLow()
+    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooLow()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -847,7 +847,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should insert element if $index is between elements
      */
-    public function testInsertChild_insertsElement_ifIndexIsBetweenElements()
+    public function testInsertChildInsertsElementWhenIndexIsBetweenElements()
     {
         $child = new Element();
 
@@ -866,7 +866,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should insert element if $index is before elements
      */
-    public function testInsertChild_insertsElement_ifIndexIsBeforeElement()
+    public function testInsertChildInsertsElementWhenIndexIsBeforeElement()
     {
         $child = new Element();
 
@@ -885,7 +885,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should insert element if $index is after elements
      */
-    public function testInsertChild_insertsElement_ifIndexIsAfterElements()
+    public function testInsertChildInsertsElementWhenIndexIsAfterElements()
     {
         $child = new Element();
 
@@ -904,7 +904,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should not render the group if it's not rendered
      */
-    public function testInsertChild_doesNotRender_ifGroupIsNotRendered()
+    public function testInsertChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
 
@@ -920,7 +920,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * insertChild() should render the group if it's rendered
      */
-    public function testInsertChild_doesRender_ifGroupIsRendered()
+    public function testInsertChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
         $group->setStyle(new \Jstewmc\Rtf\Style());
@@ -942,7 +942,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * isDestination() should return false if the group's first child is not the
      *     asterisk control symbol
      */
-    public function testIsDestination_returnsTrue_ifFirstChildIsNotAsterisk()
+    public function testIsDestinationReturnsTrueWhenFirstChildIsNotAsterisk()
     {
         $group = new Group();
         $group->appendChild(new Text('foo'));
@@ -956,7 +956,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * isDestination() should return true if the group's first child is the asterisk
      *     control symbol
      */
-    public function testIsDestination_returnsTrue_ifFirstChildIsAsterisk()
+    public function testIsDestinationReturnsTrueWhenFirstChildIsAsterisk()
     {
         $group = new Group();
         $group->appendChild(new Control\Symbol\Asterisk());
@@ -973,7 +973,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     // /**
     //  * render() should render if the group is empty
     //  */
-    // public function testRender_ifGroupIsEmpty()
+    // public function testRenderWhenGroupIsEmpty()
     // {
     //  $group = new Group();
     //
@@ -985,7 +985,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * render() should render a group of control words
      */
-    public function testRender_ifGroupIsControls()
+    public function testRenderWhenGroupIsControls()
     {
         $style = new \Jstewmc\Rtf\Style();
 
@@ -1072,7 +1072,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * render() should render a nested group
      */
-    public function testRender_ifGroupIsGroups()
+    public function testRenderWhenGroupIsGroups()
     {
         $style = new \Jstewmc\Rtf\Style();
 
@@ -1149,7 +1149,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * prependChild() should prepend the element if zero children exist
      */
-    public function testPrependChild_prependsElement_ifZeroChildrenExist()
+    public function testPrependChildPrependsElementWhenZeroChildrenExist()
     {
         $child = new Element();
 
@@ -1170,7 +1170,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * prependChild() should prepend the element if many children exist
      */
-    public function testPrependChild_prependsElement_ifManyChildrenExist()
+    public function testPrependChildPrependsElementWhenManyChildrenExist()
     {
         $group = new Group();
 
@@ -1198,7 +1198,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * prependChild() should not render the group if it's not rendered
      */
-    public function testPrependChild_doesNotRender_ifGroupIsNotRendered()
+    public function testPrependChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
 
@@ -1214,7 +1214,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * prependChild() should render the group if it's rendered
      */
-    public function testPrependChild_doesRender_ifGroupIsRendered()
+    public function testPrependChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
         $group->setStyle(new \Jstewmc\Rtf\Style());
@@ -1238,7 +1238,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAnIntegerProvider()
      */
-    public function testRemoveChild_throwsInvalidArgumentException_ifElementIsNotAnIntegerOrElement($index)
+    public function testRemoveChildThrowsInvalidArgumentExceptionWhenElementIsNotAnIntegerOrElement($index)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -1251,7 +1251,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * removeChild() should throw an OutOfBoundsException if $element is not a valid index
      */
-    public function testRemoveChild_throwsOutOfBoundsException_ifElementIsNotValidKey()
+    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotValidKey()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -1265,7 +1265,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      * removeChild() should throw an OutOfBoundsException if $element is not a valid child
      *     element
      */
-    public function testRemoveChild_throwsOutOfBoundsException_ifElementIsNotAValidChild()
+    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotAValidChild()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -1278,7 +1278,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * removeChild() should remove and return element if $element is valid key
      */
-    public function testRemoveChild_returnElement_ifElementIsValidKey()
+    public function testRemoveChildReturnsElementWhenElementIsValidKey()
     {
         $group = new Group();
 
@@ -1306,7 +1306,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * removeChild() should remove and return element if $element is valid element
      */
-    public function testRemoveChild_returnElement_ifElementIsValidElement()
+    public function testRemoveChildReturnsElementWhenElementIsValidElement()
     {
         $group = new Group();
 
@@ -1334,7 +1334,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * removeChild() should not render the group if it's not rendered
      */
-    public function testRemoveChild_doesNotRender_ifGroupIsNotRendered()
+    public function testRemoveChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
         $group->appendChild(new Element());
@@ -1351,7 +1351,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * removeChild() should render the group if it's rendered
      */
-    public function testRemoveChild_doesRender_ifGroupIsRendered()
+    public function testRemoveChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
         $group->appendChild(new Element());
@@ -1375,7 +1375,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAnIntegerProvider
      */
-    public function testReplaceChild_throwsInvalidArgumentException_ifOldIsNotAnIntegerOrElement($old)
+    public function testReplaceChildThrowsInvalidArgumentExceptionWhenOldIsNotAnIntegerOrElement($old)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -1388,7 +1388,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceChild() should throw an OutOfBoundsException if $old is not a valid key
      */
-    public function testReplaceChild_throwsOutOfBoundsException_ifOldIsNotValidKey()
+    public function testReplaceChildThrowsOutOfBoundsExceptionWhenOldIsNotValidKey()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -1401,7 +1401,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceChild() should throw an OutOfBoundsException if $old is not a valid child
      */
-    public function testReplaceChild_throwsOutOfBoundsException_ifOldIsNotValidChild()
+    public function testReplaceChildThrowsOutOfBoundsExceptionWhenOldIsNotValidChild()
     {
         $this->expectException('OutOfBoundsException');
 
@@ -1414,7 +1414,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceChild() should return the replaced element if $old is a valid key
      */
-    public function testReplaceChild_returnsElement_ifOldIsValidKey()
+    public function testReplaceChildReturnsElementWhenOldIsValidKey()
     {
         $group = new Group();
 
@@ -1446,7 +1446,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceChild() should return the replaced element if $old is a valid child
      */
-    public function testReplaceChild_returnsElement_ifOldIsValidChild()
+    public function testReplaceChildReturnsElementWhenOldIsValidChild()
     {
         $group = new Group();
 
@@ -1478,7 +1478,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * replaceChild() should not render the group if it's not rendered
      */
-    public function testReplaceChild_doesNotRender_ifGroupIsNotRendered()
+    public function testReplaceChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
         $group->appendChild(new Element());
@@ -1495,7 +1495,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     /**
      * appendChild() should render the group if it's rendered
      */
-    public function testReplaceChild_doesRender_ifGroupIsRendered()
+    public function testReplaceChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
         $group->appendChild(new Element());

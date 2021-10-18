@@ -13,7 +13,7 @@ namespace Jstewmc\Rtf\State;
 class CharacterTest extends \PHPUnit\Framework\TestCase
 {
     /* !Providers */
-    
+
     public function notAStringProvider()
     {
         return [
@@ -26,10 +26,10 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
             [new \StdClass()]
         ];
     }
-    
-    
+
+
     /* !getIsBold() / setIsBold() */
-    
+
     /**
      * getIsBold() and setIsBold() should get and set the bold flag, respectively
      */
@@ -37,15 +37,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsBold(true);
-        
+
         $this->assertTrue($character->getIsBold());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsItalic() / setIsItalic() */
-    
+
     /**
      * getIsItalic() and setIsItalic() should get and set the italic flag, respectively
      */
@@ -53,15 +53,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsItalic(true);
-        
+
         $this->assertTrue($character->getIsItalic());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsSubscript() / setIsSubscript() */
-    
+
     /**
      * getIsSubscript() and setIsSubscript() should get and set the subscript flag, respectively
      */
@@ -69,15 +69,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsSubscript(true);
-        
+
         $this->assertTrue($character->getIsSubscript());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsSuperscript() / setIsSuperscript() */
-    
+
     /**
      * getIsSuperscript() and setIsSuperscript() should get and set the superscript flag, respectively
      */
@@ -85,15 +85,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsSuperscript(true);
-        
+
         $this->assertTrue($character->getIsSuperscript());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsStrikethrough() / setIsStrikethrough() */
-    
+
     /**
      * getIsStrikethrough() and setIsStrikethrough() should get and set the strikethrough flag, respectively
      */
@@ -101,15 +101,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsStrikethrough(true);
-        
+
         $this->assertTrue($character->getIsStrikethrough());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsUnderline() / setIsUnderline() */
-     
+
     /**
      * getIsUnderline() and setIsUnderline() should get and set the underline flag, respectively
      */
@@ -117,15 +117,15 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsUnderline(true);
-        
+
         $this->assertTrue($character->getIsUnderline());
-        
+
         return;
     }
-    
-    
+
+
     /* !getIsVisible() / setIsVisible() */
-    
+
     /**
      * getIsVisible() and setIsVisible() should get and set the visible flag, respectively
      */
@@ -133,58 +133,58 @@ class CharacterTest extends \PHPUnit\Framework\TestCase
     {
         $character = new Character();
         $character->setIsVisible(false);
-        
+
         $this->assertFalse($character->getIsVisible());
-        
+
         return;
     }
-    
-    
+
+
     /* !format() */
-    
+
     /**
      * format() should throw an InvalidArgumentException if $format is not a string
      *
      * @dataProvider  notAStringProvider
      */
-    public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
     {
         $this->expectException(\InvalidArgumentException::class);
-        
+
         $state = new Character();
-        $state->format($state);
-        
+        $state->format($format);
+
         return;
     }
-    
+
     /**
      * format() should throw an InvalidArgumentException if $format is not valid
      */
-    public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotValid()
     {
         $this->expectException(\InvalidArgumentException::class);
-        
+
         $state = new Character();
         $state->format('foo');
-        
+
         return;
     }
-    
+
     /**
      * format() should return a string if $format is valid
      */
-    public function testFormat_returnsString_ifFormatIsValid()
+    public function testFormatReturnsStringWhenFormatIsValid()
     {
         $state = new Character();
-        
+
         $state->setIsBold(true);
         $state->setIsItalic(true);
-        
+
         $expected = 'font-weight: bold; font-style: italic;';
         $actual   = $state->format('css');
-        
+
         $this->assertEquals($expected, $actual);
-        
+
         return;
     }
 }

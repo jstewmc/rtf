@@ -57,7 +57,7 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return symbol element if $parameter is null
      */
-    public function testConstruct_returnsSymbol_ifParameterIsNull()
+    public function testConstructReturnsSymbolWhenParameterIsNull()
     {
         $symbol = new Symbol();
         
@@ -70,7 +70,7 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return symbol element if $parameter is not null
      */
-    public function testConstruct_returnsSymbol_ifParameterIsNotNull()
+    public function testConstructReturnsSymbolWhenParameterIsNotNull()
     {
         $parameter = 'foo';
         
@@ -88,7 +88,7 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if parameter does not exist
      */
-    public function testToString_returnsString_ifParameterDoesNotExist()
+    public function testToStringReturnsStringWhenParameterDoesNotExist()
     {
         $symbol = new Symbol();
         $symbol->setSymbol('*');
@@ -101,7 +101,7 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if parameter does exist
      */
-    public function testToString_returnsString_ifParameterDoesExist()
+    public function testToStringReturnsStringWhenParameterDoesExist()
     {
         $symbol = new Symbol();
         $symbol->setSymbol('\'');
@@ -115,7 +115,7 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return string if the control symbol is not space delimited
      */
-    public function testToString_returnsString_ifNotSpaceDelimited()
+    public function testToStringReturnsStringWhenNotSpaceDelimited()
     {
         $symbol = new Symbol();
         $symbol->setSymbol('+');

@@ -18,7 +18,7 @@ class UlTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should underline the characters if the parameter is omitted
      */
-    public function testRun_doesUnderline_ifParameterIsOmitted()
+    public function testRunDoesUnderlineWhenParameterIsOmitted()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -37,7 +37,7 @@ class UlTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should underline the characters if the parameter is not zero
      */
-    public function testRun_doesUnderline_ifParameterIsNotZero()
+    public function testRunDoesUnderlineWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -57,7 +57,7 @@ class UlTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should update the element's style
      */
-    public function testRun_doesNotUnderline_ifParameterIsZero()
+    public function testRunDoesNotUnderlineWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

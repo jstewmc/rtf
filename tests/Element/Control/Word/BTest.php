@@ -18,7 +18,7 @@ class BTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should update the element's style
      */
-    public function testRun_doesBold_ifParameterIsNotZero()
+    public function testRunDoesBoldWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -38,7 +38,7 @@ class BTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should update the element's style
      */
-    public function testRun_doesNotBold_ifParameterIsZero()
+    public function testRunDoesNotBoldWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

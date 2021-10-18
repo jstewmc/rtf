@@ -18,7 +18,7 @@ class SubTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should subscript the characters if parameter is not zero
      */
-    public function testRun_doesSubscript_ifParameterIsNotZero()
+    public function testRunDoesSubscriptWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -38,7 +38,7 @@ class SubTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should update the element's style
      */
-    public function testRun_doesNotSubscript_ifParameterIsZero()
+    public function testRunDoesNotSubscriptWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         

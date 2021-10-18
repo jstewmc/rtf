@@ -67,7 +67,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should return document if $source is null
      */
-    public function testConstruct_returnsObject_ifSourceIsNull()
+    public function testConstructReturnsObjectWhenSourceIsNull()
     {
         $document = new Document();
 
@@ -79,7 +79,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should read() string if $source starts with open bracket ("{")
      */
-    public function testConstruct_readsString_ifSourceDoesStartWithOpenBracket()
+    public function testConstructReadsStringWhenSourceDoesStartWithOpenBracket()
     {
         $document = new Document('{\b foo\b0}');
 
@@ -91,7 +91,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * __construct() should load() file if $source does not start with open bracket ("{")
      */
-    public function testConstruct_loadsFile_ifSourceDoesNotStartWithOpenBracket()
+    public function testConstructLoadsFileWhenSourceDoesNotStartWithOpenBracket()
     {
         $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
 
@@ -116,7 +116,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return a string if elements do not exist
      */
-    public function testToString_returnsString_ifElementsDoNotExist()
+    public function testToStringReturnsStringWhenElementsDoNotExist()
     {
         $document = new Document();
 
@@ -128,7 +128,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * __toString() should return a string if elements do exist
      */
-    public function testToString_returnsString_ifElementDoExist()
+    public function testToStringReturnsStringWhenElementDoExist()
     {
         $rtf = '{\b foo\b0}';
 
@@ -151,7 +151,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testLoad_throwsInvalidArgumentException_ifSourceIsNotAString($source)
+    public function testLoadThrowsInvalidArgumentExceptionWhenSourceIsNotAString($source)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -165,7 +165,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      * load() should throw an InvalidArgumentException if $source does not exist or
      *     is not readable
      */
-    public function testLoad_throwsInvalidArgumentException_ifSourceIsNotReadable()
+    public function testLoadThrowsInvalidArgumentExceptionWhenSourceIsNotReadable()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -180,7 +180,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * load() should return true if
      */
-    public function testLoad_returnsTrue_ifSuccess()
+    public function testLoadReturnsTrueWhenSuccess()
     {
         $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
         $contents = '{\b foo\b0}';
@@ -209,7 +209,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testRead_throwsInvalidArgumentException_ifSourceIsNotAString($source)
+    public function testReadThrowsInvalidArgumentExceptionWhenSourceIsNotAString($source)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -222,7 +222,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * read() should return true if $source is empty
      */
-    public function testRead_returnsFalse_ifSourceIsEmpty()
+    public function testReadReturnsFalseWhenSourceIsEmpty()
     {
         $document = new Document();
 
@@ -234,7 +234,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     // /**
     //  * read() should return false if the load fails
     //  */
-    // public function testRead_returnsFalse_ifLoadFails()
+    // public function testReadReturnsFalseWhenLoadFails()
     // {
     //  // hmmm, how do we test this?
     // }
@@ -242,7 +242,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * read() should return true if the load succeeds
      */
-    public function testRead_returnsTrue_ifLoadSucceeds()
+    public function testReadReturnsTrueWhenLoadSucceeds()
     {
         $document = new Document();
 
@@ -269,7 +269,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testSave_throwsInvalidArgumentException_ifDestinationIsNotAString($destination)
+    public function testSaveThrowsInvalidArgumentExceptionWhenDestinationIsNotAString($destination)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -284,7 +284,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  neitherAStringNorNullProvider
      */
-    public function testSave_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+    public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -298,7 +298,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      * save() should throw a BadMethodCallException if $format is null and destination
      *     doesn't end in 'html', 'rtf', or 'txt'
      */
-    public function testSave_throwsBadMethodCallException_ifExtensionIsNotValid()
+    public function testSaveThrowsBadMethodCallExceptionWhenExtensionIsNotValid()
     {
         $this->expectException(\BadMethodCallException::class);
 
@@ -311,7 +311,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     // /**
     //  * save() should return false if save fails
     //  */
-    // public function testSave_returnsFalse_ifSaveFails()
+    // public function testSaveReturnsFalseWhenSaveFails()
     // {
     //  // hmmm, how do we test this?
     // }
@@ -319,7 +319,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * save() should return true if save is successful
      */
-    public function testSave_returnsTrue_ifSaveSucceeds()
+    public function testSaveReturnsTrueWhenSaveSucceeds()
     {
         $filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
 
@@ -348,7 +348,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
      *
      * @dataProvider  notAStringProvider
      */
-    public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+    public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -364,7 +364,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if the format is html
      */
-    public function testWrite_returnsString_ifFormatIsHtml()
+    public function testWriteReturnsStringWhenFormatIsHtml()
     {
         $rtf = '{\b foo\b0}';
 
@@ -383,7 +383,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if the format is rtf
      */
-    public function testWrite_returnsString_ifFormatIsRtf()
+    public function testWriteReturnsStringWhenFormatIsRtf()
     {
         $rtf = '{\b foo\b0}';
 
@@ -401,7 +401,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * write() should return a string if the format is text
      */
-    public function testWrite_returnsString_ifFormatIsText()
+    public function testWriteReturnsStringWhenFormatIsText()
     {
         $rtf = '{\b foo\b0}';
 

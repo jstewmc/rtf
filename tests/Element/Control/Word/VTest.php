@@ -18,7 +18,7 @@ class VTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should make characters visible if parameter is omitted
      */
-    public function testRun_doesShow_ifParameterIsOmitted()
+    public function testRunDoesShowWhenParameterIsOmitted()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -35,7 +35,7 @@ class VTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should make characters visible if parameter is not zero
      */
-    public function testRun_doesShow_ifParameterIsNotZero()
+    public function testRunDoesShowWhenParameterIsNotZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
@@ -53,7 +53,7 @@ class VTest extends \PHPUnit\Framework\TestCase
     /**
      * run() should make characters visible if parameter is not zero
      */
-    public function testRun_doesNotShow_ifParameterIsZero()
+    public function testRunDoesNotShowWhenParameterIsZero()
     {
         $style = new \Jstewmc\Rtf\Style();
         
