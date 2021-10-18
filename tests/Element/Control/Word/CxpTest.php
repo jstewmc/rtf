@@ -5,7 +5,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 /**
  * Tests for the Cxp control word
  */
-class CxpTest extends \PHPUnit_Framework_TestCase
+class CxpTest extends \PHPUnit\Framework\TestCase
 {
 	// nothing yet
 	

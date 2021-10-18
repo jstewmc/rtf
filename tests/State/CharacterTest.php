@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf\State;
  * @license    MIT
  * @since      0.1.0
  */
-class CharacterTest extends \PHPUnit_Framework_TestCase
+class CharacterTest extends \PHPUnit\Framework\TestCase
 {
 	/* !Providers */
 	
@@ -149,7 +149,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$state = new Character();
 		$state->format($state);
@@ -162,7 +162,7 @@ class CharacterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$state = new Character();
 		$state->format('foo');

@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf\State;
  * @license    MIT
  * @since      0.1.0
  */
-class StateTest extends \PHPUnit_Framework_TestCase
+class StateTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
 	

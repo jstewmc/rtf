@@ -5,7 +5,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 /**
  * Tests for the "\cxstit" control word
  */
-class CxstitTest extends \PHPUnit_Framework_TestCase
+class CxstitTest extends \PHPUnit\Framework\TestCase
 {
 	// nothing yet
 	

@@ -11,7 +11,7 @@ use Jstewmc\Rtf\Token\Group\Group;
  * @since      0.1.0
  */
 
-class GroupTest extends PHPUnit_Framework_Testcase
+class GroupTest extends \PHPUnit\Framework\TestCase
 {
 	// nothing yet (if ever)
 	

@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf;
  * @license    MIT
  * @since      0.1.0
  */
-class DocumentTest extends \PHPUnit_Framework_TestCase
+class DocumentTest extends \PHPUnit\Framework\TestCase
 {
 	/* !dataProviders */
 	
@@ -153,7 +153,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testLoad_throwsInvalidArgumentException_ifSourceIsNotAString($source)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$document = new Document();
 		$document->load($source);
@@ -167,7 +167,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testLoad_throwsInvalidArgumentException_ifSourceIsNotReadable()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
 	
@@ -211,7 +211,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testRead_throwsInvalidArgumentException_ifSourceIsNotAString($source)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$document = new Document();
 		$document->read($source);
@@ -271,7 +271,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSave_throwsInvalidArgumentException_ifDestinationIsNotAString($destination)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$document = new Document();
 		$document->save($destination);
@@ -286,7 +286,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSave_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$document = new Document();
 		$document->save('foo', $format);
@@ -300,7 +300,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testSave_throwsBadMethodCallException_ifExtensionIsNotValid()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$document = new Document();
 		$document->save('foo');
@@ -350,7 +350,7 @@ class DocumentTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
-		$this->setExpectedException('InvalidArgumentException');	
+		$this->expectException(\InvalidArgumentException::class);	
 		
 		$rtf = '{\b foo\b0}';
 		

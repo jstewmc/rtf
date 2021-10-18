@@ -11,7 +11,7 @@ use Jstewmc\Rtf\Token\Control\Control;
  * @since      0.1.0
  */
 
-class ControlTest extends PHPUnit_Framework_Testcase
+class ControlTest extends \PHPUnit\Framework\TestCase
 {
 	// nothing yet (if ever)
 	

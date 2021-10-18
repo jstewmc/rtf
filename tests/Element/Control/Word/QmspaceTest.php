@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * @since      0.1.0
  */
 
-class QmspaceTest extends \PHPUnit_Framework_TestCase
+class QmspaceTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
 	

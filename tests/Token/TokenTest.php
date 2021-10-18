@@ -11,7 +11,7 @@ use Jstewmc\Rtf\Token\Token;
  * @since      0.1.0
  */
 
-class TokenTest extends PHPUnit_Framework_Testcase
+class TokenTest extends \PHPUnit\Framework\TestCase
 {
 	// nothing yet (if ever)
 	

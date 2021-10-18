@@ -13,7 +13,7 @@ use Jstewmc\Chunker;
  * @since      0.1.0
  */
 
-class WordTest extends PHPUnit_Framework_Testcase
+class WordTest extends \PHPUnit\Framework\TestCase
 {	
 	/* !Get/set methods */
 	
@@ -139,7 +139,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$chunker = new Chunker\Text('foo');
 		
@@ -156,7 +156,7 @@ class WordTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_throwsInvalidArgumentException_ifNextCharacterIsNotAlphabetic()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$chunker = new Chunker\Text('\\1');
 		

@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf\State;
  * @license    MIT
  * @since      0.1.0
  */
-class SectionTest extends \PHPUnit_Framework_TestCase
+class SectionTest extends \PHPUnit\Framework\TestCase
 {
 	/* !getIndex() / setIndex() */
 	

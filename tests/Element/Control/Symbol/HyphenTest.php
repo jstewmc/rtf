@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  * @since      0.1.0
  */
  
-class HyphenTest extends \PHPUnit_Framework_TestCase
+class HyphenTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
 	

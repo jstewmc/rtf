@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control;
  * @since      0.1.0
  */
 
-class ControlTest extends \PHPUnit_Framework_TestCase
+class ControlTest extends \PHPUnit\Framework\TestCase
 {
 	/* setIsSpaceDelimited() / getIsSpaceDelimited() */
 	

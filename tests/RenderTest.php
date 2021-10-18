@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf;
  * @license    MIT
  * @since      0.1.0
  */
-class RendererTest extends \PHPUnit_Framework_TestCase
+class RendererTest extends \PHPUnit\Framework\TestCase
 {
 	/* !render() */
 	

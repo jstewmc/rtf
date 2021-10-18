@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  * @since      0.1.0
  */
  
-class AsteriskTest extends \PHPUnit_Framework_TestCase
+class AsteriskTest extends \PHPUnit\Framework\TestCase
 {
 	public function testFoo()
 	{

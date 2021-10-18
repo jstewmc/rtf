@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element;
  * @since      0.1.0
  */
 
-class GroupTest extends \PHPUNit_Framework_TestCase
+class GroupTest extends \PHPUnit\Framework\TestCase
 {
 	/* !Provider */
 	
@@ -301,7 +301,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->getChild($index);
@@ -314,7 +314,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetChild_throwsOutOfBoundsException_ifIndexIsNotValid()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->getChild(999);
@@ -350,7 +350,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetControlWords_throwsInvalidArgumentException_ifWordIsNotAString($word)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->getControlWords($word);
@@ -364,7 +364,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetControlWords_throwsInvalidArgumentException_ifParameterIsInvalid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->getControlWords('foo', []);
@@ -459,7 +459,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetControlSymbols_throwsInvalidArgumentException_ifWordIsNotAString($symbol)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->getControlSymbols($symbol);
@@ -473,7 +473,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testGetControlSymbols_throwsInvalidArgumentException_ifParameterIsInvalid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->getControlSymbols('+', []);
@@ -717,7 +717,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testHasCHild_throwsBadMethodCallException_ifElementAndIndexAreNull()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$group = new Group();
 		$group->hasChild(0, 0);
@@ -731,7 +731,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testHasChild_throwsInvalidArgumentException_ifOneIsNotAnIntegerOrElement()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->hasChild('foo');
@@ -745,7 +745,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testHasChild_throwsInvalidArgumentException_ifTwoIsNotAnIntegerOrElementOrNull()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->hasChild(1, 'foo');
@@ -809,7 +809,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testInsertChild_throwsInvalidArgumentException_ifIndexIsNotAnInteger($index)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->insertChild(new Element(), $index);
@@ -822,7 +822,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testInsertChild_throwsOutOfBoundsException_ifIndexIsTooHigh()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->insertChild(new Element(), 999);
@@ -835,7 +835,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testInsertChild_throwsOutOfBoundsException_ifIndexIsTooLow()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->insertChild(new Element(), -999);
@@ -1238,7 +1238,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testRemoveChild_throwsInvalidArgumentException_ifElementIsNotAnIntegerOrElement($index)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->removeChild($index);
@@ -1251,7 +1251,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testRemoveChild_throwsOutOfBoundsException_ifElementIsNotValidKey()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->removeChild(999);
@@ -1265,7 +1265,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testRemoveChild_throwsOutOfBoundsException_ifElementIsNotAValidChild()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->removeChild(new Text('foo'));
@@ -1369,7 +1369,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testReplaceChild_throwsInvalidArgumentException_ifOldIsNotAnIntegerOrElement($old)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$group = new Group();
 		$group->replaceChild($old, new Element());
@@ -1382,7 +1382,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testReplaceChild_throwsOutOfBoundsException_ifOldIsNotValidKey()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->replaceChild(999, new Element());
@@ -1395,7 +1395,7 @@ class GroupTest extends \PHPUNit_Framework_TestCase
 	 */
 	public function testReplaceChild_throwsOutOfBoundsException_ifOldIsNotValidChild()
 	{
-		$this->setExpectedException('OutOfBoundsException');
+		$this->expectException('OutOfBoundsException');
 		
 		$group = new Group();
 		$group->replaceChild(new Element(), new Element());

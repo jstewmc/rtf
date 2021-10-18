@@ -12,7 +12,7 @@ namespace Jstewmc\Rtf;
  * @license    MIT
  * @since      0.1.0
  */
-class WriterTest extends \PHPUnit_Framework_TestCase
+class WriterTest extends \PHPUnit\Framework\TestCase
 {
 	/* !Data providers */
 	
@@ -38,7 +38,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$writer = new Writer();
 		$writer->write(new Element\Group(), $format);
@@ -52,7 +52,7 @@ class WriterTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testWrite_throwsInvalidArgumentException_ifFormatIsNotValid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$writer = new Writer();
 		$writer->write(new Element\Group(), 'foo');

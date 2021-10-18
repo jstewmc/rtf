@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * @since      0.1.0
  */
 
-class WordTest extends \PHPUnit_Framework_TestCase
+class WordTest extends \PHPUnit\Framework\TestCase
 {
 	/* !setIsIgnored() / getIsIgnored() */
 	

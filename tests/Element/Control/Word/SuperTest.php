@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * @since      0.1.0
  */
 
-class SuperTest extends \PHPUnit_Framework_TestCase
+class SuperTest extends \PHPUnit\Framework\TestCase
 {
 	/* !run() */
 	
