@@ -13,27 +13,27 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class PlainTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should reset the character state
-	 */
-	public function testRun_incrementsParagraphIndex()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$old = $style->getCharacter()->getIsBold();
-		
-		$style->getCharacter()->setIsBold( ! $old);
-		
-		$element = new Plain();
-		$element->setStyle($style);
-		$element->run();
-		
-		$new = $style->getCharacter()->getIsBold();
-		
-		$this->assertEquals($old, $new);
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should reset the character state
+     */
+    public function testRun_incrementsParagraphIndex()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $old = $style->getCharacter()->getIsBold();
+        
+        $style->getCharacter()->setIsBold(! $old);
+        
+        $element = new Plain();
+        $element->setStyle($style);
+        $element->run();
+        
+        $new = $style->getCharacter()->getIsBold();
+        
+        $this->assertEquals($old, $new);
+        
+        return;
+    }
 }

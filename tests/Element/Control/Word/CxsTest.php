@@ -7,10 +7,10 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class CxsTest extends \PHPUnit\Framework\TestCase
 {
-	// nothing yet
-	
-	public function testFoo()
-	{
-		return;
-	}
+    // nothing yet
+    
+    public function testFoo()
+    {
+        return;
+    }
 }

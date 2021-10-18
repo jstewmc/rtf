@@ -13,19 +13,19 @@ namespace Jstewmc\Rtf\Element\Control;
 
 class ControlTest extends \PHPUnit\Framework\TestCase
 {
-	/* setIsSpaceDelimited() / getIsSpaceDelimited() */
-	
-	/**
-	 * setIsSpaceDelimited() and getIsSpaceDelimited() should set and get the
-	 *     flag, respectively
-	 */
-	public function testSetGetIsSpaceDelimited()
-	{
-		$control = new Control();
-		$control->setIsSpaceDelimited(true);
-		
-		$this->assertTrue($control->getIsSpaceDelimited());
-		
-		return;
-	}
+    /* setIsSpaceDelimited() / getIsSpaceDelimited() */
+    
+    /**
+     * setIsSpaceDelimited() and getIsSpaceDelimited() should set and get the
+     *     flag, respectively
+     */
+    public function testSetGetIsSpaceDelimited()
+    {
+        $control = new Control();
+        $control->setIsSpaceDelimited(true);
+        
+        $this->assertTrue($control->getIsSpaceDelimited());
+        
+        return;
+    }
 }

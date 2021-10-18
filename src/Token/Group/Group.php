@@ -6,7 +6,7 @@ namespace Jstewmc\Rtf\Token\Group;
  * A group token
  *
  * A group consists of text, control words, or control symbols enclosed in brackets
- * ("{" and "}"). The opening brace indicates the start of a group and the closing 
+ * ("{" and "}"). The opening brace indicates the start of a group and the closing
  * brace indicates the end of a group.
  *
  * @author     Jack Clayton
@@ -17,5 +17,5 @@ namespace Jstewmc\Rtf\Token\Group;
 
 abstract class Group extends \Jstewmc\Rtf\Token\Token
 {
-	// nothing yet
+    // nothing yet
 }

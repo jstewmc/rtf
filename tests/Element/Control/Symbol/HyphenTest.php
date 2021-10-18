@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  
 class HyphenTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$symbol = new Hyphen();
-		
-		$expected = '-';
-		$actual   = $symbol->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$symbol = new Hyphen();
-		
-		$expected = '-';
-		$actual   = $symbol->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsHtml()
+    {
+        $symbol = new Hyphen();
+        
+        $expected = '-';
+        $actual   = $symbol->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsText()
+    {
+        $symbol = new Hyphen();
+        
+        $expected = '-';
+        $actual   = $symbol->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

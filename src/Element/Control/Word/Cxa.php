@@ -19,5 +19,5 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxa extends Word
 {
-	// nothing yet	
+    // nothing yet
 }

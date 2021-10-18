@@ -13,45 +13,45 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class SuperTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should superscript the characters if the parameter is not zero
-	 */
-	public function testRun_doesSuperscript_ifParameterIsNotZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new Super();
-		$element->setParameter('1');
-		$element->setStyle($style);
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
-		
-		$element->run();
-		
-		$this->assertTrue($element->getStyle()->getCharacter()->getIsSuperscript());
-		
-		return;
-	}
-	
-	/**
-	 * run() should superscript the characters if the parameter is zero
-	 */
-	public function testRun_doesNotSuperscript_ifParameterIsZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new Super();
-		$element->setParameter('0');
-		$element->setStyle($style);
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
-		
-		$element->run();
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should superscript the characters if the parameter is not zero
+     */
+    public function testRun_doesSuperscript_ifParameterIsNotZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new Super();
+        $element->setParameter('1');
+        $element->setStyle($style);
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
+        
+        $element->run();
+        
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsSuperscript());
+        
+        return;
+    }
+    
+    /**
+     * run() should superscript the characters if the parameter is zero
+     */
+    public function testRun_doesNotSuperscript_ifParameterIsZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new Super();
+        $element->setParameter('0');
+        $element->setStyle($style);
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
+        
+        $element->run();
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsSuperscript());
+        
+        return;
+    }
 }

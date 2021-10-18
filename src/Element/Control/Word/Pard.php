@@ -14,17 +14,17 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Pard extends Word
 {
-	/* !Public methods */
-	
-	/**
-	 * Runs the command
-	 *
-	 * @return  void
-	 */
-	public function run()
-	{
-		$this->style->getParagraph()->reset();
-		
-		return;
-	}	
+    /* !Public methods */
+    
+    /**
+     * Runs the command
+     *
+     * @return  void
+     */
+    public function run()
+    {
+        $this->style->getParagraph()->reset();
+        
+        return;
+    }
 }

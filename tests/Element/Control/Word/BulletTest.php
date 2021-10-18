@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class BulletTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$bullet = new Bullet();
-		
-		$expected = '&bull;';
-		$actual   = $bullet->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$bullet = new Bullet();
-		
-		$expected = html_entity_decode('&bull;');
-		$actual   = $bullet->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsHtml()
+    {
+        $bullet = new Bullet();
+        
+        $expected = '&bull;';
+        $actual   = $bullet->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsText()
+    {
+        $bullet = new Bullet();
+        
+        $expected = html_entity_decode('&bull;');
+        $actual   = $bullet->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

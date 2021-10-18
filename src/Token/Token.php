@@ -16,12 +16,12 @@ namespace Jstewmc\Rtf\Token;
 
 abstract class Token
 {
-	/* !Magic methods */
-	
-	/**
-	 * Called when the token is treated as a string
-	 *
-	 * @return  string
-	 */
-	abstract public function __toString();
+    /* !Magic methods */
+    
+    /**
+     * Called when the token is treated as a string
+     *
+     * @return  string
+     */
+    abstract public function __toString();
 }

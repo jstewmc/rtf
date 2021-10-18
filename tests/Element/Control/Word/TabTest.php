@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class TabTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$word = new Tab();
-		
-		$expected = '&emsp;';
-		$actual   = $word->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$word = new Tab();
-		
-		$expected = "\t";
-		$actual   = $word->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsHtml()
+    {
+        $word = new Tab();
+        
+        $expected = '&emsp;';
+        $actual   = $word->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormat_returnsString_ifFormatIsText()
+    {
+        $word = new Tab();
+        
+        $expected = "\t";
+        $actual   = $word->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

@@ -15,36 +15,36 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
 
 class Hyphen extends Symbol
 {
-	/* !Protected properties */
-	
-	/**
-	 * @var  string  the control symbol's symbol
-	 * @since  0.1.0
-	 */
-	protected $symbol = '-';
-	
-	
-	/* !Protected methods */
-	
-	/**
-	 * Returns this control symbol as an html string
-	 *
-	 * @return  string
-	 * @since  0.1.0
-	 */
-	protected function toHtml()
-	{
-		return $this->toText();
-	}
-	
-	/**
-	 * Returns this control symbol as plain text
-	 *
-	 * @return  string
-	 * @since  0.1.0
-	 */
-	protected function toText()
-	{
-		return '-';
-	}
+    /* !Protected properties */
+    
+    /**
+     * @var  string  the control symbol's symbol
+     * @since  0.1.0
+     */
+    protected $symbol = '-';
+    
+    
+    /* !Protected methods */
+    
+    /**
+     * Returns this control symbol as an html string
+     *
+     * @return  string
+     * @since  0.1.0
+     */
+    protected function toHtml()
+    {
+        return $this->toText();
+    }
+    
+    /**
+     * Returns this control symbol as plain text
+     *
+     * @return  string
+     * @since  0.1.0
+     */
+    protected function toText()
+    {
+        return '-';
+    }
 }

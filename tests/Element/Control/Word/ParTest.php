@@ -13,25 +13,25 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class ParTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should increment the paragraph index
-	 */
-	public function testRun_incrementsParagraphIndex()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$old = $style->getParagraph()->getIndex();
-		
-		$element = new Par();
-		$element->setStyle($style);
-		$element->run();
-		
-		$new = $style->getParagraph()->getIndex();
-		
-		$this->assertGreaterThan($old, $new);
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should increment the paragraph index
+     */
+    public function testRun_incrementsParagraphIndex()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $old = $style->getParagraph()->getIndex();
+        
+        $element = new Par();
+        $element->setStyle($style);
+        $element->run();
+        
+        $new = $style->getParagraph()->getIndex();
+        
+        $this->assertGreaterThan($old, $new);
+        
+        return;
+    }
 }
