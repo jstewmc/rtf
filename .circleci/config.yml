@@ -4,6 +4,9 @@
 #
 version: 2.1
 
+orbs:
+  codecov: codecov/codecov@3.1.0
+
 jobs:
   build-php74:
     docker:
@@ -36,7 +39,9 @@ jobs:
           key: v80-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: ./vendor/bin/phpunit --dont-report-useless-tests
+      - run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml --dont-report-useless-tests
+      - codecov/upload:
+          file: ./coverage.xml
 
 workflows:
   version: 2
