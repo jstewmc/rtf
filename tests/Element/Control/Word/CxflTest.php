@@ -10,7 +10,7 @@ use Jstewmc\Rtf\Style;
 /**
  * Tests for the "\cxfl" control word
  */
-class CxflTest extends \PHPUnit_Framework_TestCase
+class CxflTest extends \PHPUnit\Framework\TestCase
 {
 	/* !run() */
 	

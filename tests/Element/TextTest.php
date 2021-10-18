@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element;
  * @since      0.1.0
  */
 
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit\Framework\TestCase
 {
 	/* !Get/set methods */
 	

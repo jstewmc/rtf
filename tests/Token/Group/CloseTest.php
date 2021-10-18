@@ -11,7 +11,7 @@ use Jstewmc\Rtf\Token\Group\Close;
  * @since      0.1.0
  */
  
-class CloseTest extends PHPUnit_Framework_Testcase
+class CloseTest extends \PHPUnit\Framework\TestCase
 {
 	/* !__toString() */
 	

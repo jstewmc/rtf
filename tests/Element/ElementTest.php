@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element;
  * @since      0.1.0
  */
 
-class ElementTest extends \PHPUnit_Framework_TestCase
+class ElementTest extends \PHPUnit\Framework\TestCase
 {
 	/* !Providers */
 	
@@ -99,7 +99,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetIndex_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		
@@ -113,7 +113,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetIndex_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -130,7 +130,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetIndex_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -166,7 +166,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextSibling_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		$element->getNextSibling();
@@ -179,7 +179,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -197,7 +197,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextSibling_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -253,7 +253,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextText_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		$element->getNextText();
@@ -266,7 +266,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextText_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -284,7 +284,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetNextText_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -359,7 +359,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousSibling_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		$element->getPreviousSibling();
@@ -372,7 +372,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -389,7 +389,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousSibling_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -445,7 +445,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousText_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		$element->getPreviousText();
@@ -458,7 +458,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousText_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -475,7 +475,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testGetPreviousText_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -551,7 +551,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotAString($format)
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$element = new Element();
 		$element->format($format);
@@ -564,7 +564,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testFormat_throwsInvalidArgumentException_ifFormatIsNotValid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$element = new Element();
 		$element->format('foo');
@@ -616,7 +616,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertAfter_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -632,7 +632,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertAfter_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -651,7 +651,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertAfter_throwsBadMethodCallException_ifElementIsNotChild()
 	{	
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -694,7 +694,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertBefore_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -710,7 +710,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertBefore_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -729,7 +729,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testInsertBefore_throwsBadMethodCallException_ifElementIsNotChild()
 	{	
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');
@@ -772,7 +772,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsFirstChild_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$foo->isFirstChild();
@@ -786,7 +786,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsFirstChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$group = new Group();
 		
@@ -803,7 +803,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsFirstChild_throwsBadMethodCallException_ifElementIsNotChild()
 	{	
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$group = new Group();
 		$group->appendChild(new Element());
@@ -854,7 +854,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsLastChild_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$foo->isLastChild();
@@ -868,7 +868,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsLastChild_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$group = new Group();
 		
@@ -885,7 +885,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testIsLastChild_throwsBadMethodCallException_ifElementIsNotChild()
 	{	
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$group = new Group();
 		$group->appendChild(new Element());
@@ -960,7 +960,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutNextSibling_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		
@@ -974,7 +974,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutNextSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -991,7 +991,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutNextSibling_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -1052,7 +1052,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutPreviousSibling_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$element = new Element();
 		
@@ -1066,7 +1066,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutPreviousSibling_throwsBadMethodCallException_ifSiblingsDoNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		
@@ -1083,7 +1083,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testPutPreviousSibling_throwsBadMethodCallException_ifElementIsNotChild()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$parent = new Group();
 		$parent->appendChild(new Element())->appendChild(new Element());
@@ -1144,7 +1144,7 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function testReplaceWith_throwsBadMethodCallException_ifParentDoesNotExist()
 	{
-		$this->setExpectedException('BadMethodCallException');
+		$this->expectException(\BadMethodCallException::class);
 		
 		$foo = new Text('foo');
 		$bar = new Text('bar');

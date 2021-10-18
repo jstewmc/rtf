@@ -13,7 +13,7 @@ use Jstewmc\Chunker;
  * @since      0.1.0
  */
 
-class SymbolTest extends PHPUnit_Framework_Testcase
+class SymbolTest extends \PHPUnit\Framework\TestCase
 {	
 	/* !Get/set methods */
 	
@@ -178,7 +178,7 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_throwsInvalidArgumentException_ifCurrentCharacterIsNotBackslash()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$chunker = new Chunker\Text('abc');
 		
@@ -195,7 +195,7 @@ class SymbolTest extends PHPUnit_Framework_Testcase
 	 */
 	public function testCreateFromStream_throwsInvalidArgumentException_ifNextCharacterIsAlphanumeric()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$chunker = new Chunker\Text('\\bc');
 		

@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf;
  * @since      0.1.0
  */
 
-class ParserTest extends \PHPUnit_Framework_TestCase
+class ParserTest extends \PHPUnit\Framework\TestCase
 {	
 	/* !parse() */
 	
@@ -72,7 +72,7 @@ class ParserTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_parse_throwsInvalidArgumentException_ifGroupsMismatched()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		$tokens = [
 			new Token\Group\Open(),

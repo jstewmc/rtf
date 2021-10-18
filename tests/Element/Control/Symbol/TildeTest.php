@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  * @since      0.1.0
  */
  
-class TildeTest extends \PHPUnit_Framework_TestCase
+class TildeTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
 	

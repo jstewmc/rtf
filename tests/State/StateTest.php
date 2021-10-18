@@ -10,10 +10,10 @@ namespace Jstewmc\Rtf\State;
  * @license    MIT
  * @since      0.1.0
  */
-class StateTest extends \PHPUnit_Framework_TestCase
+class StateTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
-	
+
 	/**
 	 * format() should return a string
 	 */
@@ -21,14 +21,14 @@ class StateTest extends \PHPUnit_Framework_TestCase
 	{
 		return $this->assertEquals('', (new State())->format('foo'));
 	}
-	
+
 	/* !reset() */
-	
-	/**
-	 * reset() should reset the class variables to their default state
-	 */
-	public function testReset()
-	{
-		// hmmm, how do I test the method when the base class doesn't have properties?
-	}
+
+	// /**
+	//  * reset() should reset the class variables to their default state
+	//  */
+	// public function testReset()
+	// {
+	// 	// hmmm, how do I test the method when the base class doesn't have properties?
+	// }
 }

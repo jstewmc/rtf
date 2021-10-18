@@ -10,7 +10,7 @@ namespace Jstewmc\Rtf;
  * @license    MIT
  * @since      0.1.0
  */
-class StyleTest extends \PHPUnit_Framework_TestCase
+class StyleTest extends \PHPUnit\Framework\TestCase
 {
 	/* !getCharacter()/setCharacter() */
 	

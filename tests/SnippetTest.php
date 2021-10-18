@@ -2,7 +2,7 @@
 
 namespace Jstewmc\Rtf;
 
-class SnippetTest extends \PHPUnit_Framework_TestCase
+class SnippetTest extends \PHPUnit\Framework\TestCase
 {
 	/* !__construct() */
 	
@@ -40,7 +40,7 @@ class SnippetTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_read_throwsInvalidArgumentException_ifStringIsNotAString()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		(new Snippet())->read(999);
 	}
@@ -82,7 +82,7 @@ class SnippetTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_write_throwsInvalidArgumentException_ifFormatIsNotAString()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		(new Snippet())->write(999);
 		
@@ -94,7 +94,7 @@ class SnippetTest extends \PHPUnit_Framework_TestCase
 	 */
 	public function test_write_throwsInvalidArgumentException_ifFormatIsNotValid()
 	{
-		$this->setExpectedException('InvalidArgumentException');
+		$this->expectException(\InvalidArgumentException::class);
 		
 		(new Snippet())->write('foo');
 		

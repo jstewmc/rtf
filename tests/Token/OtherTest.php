@@ -12,7 +12,7 @@ use Jstewmc\Stream;
  * @since      0.3.0
  */
 
-class OtherTest extends PHPUnit_Framework_Testcase
+class OtherTest extends \PHPUnit\Framework\TestCase
 {
 	/* !__construct() */
 	

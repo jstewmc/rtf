@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * @since      0.1.0
  */
 
-class LquoteTest extends \PHPUnit_Framework_TestCase
+class LquoteTest extends \PHPUnit\Framework\TestCase
 {
 	/* !format() */
 	
