@@ -17,7 +17,7 @@ namespace Jstewmc\Rtf;
 class Parser
 {
     /* !Protected methods */
-    
+
     /**
      * @var  string[]  an array of symbol names indexed by symbol character
      * @since  0.1.0
@@ -29,10 +29,10 @@ class Parser
         '~'  => 'tilde',
         '_'  => 'underscore'
     ];
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Parses tokens into a parse tree
      *
@@ -53,9 +53,9 @@ class Parser
                  . "the number of groups closed"
             );
         }
-        
+
         $root  = null;
-        
+
         // loop through the tokens
         $stack = new \SplStack();
         foreach ($tokens as $token) {
@@ -77,7 +77,7 @@ class Parser
                     } elseif ($token instanceof Token\Text) {
                         $this->parseText($token, $stack->top());
                     }
-                } else {
+                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse -- will refactor soon
                     // otherwise, ignore the tokens
                     // hmmm, this is good because if text preceeds the root group
                     //     (observed in wild) it's ignored as it should be; however,
@@ -87,13 +87,13 @@ class Parser
                 }
             }
         }
-        
+
         return $root;
     }
-    
-    
+
+
     /* !Protected methods */
-    
+
     /**
      * Returns the number of group-close tokens in $tokens
      *
@@ -107,7 +107,7 @@ class Parser
             return $carry += $item instanceof Token\Group\Close;
         }, 0);
     }
-    
+
     /**
      * Counts the number of group-open tokens
      *
@@ -121,7 +121,7 @@ class Parser
             return $carry += $item instanceof Token\Group\Open;
         }, 0);
     }
-    
+
     /**
      * Parses a control symbol token
      *
@@ -150,18 +150,18 @@ class Parser
             $symbol = new Element\Control\Symbol\Symbol();
             $symbol->setSymbol($token->getSymbol());
         }
-                
+
         // set the symbol's parameter
         $symbol->setParameter($token->getParameter());
         $symbol->setIsSpaceDelimited($token->getIsSpaceDelimited());
-        
+
         // append the element
         $symbol->setParent($group);
         $group->appendChild($symbol);
-        
+
         return;
     }
-    
+
     /**
      * Parses a control word token
      *
@@ -183,18 +183,18 @@ class Parser
             $word = new Element\Control\Word\Word();
             $word->setWord($token->getWord());
         }
-        
+
         // set the element's parameter
         $word->setParameter($token->getParameter());
         $word->setIsSpaceDelimited($token->getIsSpaceDelimited());
-        
+
         // append the element
         $word->setParent($group);
         $group->appendChild($word);
-                
+
         return;
     }
-    
+
     /**
      * Parses a group-close token
      *
@@ -206,10 +206,10 @@ class Parser
     protected function parseGroupClose(Token\Group\Close $token, \SplStack $stack)
     {
         $stack->pop();
-        
+
         return;
     }
-    
+
     /**
      * Parses a group-open token
      *
@@ -223,19 +223,19 @@ class Parser
     protected function parseGroupOpen(Token\Group\Open $token, \SplStack $stack)
     {
         $group = new Element\Group();
-        
+
         // if the group is not the root
         if ($stack->count() > 0) {
             // set the parent-child and child-parent relationships
             $group->setParent($stack->top());
             $stack->top()->appendChild($group);
         }
-        
+
         $stack->push($group);
-        
+
         return;
     }
-    
+
     /**
      * Parses a text token
      *
@@ -247,10 +247,10 @@ class Parser
     protected function parseText(Token\Text $token, Element\Group $group)
     {
         $text = new Element\Text($token->getText());
-        
+
         $text->setParent($group);
         $group->appendChild($text);
-        
+
         return;
     }
 }

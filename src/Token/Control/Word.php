@@ -44,22 +44,22 @@ namespace Jstewmc\Rtf\Token\Control;
 class Word extends Control
 {
     /* !Protected properties */
-    
+
     /**
      * @var  int  the control word's numeric parameter
      * @since  0.1.0
      */
     protected $parameter;
-    
+
     /**
      * @var  string  the control word's word
      * @since  0.1.0
      */
     protected $word;
-    
+
 
     /* !Get methods */
-    
+
     /**
      * Gets the token's parameter
      *
@@ -70,7 +70,7 @@ class Word extends Control
     {
         return $this->parameter;
     }
-    
+
     /**
      * Gets the token's word
      *
@@ -81,10 +81,10 @@ class Word extends Control
     {
         return $this->word;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the token's parameter
      *
@@ -95,10 +95,10 @@ class Word extends Control
     public function setParameter($parameter)
     {
         $this->parameter = $parameter;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the token's word
      *
@@ -109,13 +109,13 @@ class Word extends Control
     public function setWord($word)
     {
         $this->word = $word;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Magic methods */
-    
+
     /**
      * Constructs the object
      *
@@ -130,14 +130,14 @@ class Word extends Control
         if (is_string($word)) {
             $this->word = $word;
         }
-        
+
         if (is_numeric($parameter)) {
             $this->parameter = $parameter;
         }
-        
+
         return;
     }
-    
+
     /**
      * Called when the object is treated as a string
      *
@@ -149,20 +149,20 @@ class Word extends Control
     public function __toString()
     {
         $string = '';
-        
+
         if ($this->word) {
             $string = "\\{$this->word}{$this->parameter}";
             if ($this->isSpaceDelimited) {
                 $string .= ' ';
             }
         }
-        
+
         return $string;
     }
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Creates a control word token from a stream of characters
      *
@@ -181,7 +181,7 @@ class Word extends Control
     public static function createFromStream(\Jstewmc\Stream\Stream $stream)
     {
         $token = false;
-                
+
         // if a current character exists
         if ($stream->current()) {
             // if the current character is the backslash character
@@ -192,17 +192,17 @@ class Word extends Control
                     if (ctype_alpha($stream->current())) {
                         // get the control word's word
                         $word = self::readWord($stream);
-                        
+
                         // if the current character is a digit or hyphen, get the word's parameter
                         if (ctype_digit($stream->current()) || $stream->current() == '-') {
                             $parameter = self::readParameter($stream);
                         } else {
                             $parameter = null;
                         }
-                        
+
                         // create the control word token
                         $token = new Word($word, $parameter);
-                        
+
                         // if the current character is a space delimiter, set the flag; otherwise,
                         //    it is not a space character, and it should not be consumed; it's the
                         //    start of another token; rollback to the previous character to leave
@@ -219,7 +219,7 @@ class Word extends Control
                                 . "be an alphabetic character"
                         );
                     }
-                } else {
+                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse -- will refactor soon
                     // hmmm, do nothing?
                 }
             } else {
@@ -229,13 +229,13 @@ class Word extends Control
                 );
             }
         }
-        
+
         return $token;
     }
-    
-    
+
+
     /* !Protected methods */
-    
+
     /**
      * Reads a control word's word from the character stream
      *
@@ -251,7 +251,7 @@ class Word extends Control
     protected static function readWord(\Jstewmc\Stream\Stream $stream)
     {
         $word = '';
-                
+
         // if the current character is an alphabetic character
         if (ctype_alpha($stream->current())) {
             // loop through the alphabetic characters and build the word
@@ -265,10 +265,10 @@ class Word extends Control
                     . "to be an alphabetic character"
             );
         }
-        
+
         return $word;
     }
-    
+
     /**
      * Reads a control word's parameter from the characters stream
      *
@@ -284,26 +284,26 @@ class Word extends Control
     protected static function readParameter(\Jstewmc\Stream\Stream $stream)
     {
         $parameter = '';
-        
+
         // if the current character is a digit or hyphen ("-")
         if (ctype_digit($stream->current()) || $stream->current() == '-') {
             // determine if the parameter is negative
             $isNegative = ($stream->current() == '-');
-            
+
             // if the number is negative, consume the hyphen
             if ($isNegative) {
                 $stream->next();
             }
-            
+
             // loop through the digits and append them to the parameter
             while (ctype_digit($stream->current())) {
                 $parameter .= $stream->current();
                 $stream->next();
             }
-                        
+
             // evaluate the parameter's numeric value
             $parameter = +$parameter;
-        
+
             // if the parameter is negative, negate it
             if ($isNegative) {
                 $parameter = -$parameter;
@@ -314,7 +314,7 @@ class Word extends Control
                     . "to be a digit or hyphen"
             );
         }
-        
+
         return $parameter;
     }
 }

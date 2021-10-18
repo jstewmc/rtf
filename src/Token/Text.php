@@ -19,16 +19,16 @@ namespace Jstewmc\Rtf\Token;
 class Text extends Token
 {
     /* !Protected properties */
-    
+
     /**
      * @var  string  the token's text
      * @since  0.1.0
      */
     protected $text;
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the token's text
      *
@@ -39,10 +39,10 @@ class Text extends Token
     {
         return $this->text;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the text token's text
      *
@@ -53,13 +53,13 @@ class Text extends Token
     public function setText($text)
     {
         $this->text = $text;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Magic methods */
-    
+
     /**
      * Constructs this object
      *
@@ -71,10 +71,10 @@ class Text extends Token
         if (is_string($text)) {
             $this->text = $text;
         }
-        
+
         return;
     }
-    
+
     /**
      * Called when the object is treated as a string
      *
@@ -85,10 +85,10 @@ class Text extends Token
     {
         return "{$this->text}";
     }
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Creates a new text token from a stream
      *
@@ -102,7 +102,7 @@ class Text extends Token
     public static function createFromStream(\Jstewmc\Stream\Stream $stream)
     {
         $token = false;
-        
+
         // loop through the characters until a group-open, group-close, control word,
         //     or control symbol occurs and append the plain-text
         $text = '';
@@ -126,7 +126,7 @@ class Text extends Token
                             $stream->previous();
                             break;
                         }
-                    } else {
+                    } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse -- will refactor soon
                         // hmmm, do nothing?
                     }
                 } elseif ($character == '{' || $character == '}') {
@@ -142,13 +142,13 @@ class Text extends Token
             // advance to the next character
             $stream->next();
         }
-        
+
         // if $text is not empty, create a new token
         // keep in mind, empty() will consider '0'to be empty, and it's a valid value
         if (! empty($text) || $text === '0') {
             $token = new Text($text);
         }
-            
+
         return $token;
     }
 }

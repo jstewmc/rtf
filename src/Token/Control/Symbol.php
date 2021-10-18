@@ -23,22 +23,22 @@ namespace Jstewmc\Rtf\Token\Control;
 class Symbol extends Control
 {
     /* !Protected properties */
-    
+
     /**
      * @var  string  the control symbol's string parameter
      * @since  0.1.0
      */
     protected $parameter;
-    
+
     /**
      * @var  string  the control symbol's symbol
      * @since  0.1.0
      */
     protected $symbol;
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the token's parameter
      *
@@ -49,7 +49,7 @@ class Symbol extends Control
     {
         return $this->parameter;
     }
-    
+
     /**
      * Gets the token's symbol
      *
@@ -60,10 +60,10 @@ class Symbol extends Control
     {
         return $this->symbol;
     }
-    
+
 
     /* !Set methods */
-    
+
     /**
      * Sets the token's parameter
      *
@@ -74,10 +74,10 @@ class Symbol extends Control
     public function setParameter($parameter)
     {
         $this->parameter = $parameter;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the token's symbol
      *
@@ -88,13 +88,13 @@ class Symbol extends Control
     public function setSymbol($symbol)
     {
         $this->symbol = $symbol;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Magic methods */
-    
+
     /**
      * Constructs the object
      *
@@ -108,14 +108,14 @@ class Symbol extends Control
         if (is_string($symbol)) {
             $this->symbol = $symbol;
         }
-        
+
         if ($parameter !== null) {
             $this->parameter = $parameter;
         }
-        
+
         return;
     }
-    
+
     /**
      * Called when the object is treated as a string
      *
@@ -127,20 +127,20 @@ class Symbol extends Control
     public function __toString()
     {
         $string = '';
-        
+
         if ($this->symbol) {
             $string = "\\{$this->symbol}{$this->parameter}";
             if ($this->isSpaceDelimited) {
                 $string .= ' ';
             }
         }
-        
+
         return $string;
     }
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Creates a control symbol token from stream
      *
@@ -160,7 +160,7 @@ class Symbol extends Control
     public static function createFromStream(\Jstewmc\Stream\Stream $stream)
     {
         $symbol = false;
-        
+
         // if a current character exists
         if ($stream->current()) {
             // if the current character is a backslash
@@ -192,7 +192,7 @@ class Symbol extends Control
                                 . "be a non-alphanumeric character"
                         );
                     }
-                } else {
+                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse
                     // hmm, do nothing?
                 }
             } else {
@@ -202,7 +202,7 @@ class Symbol extends Control
                 );
             }
         }
-        
+
         return $symbol;
     }
 }
