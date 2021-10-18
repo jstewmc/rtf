@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/jstewmc/rtf.svg?style=svg)](https://circleci.com/gh/jstewmc/rtf) [![codecov](https://codecov.io/gh/jstewmc/rtf/branch/master/graph/badge.svg?token=kPPlLgbhd3)](https://codecov.io/gh/jstewmc/rtf)
+
 # rtf
 Read and write Rich Text Format (RTF) documents in PHP.
 
@@ -23,11 +25,11 @@ $document
 
 // print the document
 echo $document;   // prints "{\b bar\b0}"
-``` 
+```
 
 ## About
 
-In February 2015, I started a project that required reading and writing RTF files. Actually, it required reading and writing files in the Court Reporter extension of the RTF language, [RTF-CRE](http://www.legalxml.org/workgroups/substantive/transcripts/cre-spec.htm). 
+In February 2015, I started a project that required reading and writing RTF files. Actually, it required reading and writing files in the Court Reporter extension of the RTF language, [RTF-CRE](http://www.legalxml.org/workgroups/substantive/transcripts/cre-spec.htm).
 
 I couldn't find a library that was easily extensible with new control words and control symbols. So, I wrote my own (for better or worse haha).
 
@@ -45,11 +47,11 @@ Groups are the fundamental building blocks of an RTF document. A group consists 
 
 Like an XML document, an RTF document should have a root group. Within the root group there is a *header*, a group of document-formatting control words that, if they occur, must do so before any text, and the *body*, the content of the document.
 
-Groups can be nested. Generally, formatting within a group affects only the text in that group, and text within a group inherits the formatting of the parent group. 
+Groups can be nested. Generally, formatting within a group affects only the text in that group, and text within a group inherits the formatting of the parent group.
 
 ### Control words
 
-A control word is a specially-formatted command used to perform actions in an RTF document such as: insert special characters, set paragraph-formatting, set character-formatting, etc. 
+A control word is a specially-formatted command used to perform actions in an RTF document such as: insert special characters, set paragraph-formatting, set character-formatting, etc.
 
 A control word takes the following form: `\<word>[<delimiter>]`.
 
@@ -57,7 +59,7 @@ A control word takes the following form: `\<word>[<delimiter>]`.
 
 `delimiter` can be one of the following:
 
-* A space (" ") - A space is considered part of the control word and does not appear in the document. However, any characters following the space, including spaces, will appear in the document. 
+* A space (" ") - A space is considered part of the control word and does not appear in the document. However, any characters following the space, including spaces, will appear in the document.
 * A digit (0-9) or hyphen ("-") - A digit or hyphen indicates a numeric parameter follows. The subsequent digital sequence is then delimited by a space or any other character besides a letter or digit. The parameter can be a positive or negative number, generally between -32,767 and 32,767. However, readers should accept any arbitrary string of digits as a legal parameter.
 * Any character besides a letter or digit - In this case, the delimiting character terminates the control word, but is not part of the control word.
 
@@ -65,7 +67,7 @@ The parameters of certain control words (for example, bold, `\b`) have only two 
 
 ### Control symbols
 
-A control symbol consists of a backslash followed by a single, non-alphabetic character (aka, a symbol). A control symbol usually inserts a special character. For example, the control symbol `\~` represents a non-breaking space. 
+A control symbol consists of a backslash followed by a single, non-alphabetic character (aka, a symbol). A control symbol usually inserts a special character. For example, the control symbol `\~` represents a non-breaking space.
 
 Generally, control symbols take no delimiters. However, the apostrophe control symbol takes a two-digit hexadecimal parameter (e.g., `\'hh`).
 
@@ -77,7 +79,7 @@ Special characters like the backlash ("\"), open-bracket ("{"), and close-bracke
 
 ### Line endings
 
-The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters or so, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word. 
+The RTF specification instructs writers to insert line-feeds and/or carriage-returns every 255 characters or so, and it instructs readers to ignore them. Instead, line breaks should be controlled with the `\line` control word (among others), and paragraphs should be controlled with the `\par` control word.
 
 This library will ignore an *un-escaped* line-feed or carriage return. However, it will treat an *escaped* line-feed or carriage-return as an implicit `\par` control word.
 
@@ -120,7 +122,7 @@ foreach ($tokens as $token) {
 	if ($token instanceof Token\Group\Open) {
 		echo "{";
 	} elseif ($token instanceof Token\Group\Close) {
-		echo "}";	
+		echo "}";
 	} elseif ($token instanceof Token\Control\Word) {
 		echo "\\{$token->getWord()}{$token->getParameter()}";
 	} elseif ($token instanceof Token\Control\Symbol) {
@@ -177,7 +179,7 @@ echo get_class($root->getLastChild());   // prints "Jstewmc\Rtf\Element\Group"
 
 ### Renderer
 
-Given the parse tree's root group, the Renderer reads through the parse tree and computes each element's style. 
+Given the parse tree's root group, the Renderer reads through the parse tree and computes each element's style.
 
 ```php
 use Jstewmc\Rtf;
@@ -237,7 +239,7 @@ $b = new Document('/path/to/file.rtf');
 $a == $b;  // returns true
 ```
 
-> **Heads up!** 
+> **Heads up!**
 > The constructor uses the string's first character to determine whether the string is a filename or an RTF string. If the string starts with the open-bracket character ("{"), the string is considered an RTF string. If not, it's considered a filename. If your RTF string is malformed or your filenames are alien, the constructor will not work as expected.
 
 You can write a document as an RTF, HTML, or plain-text string:
@@ -308,7 +310,7 @@ use Jstewmc\Rtf;
 
 $snippet = new Snippet('\cxds ing');
 
-echo $snippet; 
+echo $snippet;
 echo $snippet->getFirstElement();  // prints "\cxds "
 echo $snippet->getLastElement();   // prints "ing"
 ```
@@ -318,7 +320,7 @@ A snippet behaves like a group with `getChildren()`, `appendChild()`, `prependCh
 
 ## Elements
 
-A document is composed of elements, much like an HTML document. 
+A document is composed of elements, much like an HTML document.
 
 There are four types of RTF document elements: groups, control words, control symbols, and text.
 
@@ -328,7 +330,7 @@ Control word and control symbol element names, on the other hand, are specific. 
 
 ### Group elements
 
-Group elements are special. Groups are the only type of element that can have children. 
+Group elements are special. Groups are the only type of element that can have children.
 
 You can append, prepend, and insert child elements:
 
@@ -371,7 +373,7 @@ $baz === $group->getLastChild();   // returns true
 $group->hasChild(0);          // returns true
 $group->hasChild($foo);       // returns true
 $group->hasChild($foo, 0);    // returns true
-$group->hasChild(0, $foo);    // returns true 
+$group->hasChild(0, $foo);    // returns true
 $group->hasChild(999);        // returns false
 $group->hasChild($qux);       // returns false
 $group->hasChild($qux, 999);  // returns false
@@ -416,7 +418,7 @@ $group->getControlWords('b', 0) == [$b0];     // returns true
 $group->getControlWords('b', false) == [$b];  // returns true
 ```
 
-Of course, you'd probably call the `getControlWords()` method on the document's root group to return an array of all the specific control words or control symbols in the document. 
+Of course, you'd probably call the `getControlWords()` method on the document's root group to return an array of all the specific control words or control symbols in the document.
 
 ### All elements
 
@@ -589,7 +591,7 @@ This library is released under the [MIT license](https://github.com/jstewmc/rtf/
 
 ### 0.4.3 - September 17, 2015
 
-* Fix `\cxds` control word. The `\cxds` control word should glue two words together without a space between them. However, up to now, it only deleted the previous space, not the spaces to either side. 
+* Fix `\cxds` control word. The `\cxds` control word should glue two words together without a space between them. However, up to now, it only deleted the previous space, not the spaces to either side.
 
 ### 0.4.2 - August 12, 2015
 
