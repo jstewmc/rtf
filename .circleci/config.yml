@@ -39,7 +39,7 @@ jobs:
           key: v80-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
+      - run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml --dont-report-useless-tests
       - codecov/upload:
           file: ./coverage.xml
 
