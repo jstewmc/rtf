@@ -192,7 +192,7 @@ class Symbol extends Control
                                 . "be a non-alphanumeric character"
                         );
                     }
-                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse
+                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse -- will refactor soon
                     // hmm, do nothing?
                 }
             } else {

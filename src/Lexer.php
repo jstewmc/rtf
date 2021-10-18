@@ -18,9 +18,9 @@ namespace Jstewmc\Rtf;
 
 class Lexer
 {
-       
+
     /* !Public methods */
-    
+
     /**
      * An alias for the lexAll() method
      *
@@ -32,7 +32,7 @@ class Lexer
     {
         return $this->lexAll($stream);
     }
-    
+
     /**
      * Lexes all tokens from the current stream
      *
@@ -45,16 +45,16 @@ class Lexer
     public function lexAll(\Jstewmc\Stream\Stream $stream)
     {
         $tokens = [];
-        
+
         // while tokens exist
         while (false !== ($token = $this->lexOne($stream))) {
             // append le token
             $tokens[] = $token;
         }
-        
+
         return $tokens;
     }
-    
+
     /**
      * Lexes one token from the current stream
      *
@@ -66,10 +66,11 @@ class Lexer
      * @return  Jstewmc\Rtf\Token\Token|false
      * @since  0.2.0
      */
+    // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
     public function lexOne(\Jstewmc\Stream\Stream $stream)
     {
         $token = false;
-        
+
         // if the stream has characters
         if ($stream->hasCharacters()) {
             // switch on the current character
@@ -77,26 +78,26 @@ class Lexer
                 case '{':
                     $token = $this->lexOpenBracket($stream);
                     break;
-                
+
                 case '}':
                     $token = $this->lexCloseBracket($stream);
                     break;
-                
+
                 case '\\':
                     $token = $this->lexBackslash($stream);
                     break;
-                
+
                 case "\t":
                     $token = $this->lexTab($stream);
                     break;
-                
+
                 case "\n":
                 case "\r":
                 case "\f":
                 case "\0":
                     $token = $this->lexOther($stream);
                     break;
-                
+
                 default:
                     $token = $this->lexText($stream);
             }
@@ -106,10 +107,11 @@ class Lexer
 
         return $token;
     }
-    
-    
+    // phpcs:enable
+
+
     /* !Protected methods */
-    
+
     /**
      * Lexes the backslash character ("\")
      *
@@ -134,12 +136,12 @@ class Lexer
                 __METHOD__."() expects the current character in the stream to be a '\\'"
             );
         }
-        
+
         // look ahead to the next character, it'll determine what we do; just be sure
         //     you rollback to the current character
         $next = $stream->next();
         $stream->previous();
-        
+
         // if a next character exists
         if ($next !== false) {
             // the next character may be a literal character, an escaped new-line or
@@ -156,10 +158,10 @@ class Lexer
                 $token = Token\Control\Symbol::createFromStream($stream);
             }
         }
-        
+
         return $token;
     }
-    
+
     /**
      * Lexes a close-bracket character ("}")
      *
@@ -178,10 +180,10 @@ class Lexer
                 __METHOD__."() expects the current character in the stream to be a '}'"
             );
         }
-        
+
         return new Token\Group\Close();
     }
-    
+
     /**
      * Lexes an open-bracket character ("{")
      *
@@ -203,7 +205,7 @@ class Lexer
 
         return new Token\Group\Open();
     }
-    
+
     /**
      * Lexes an "other" character
      *
@@ -219,7 +221,7 @@ class Lexer
     {
         return new Token\Other($stream->current());
     }
-    
+
     /**
      * Lexes the tab character ("\t")
      *
@@ -238,10 +240,10 @@ class Lexer
                 __METHOD__."() expects the current character in the stream to be a tab character"
             );
         }
-        
+
         return new Token\Control\Word('tab');
     }
-    
+
     /**
      * Lexes text
      *

@@ -1,5 +1,5 @@
 <?php
-    
+
 namespace Jstewmc\Rtf\State;
 
 /**
@@ -18,9 +18,9 @@ namespace Jstewmc\Rtf\State;
  */
 class State
 {
-   
+
     /* !Public methods */
-    
+
     /**
      * Returns the state as a string
      *
@@ -28,11 +28,11 @@ class State
      * @return  string
      * @since  0.1.0
      */
-    public function format($format)
+    public function format()
     {
         return '';
     }
-    
+
     /**
      * Resets the state to its default settings
      *
@@ -43,7 +43,7 @@ class State
         foreach (get_class_vars(get_class($this)) as $property => $default) {
             $this->$property = $default;
         }
-        
+
         return;
     }
 }

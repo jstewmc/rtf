@@ -61,7 +61,7 @@ class Parser
         foreach ($tokens as $token) {
             // if the token is a group-open token
             if ($token instanceof Token\Group\Open) {
-                $this->parseGroupOpen($token, $stack, $root);
+                $this->parseGroupOpen($stack);
                 if ($root === null) {
                     $root = $stack->bottom();
                 }
@@ -69,7 +69,7 @@ class Parser
                 // if at least a root group exists
                 if ($stack->count()) {
                     if ($token instanceof Token\Group\Close) {
-                        $this->parseGroupClose($token, $stack);
+                        $this->parseGroupClose($stack);
                     } elseif ($token instanceof Token\Control\Word) {
                         $this->parseControlWord($token, $stack->top());
                     } elseif ($token instanceof Token\Control\Symbol) {
@@ -198,12 +198,11 @@ class Parser
     /**
      * Parses a group-close token
      *
-     * @param  Jstewmc\Rtf\Token\Group\Close  $token  the group-close token
      * @param  SplStack                       $stack  the group stack
      * @return  void
      * @since  0.1.0
      */
-    protected function parseGroupClose(Token\Group\Close $token, \SplStack $stack)
+    protected function parseGroupClose(\SplStack $stack)
     {
         $stack->pop();
 
@@ -213,14 +212,13 @@ class Parser
     /**
      * Parses a group-open token
      *
-     * @param  Jstewmc\Rtf\Token\Group\Open  $token  the group-open token
      * @param  SplStack                      $stack  the group stack
      * @param  Jstewmc\Rtf\Element\Group     $root   the root group (optional; if
      *     omitted, defaults to null)
      * @return  void
      * @since  0.1.0
      */
-    protected function parseGroupOpen(Token\Group\Open $token, \SplStack $stack)
+    protected function parseGroupOpen(\SplStack $stack)
     {
         $group = new Element\Group();
 

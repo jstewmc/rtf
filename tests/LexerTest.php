@@ -14,7 +14,7 @@ use Jstewmc\Chunker;
  * @since      0.1.0
  */
 
-class LexerTest extends PHPUnit\Framework\TestCase
+class LexerTest extends \PHPUnit\Framework\TestCase
 {
     /* !Providers */
 

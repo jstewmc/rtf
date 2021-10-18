@@ -168,6 +168,7 @@ class Group extends Element
      * @throws  InvalidArgumentException  if $parameter is not a null, false, or number
      * @since  0.1.0
      */
+    // phpcs:disable Generic.Metrics.NestingLevel.TooHigh
     public function getControlWords($word, $parameter = null)
     {
         $words = [];
@@ -211,6 +212,7 @@ class Group extends Element
 
         return $words;
     }
+    // phpcs:enable
 
     /**
      * Returns an array of control symbol elements with $symbol and, optionally,
@@ -225,6 +227,7 @@ class Group extends Element
      * @throws  InvalidArgumentException  if $parameter is not a string or null
      * @since  0.1.0
      */
+    // phpcs:disable Generic.Metrics.NestingLevel.TooHigh
     public function getControlSymbols($symbol, $parameter = null)
     {
         $symbols = [];
@@ -265,6 +268,7 @@ class Group extends Element
 
         return $symbols;
     }
+    // phpcs:enable
 
     /**
      * Returns the child's index in this group's children (if it exists)

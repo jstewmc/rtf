@@ -24,52 +24,52 @@ class Character extends State
      * @since  0.1.0
      */
     protected $isBold = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are italicized;
      *     defaults to false
      * @since  0.1.0
      */
     protected $isItalic = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are struckthrough;
      *     defaults to false
      * @since  0.1.0
      */
     protected $isStrikethrough = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are subscript;
      *     defaults to false
      * @since  0.1.0
      */
     protected $isSubscript = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are superscript;
      *     defaults to false
      * @since  0.1.0
      */
     protected $isSuperscript = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are underlined;
      *     defaults to false
      * @since  0.1.0
      */
     protected $isUnderline = false;
-    
+
     /**
      * @var  bool  a flag indicating whether or not the characters are visible;
      *     defaults to true
      * @since  0.1.0
      */
     protected $isVisible = true;
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the bold flag
      *
@@ -80,7 +80,7 @@ class Character extends State
     {
         return $this->isBold;
     }
-    
+
     /**
      * Gets the italic flag
      *
@@ -91,7 +91,7 @@ class Character extends State
     {
         return $this->isItalic;
     }
-    
+
     /**
      * Gets the subscript flag
      *
@@ -102,7 +102,7 @@ class Character extends State
     {
         return $this->isSubscript;
     }
-    
+
     /**
      * Gets the superscript flag
      *
@@ -113,7 +113,7 @@ class Character extends State
     {
         return $this->isSuperscript;
     }
-    
+
     /**
      * Gets the strikethrough flag
      *
@@ -124,7 +124,7 @@ class Character extends State
     {
         return $this->isStrikethrough;
     }
-    
+
     /**
      * Gets the underline flag
      *
@@ -135,7 +135,7 @@ class Character extends State
     {
         return $this->isUnderline;
     }
-    
+
     /**
      * Gets the visible flag
      *
@@ -146,10 +146,10 @@ class Character extends State
     {
         return $this->isVisible;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the bold flag
      *
@@ -160,10 +160,10 @@ class Character extends State
     public function setIsBold($isBold)
     {
         $this->isBold = $isBold;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the italic flag
      *
@@ -174,10 +174,10 @@ class Character extends State
     public function setIsItalic($isItalic)
     {
         $this->isItalic = $isItalic;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the subscript flag
      *
@@ -188,10 +188,10 @@ class Character extends State
     public function setIsSubscript($isSubscript)
     {
         $this->isSubscript = $isSubscript;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the superscript flag
      *
@@ -203,10 +203,10 @@ class Character extends State
     public function setIsSuperscript($isSuperscript)
     {
         $this->isSuperscript = $isSuperscript;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the strikethrough flag
      *
@@ -218,10 +218,10 @@ class Character extends State
     public function setIsStrikethrough($isStrikethrough)
     {
         $this->isStrikethrough = $isStrikethrough;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the underline flag
      *
@@ -233,10 +233,10 @@ class Character extends State
     public function setIsUnderline($isUnderline)
     {
         $this->isUnderline = $isUnderline;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the visible flag
      *
@@ -248,13 +248,13 @@ class Character extends State
     public function setIsVisible($isVisible)
     {
         $this->isVisible = $isVisible;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Returns the character state as a string in $format
      *
@@ -264,10 +264,11 @@ class Character extends State
      * @throws  InvalidArgumentException  if $format is not valid
      * @since  0.1.0
      */
+    // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
     public function format($format = 'css')
     {
         $string = null;
-        
+
         // if $format is a string
         if (is_string($format)) {
             // switch on format
@@ -275,42 +276,42 @@ class Character extends State
                 case 'css':
                     // get the state's css properties as css declarations
                     $declarations = [];
-                    
+
                     if ($this->isBold) {
                         $declarations[] = 'font-weight: bold';
                     }
-                    
+
                     if ($this->isItalic) {
                         $declarations[] = 'font-style: italic';
                     }
-                    
+
                     if ($this->isSubscript) {
                         $declarations[] = 'vertical-align: sub';
                         $declarations[] = 'font-size: smaller';
                     }
-                    
+
                     if ($this->isSuperscript) {
                         $declarations[] = 'vertical-align: super';
                         $declarations[] = 'font-size: smaller';
                     }
-                    
+
                     if ($this->isStrikethrough) {
                         $declarations[] = 'text-decoration: line-through';
                     }
-                    
+
                     if ($this->isUnderline) {
                         $declarations[] = 'text-decoration: underline';
                     }
-                    
+
                     if (! $this->isVisible) {
                         $declarations[] = 'display: none';
                     }
-                    
+
                     if (! empty($declarations)) {
                         $string = implode('; ', $declarations).';';
                     }
                     break;
-                
+
                 default:
                     throw new \InvalidArgumentException(
                         __METHOD__."() expects paramter one, format, to be a supported format"
@@ -321,7 +322,8 @@ class Character extends State
                 __METHOD__."() expects parameter one, format, to be a string"
             );
         }
-        
+
         return $string;
     }
+    // phpcs:enable
 }
