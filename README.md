@@ -583,47 +583,6 @@ Jack Clayton - [clayjs0@gmail.com](mailto:clayjs0@gmail.com)
 
 This library is released under the [MIT license](https://github.com/jstewmc/rtf/blob/master/LICENSE).
 
-## Version
-
-### dev-master
-
-* Doh! It would help if I merged the branch into master first!
-
-### 0.4.3 - September 17, 2015
-
-* Fix `\cxds` control word. The `\cxds` control word should glue two words together without a space between them. However, up to now, it only deleted the previous space, not the spaces to either side.
-
-### 0.4.2 - August 12, 2015
-
-* Add check for mismatched group-open and group-close tokens to `Parser`
-
-### 0.4.1 - August 11, 2015
-
-* Fix logic error in `Snippet` class
-
-### 0.4.0 - August 10, 2015
-
-* Add `Snippet` class
-
-### 0.3.0 - July 6, 2015
-
-* Add RTF-CRE control words
-
-### 0.2.0 - July 6, 2015
-
-* Update `Document::read()` and `Document::load()` to use [Jstewmc\Chunker](https://github.com/jstewmc/chunker).
-* Update lexing methods to use [Jstewmc\Stream](https://github.com/jstewmc/stream) instead of character arrays:
-  * Replace `Token\Text::createFromSource()` with `createFromStream()`
-  * Replace `Token\Control\Word::createFromSource()` with `createFromStream()`
-  * Replace `Token\Control\Symbol::createFromSource()` with `createFromStream()`
-  * Update `Lexer::lex()` to use accept instance of `Jstewmc\Stream\Stream` as argument instead of string
-
-### 0.1.0 - March 10, 2015
-
-Initial release
-
-[API Documentation](http://jstewmc.github.io/rtf/api/0.1.0/)
-
 ## Acknowledgements
 
 Many thanks to the authors of the following articles for helping me get started:
