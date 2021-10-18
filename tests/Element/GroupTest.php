@@ -972,17 +972,17 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
 	/* !render() */
 
-	/**
-	 * render() should render if the group is empty
-	 */
-	public function testRender_ifGroupIsEmpty()
-	{
-		$group = new Group();
-
-		$group->render();
-
-		return;
-	}
+	// /**
+	//  * render() should render if the group is empty
+	//  */
+	// public function testRender_ifGroupIsEmpty()
+	// {
+	// 	$group = new Group();
+	//
+	// 	$group->render();
+	//
+	// 	return;
+	// }
 
 	/**
 	 * render() should render a group of control words

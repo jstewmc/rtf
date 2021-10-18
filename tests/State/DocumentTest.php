@@ -1,5 +1,5 @@
 <?php
-	
+
 namespace Jstewmc\Rtf\State;
 
 /**
@@ -12,10 +12,8 @@ namespace Jstewmc\Rtf\State;
  */
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
-	// nothing yet
-	
-	public function testFoo()
+    public function testFormat()
 	{
-		return;
+		return $this->assertEquals('', (new Document())->format('foo'));
 	}
 }
