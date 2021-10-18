@@ -13,12 +13,12 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  *
  * The example above would be displayed at "M-H-S" with non-breaking hyphens.
  *
- * The "\cxstit" control word is not an ignored command group. 
+ * The "\cxstit" control word is not an ignored command group.
  *
  * @author     Jack Clayton
  * @copyright  2015 Jack Clayton
  */
 class Cxstit extends Word
 {
-	// nothing yet	
+    // nothing yet
 }

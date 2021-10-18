@@ -13,16 +13,16 @@ namespace Jstewmc\Rtf\Token\Group;
 
 class Close extends Group
 {
-	/* !Public methods */
-	
-	/**
-	 * Called when the object is treated as a string
-	 *
-	 * @return  string
-	 * @since  0.2.0
-	 */
-	public function __toString()
-	{
-		return '}';
-	}
+    /* !Public methods */
+    
+    /**
+     * Called when the object is treated as a string
+     *
+     * @return  string
+     * @since  0.2.0
+     */
+    public function __toString()
+    {
+        return '}';
+    }
 }

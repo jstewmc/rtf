@@ -17,11 +17,11 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
 
 class Asterisk extends Symbol
 {
-	/* !Protected properties */
-	
-	/**
-	 * @var  string  the control symbol's symbol
-	 * @since  0.1.0
-	 */
-	protected $symbol = '*';
+    /* !Protected properties */
+    
+    /**
+     * @var  string  the control symbol's symbol
+     * @since  0.1.0
+     */
+    protected $symbol = '*';
 }

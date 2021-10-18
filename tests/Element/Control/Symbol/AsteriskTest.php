@@ -13,8 +13,8 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  
 class AsteriskTest extends \PHPUnit\Framework\TestCase
 {
-	public function testFoo()
-	{
-		return new Asterisk();
-	}	
+    public function testFoo()
+    {
+        return new Asterisk();
+    }
 }

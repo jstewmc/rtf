@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class EmdashTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$word = new Emdash();
-		
-		$expected = '&emdash;';
-		$actual   = $word->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$word = new Emdash();
-		
-		$expected = html_entity_decode('&emdash;');
-		$actual   = $word->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsHtml()
+    {
+        $word = new Emdash();
+        
+        $expected = '&emdash;';
+        $actual   = $word->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsText()
+    {
+        $word = new Emdash();
+        
+        $expected = html_entity_decode('&emdash;');
+        $actual   = $word->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

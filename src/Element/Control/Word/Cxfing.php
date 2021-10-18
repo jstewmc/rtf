@@ -5,13 +5,13 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 /**
  * The "\cxfing" control word
  *
- * The "\cxfing" control word indicates a group of fingerspelled text. 
+ * The "\cxfing" control word indicates a group of fingerspelled text.
  *
  * For example:
  *
  *     {\cxfing {\*\cxs PHRBGS}M{\*\cxs HRBGS}H{\*\cxs SRBGS}S}
  *
- * The example above would be displayed as "MHS". 
+ * The example above would be displayed as "MHS".
  *
  * The "\cxfing" control word is not an ignored control word.
  *
@@ -21,5 +21,5 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxfing extends Word
 {
-	// nothing yet	
+    // nothing yet
 }

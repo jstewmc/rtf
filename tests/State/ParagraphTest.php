@@ -1,5 +1,5 @@
 <?php
-	
+    
 namespace Jstewmc\Rtf\State;
 
 /**
@@ -12,23 +12,23 @@ namespace Jstewmc\Rtf\State;
  */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
-	/* !getIndex() / setIndex() */
-	
-	/**
-	 * getIndex() and setIndex() should get and set the index, respectively
-	 */
-	public function testGetSetIndex()
-	{
-		$index = 999;
-		
-		$paragraph = new Paragraph();
-		$paragraph->setIndex($index);
-		
-		$expected = $index;
-		$actual   = $paragraph->getIndex();
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !getIndex() / setIndex() */
+    
+    /**
+     * getIndex() and setIndex() should get and set the index, respectively
+     */
+    public function testGetSetIndex()
+    {
+        $index = 999;
+        
+        $paragraph = new Paragraph();
+        $paragraph->setIndex($index);
+        
+        $expected = $index;
+        $actual   = $paragraph->getIndex();
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }
