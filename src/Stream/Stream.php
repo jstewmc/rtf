@@ -56,4 +56,6 @@ interface Stream
     public function isOnAlphabetic(): bool;
 
     public function isOnSpace(): bool;
+
+    public function isOnApostrophe(): bool;
 }

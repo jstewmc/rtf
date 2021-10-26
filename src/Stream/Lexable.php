@@ -68,4 +68,9 @@ trait Lexable
     {
         return $this->isOn(' ');
     }
+
+    public function isOnApostrophe(): bool
+    {
+        return $this->isOn('\'');
+    }
 }

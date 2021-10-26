@@ -158,4 +158,14 @@ class TextTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertTrue((new Text(' '))->isOnSpace());
     }
+
+    public function testIsOnApostropheReturnsFalseWhenNotOnApostrophe(): void
+    {
+        $this->assertFalse((new Text('foo'))->isOnApostrophe());
+    }
+
+    public function testIsOnApostropheReturnsTrueWhenOnApostrophe(): void
+    {
+        $this->assertTrue((new Text('\''))->isOnApostrophe());
+    }
 }

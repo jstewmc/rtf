@@ -168,6 +168,16 @@ class FileTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->stream(' ')->isOnSpace());
     }
 
+    public function testIsOnApostropheReturnsFalseWhenNotOnApostrophe(): void
+    {
+        $this->assertFalse($this->stream('foo')->isOnApostrophe());
+    }
+
+    public function testIsOnApostropheReturnsTrueWhenOnApostrophe(): void
+    {
+        $this->assertTrue($this->stream('\'')->isOnApostrophe());
+    }
+
     private function file(string $content): vfsStreamFile
     {
         return vfsStream::newFile('example.txt')
