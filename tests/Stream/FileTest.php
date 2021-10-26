@@ -63,7 +63,7 @@ class FileTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->stream('foo')->isOnControlSymbol());
     }
 
-    public function testIsOnControlWordReturnsTrueWhenOnControlSymbol(): void
+    public function testIsOnControlSymbolReturnsTrueWhenOnControlSymbol(): void
     {
         $this->assertTrue($this->stream('\\*')->isOnControlSymbol());
     }
@@ -158,26 +158,14 @@ class FileTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($this->stream('foo')->isOnAlphabetic());
     }
 
-    public function testLookAheadReturnsFalseWhenTextIsBlank(): void
+    public function testIsOnSpaceReturnsFalseWhenNotOnSpace(): void
     {
-        $this->assertFalse($this->stream('')->lookAhead());
+        $this->assertFalse($this->stream('foo')->isOnSpace());
     }
 
-    public function testLookAheadReturnsStringWhenTextIsNotBlank(): void
+    public function testIsOnSpaceReturnsTrueWhenOnSpace(): void
     {
-        $this->assertEquals('o', $this->stream('foo')->lookAhead());
-    }
-
-    public function testLookAheadDoesNotChangeIndex(): void
-    {
-        $stream = $this->stream('bar');
-
-        $current = $stream->current();
-
-        $stream->lookAhead();
-
-        // Asserting characters is a proxy for index.
-        $this->assertEquals($current, $stream->current());
+        $this->assertTrue($this->stream(' ')->isOnSpace());
     }
 
     private function file(string $content): vfsStreamFile

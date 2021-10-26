@@ -54,7 +54,7 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $this->assertFalse((new Text('foo'))->isOnControlSymbol());
     }
 
-    public function testIsOnControlWordReturnsTrueWhenOnControlSymbol(): void
+    public function testIsOnControlSymbolReturnsTrueWhenOnControlSymbol(): void
     {
         $this->assertTrue((new Text('\\*'))->isOnControlSymbol());
     }
@@ -149,25 +149,13 @@ class TextTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue((new Text('foo'))->isOnAlphabetic());
     }
 
-    public function testLookAheadReturnsFalseWhenTextIsBlank(): void
+    public function testIsOnSpaceReturnsFalseWhenNotOnSpace(): void
     {
-        $this->assertFalse((new Text(''))->lookAhead());
+        $this->assertFalse((new Text('foo'))->isOnSpace());
     }
 
-    public function testLookAheadReturnsStringWhenTextIsNotBlank(): void
+    public function testIsOnSpaceReturnsTrueWhenOnSpace(): void
     {
-        $this->assertEquals('o', (new Text('foo'))->lookAhead());
-    }
-
-    public function testLookAheadDoesNotChangeIndex(): void
-    {
-        $stream = new Text('bar');
-
-        $current = $stream->current();
-
-        $stream->lookAhead();
-
-        // Asserting characters is a proxy for index.
-        $this->assertEquals($current, $stream->current());
+        $this->assertTrue((new Text(' '))->isOnSpace());
     }
 }
