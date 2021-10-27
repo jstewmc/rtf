@@ -10,10 +10,10 @@
 		}
 	],
 	"require": {
-		"jstewmc/chunker": "0.1.0",
-		"jstewmc/stream": "0.2.1"
+		"jstewmc/stream": "^0.4.2"
 	},
 	"require-dev": {
+		"mikey179/vfsstream": "^1.6",
 		"phpunit/phpunit": "^9.0",
 		"slevomat/coding-standard": "^6"
 	},

@@ -2,317 +2,49 @@
 
 namespace Jstewmc\Rtf\Token\Control;
 
-use Jstewmc\Stream;
-use Jstewmc\Chunker;
-
-/**
- * A test suite for the control symbol class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class SymbolTest extends \PHPUnit\Framework\TestCase
 {
-
-    /* !Get/set methods */
-
-    /**
-     * setIsSpaceDelimited() and getIsSpaceDelimited() should set and get the
-     *     isSpaceDelimited flag
-     */
-    public function testGetSetIsSpaceDelimited()
+    public function testSetIsSpaceDelimitedReturnsSelf(): void
     {
-        $token = new Symbol();
-        $token->setIsSpaceDelimited(true);
+        $symbol = new Symbol('+');
 
-        $this->assertTrue($token->getIsSpaceDelimited());
-
-        return;
+        $this->assertSame($symbol, $symbol->setIsSpaceDelimited(true));
     }
 
-    /**
-     * setParameter() and getParameter() should get and set the parameter
-     */
-    public function testSetAndGetParameter()
+    public function testGetIsSpaceDelimitedReturnsBoolean(): void
     {
-        $parameter = 'b';
-
-        $symbol = new Symbol();
-        $symbol->setParameter($parameter);
-
-        $expected = $parameter;
-        $actual   = $symbol->getParameter();
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertTrue((new Symbol('+'))->getIsSpaceDelimited());
     }
 
-    /**
-     * setSymbol() and getSymbol() should, well, get and set the symbol
-     */
-    public function testSetAndGetSymbol()
+    public function testGetParameterReturnsString(): void
     {
-        $symbol = '+';
-
-        $symbol = new Symbol();
-        $symbol->setSymbol($symbol);
-
-        $expected = $symbol;
-        $actual   = $symbol->getSymbol();
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('', (new Symbol('+'))->getParameter());
     }
 
-
-    /* !__construct() */
-
-    /**
-     * __construct() should return object if character and parameter are null
-     */
-    public function testConstructReturnsObjectWhenSymbolAndParameterAreNull()
+    public function testSetParameterReturnsSelf(): void
     {
-        $token = new Symbol();
+        $symbol = new Symbol('+');
 
-        $this->assertTrue($token instanceof Symbol);
-
-        return;
+        $this->assertSame($symbol, $symbol->setParameter('b'));
     }
 
-    /**
-     * __construct() should return object if symbol and parameter are not null
-     */
-    public function testConstructReturnsObjectWhenSymbolAndParameterAreNotNull()
+    public function testGetSymbolReturnsString(): void
     {
-        $symbol = '+';
-        $parameter = '123';
-
-        $token = new Symbol($symbol, $parameter);
-
-        $this->assertTrue($token instanceof Symbol);
-        $this->assertEquals($symbol, $token->getSymbol());
-        $this->assertEquals($parameter, $token->getParameter());
-
-        return;
+        $this->assertEquals('+', (new Symbol('+'))->getSymbol());
     }
 
-
-    /* !__toString() */
-
-    /**
-     * __toString() should return string if symbol does not exist
-     */
-    public function testToStringReturnsStringWhenSymbolDoesNotExist()
+    public function testToStringReturnsStringWhenParameterDoesNotExist(): void
     {
-        $token = new Symbol();
-
-        $expected = '';
-        $actual   = (string)$token;
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('\\+ ', (string)(new Symbol('+')));
     }
 
-    /**
-     * __toString() should return string if symbol does exist
-     */
-    public function testToStringReturnsStringWhenSymbolDoesExist()
+    public function testToStringReturnsStringWhenParameterExists(): void
     {
-        $symbol = '+';
-
-        $token = new Symbol($symbol);
-
-        $expected = "\\$symbol ";
-        $actual   = (string)$token;
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals("\\'99 ", (new Symbol('\''))->setParameter('99'));
     }
 
-    /**
-     * __toString() should return string if symbol and parameter do exist
-     */
-    public function testToStringReturnsStringWhenSymbolAndParameterDoExist()
+    public function testToStringReturnsStringWhenNotSpaceDelimited(): void
     {
-        $symbol    = '\'';
-        $parameter = '99';
-
-        $token = new Symbol($symbol, $parameter);
-
-        $expected = "\\'99 ";
-        $actual   = (string)$token;
-
-        $this->assertEquals($expected, $actual);
-
-        return;
-    }
-
-    /**
-     * __toString() should return string if not space delimited
-     */
-    public function testToStringReturnsStringWhenNotSpaceDelimited()
-    {
-        $token = new Symbol('+');
-        $token->setIsSpaceDelimited(false);
-
-        $expected = '\\+';
-        $actual   = (string)$token;
-
-        $this->assertEquals($expected, $actual);
-
-        return;
-    }
-
-
-    /* !createFromStream() */
-
-    /**
-     * createFromStream() should throw an InvalidArgumentException if the current character in
-     *     $characters is not a backslash ("\")
-     */
-    public function testCreateFromStreamThrowsInvalidArgumentExceptionWhenCurrentCharacterIsNotBackslash()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $chunker = new Chunker\Text('abc');
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        return;
-    }
-
-    /**
-     * createFromStream() should throw an InvalidArgumentException if the next character in
-     *     $characters is alpha-numeric
-     */
-    public function testCreateFromStreamThrowsInvalidArgumentExceptionWhenNextCharacterIsAlphanumeric()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $chunker = new Chunker\Text('\\bc');
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return false if $characters is empty
-     */
-    public function testCreateFromStreamReturnsFalseWhenCharactersIsEmpty()
-    {
-        $chunker = new Chunker\Text();
-
-        $stream = new Stream\Stream($chunker);
-
-        $this->assertFalse(Symbol::createFromStream($stream));
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return false if the next character in $characters is empty
-     */
-    public function testCreateFromStreamReturnsFalseWhenNextCharacterIsEmpty()
-    {
-        $chunker = new Chunker\Text('\\');
-
-        $stream = new Stream\Stream($chunker);
-
-        $this->assertFalse(Symbol::createFromStream($stream));
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return a Symbol if the next character is not alphanumeric
-     */
-    public function testCreateFromStreamReturnsSymbolWhenNextCharacterIsSymbol()
-    {
-        $chunker = new Chunker\Text('\\_');
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        $this->assertTrue($symbol instanceof Symbol);
-        $this->assertEquals('_', $symbol->getSymbol());
-        $this->assertNull($symbol->getParameter());
-        // $this->assertEquals(1, key($characters));
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return a Symbol if the next character is not alphanumeric
-     *     and the delimiter is a space
-     */
-    public function testCreateFromStreamReturnsSymbolWhenNextCharacterIsSymbolAndDelimiterIsSpace()
-    {
-        $chunker = new Chunker\Text('\\_ ');
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        $this->assertTrue($symbol instanceof Symbol);
-        $this->assertEquals('_', $symbol->getSymbol());
-        $this->assertNull($symbol->getParameter());
-        $this->assertTrue($symbol->getIsSpaceDelimited());
-        // $this->assertEquals(1, key($characters));
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return a Symbol if the next character is not alphanumeric
-     *     and the delimiter is alphanumeric
-     */
-    public function testCreateFromStreamReturnsSymbolWhenNextCharacterIsSymbolAndDelimiterIsAlpha()
-    {
-        $chunker = new Chunker\Text('\\_a');
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        $this->assertTrue($symbol instanceof Symbol);
-        $this->assertEquals('_', $symbol->getSymbol());
-        $this->assertNull($symbol->getParameter());
-        $this->assertFalse($symbol->getIsSpaceDelimited());
-        // $this->assertEquals(1, key($characters));
-
-        return;
-    }
-
-    /**
-     * createFromStream() should return a Symbol with parameters if the next character is
-     *     an apostrophe
-     */
-    public function testCreateFromStreamReturnsSymbolWhenNextCharacterIsApostrophe()
-    {
-        $chunker = new Chunker\Text("\\'ab");
-
-        $stream = new Stream\Stream($chunker);
-
-        $symbol = Symbol::createFromStream($stream);
-
-        $this->assertTrue($symbol instanceof Symbol);
-        $this->assertEquals('\'', $symbol->getSymbol());
-        $this->assertEquals('ab', $symbol->getParameter());
-        // $this->assertEquals(3, key($characters));
-
-        return;
+        $this->assertEquals('\\+', (new Symbol('+'))->setIsSpaceDelimited(false));
     }
 }

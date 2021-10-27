@@ -13,7 +13,6 @@ namespace Jstewmc\Rtf;
 
 class ParserTest extends \PHPUnit\Framework\TestCase
 {
-
     /* !parse() */
 
     /**
@@ -268,15 +267,15 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     {
         $tokens = [
             new Token\Group\Open(),
-            new Token\Control\Word('rtf', 1),
+            (new Token\Control\Word('rtf'))->setParameter(1),
             new Token\Control\Word('ansi'),
-            new Token\Control\Word('deff', 0),
+            (new Token\Control\Word('deff'))->setParameter(0),
             new Token\Group\Open(),
             new Token\Control\Word('fonttbl'),
             new Token\Group\Open(),
-            new Token\Control\Word('f', 0),
+            (new Token\Control\Word('f'))->setParameter(0),
             new Token\Control\Word('fnil'),
-            new Token\Control\Word('fcharset', 0),
+            (new Token\Control\Word('fcharset'))->setParameter(0),
             new Token\Text('Courier New;'),
             new Token\Group\Close(),
             new Token\Group\Close(),
@@ -285,12 +284,12 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token\Control\Word('generator'),
             new Token\Text('Msftedit 5.41.15.1516;'),
             new Token\Group\Close(),
-            new Token\Control\Word('viewkind', 4),
-            new Token\Control\Word('uc', 1),
+            (new Token\Control\Word('viewkind'))->setParameter(4),
+            (new Token\Control\Word('uc'))->setParameter(1),
             new Token\Control\Word('pard'),
-            new Token\Control\Word('lang', 1033),
-            new Token\Control\Word('f', 0),
-            new Token\Control\Word('fs', 20),
+            (new Token\Control\Word('lang'))->setParameter(1033),
+            (new Token\Control\Word('f'))->setParameter(0),
+            (new Token\Control\Word('fs'))->setParameter(20),
             new Token\Text('My dog is not like other dogs.'),
             new Token\Control\Word('par'),
             new Token\Text('He doesn\'t care to walk, '),

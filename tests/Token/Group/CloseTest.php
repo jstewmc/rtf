@@ -2,28 +2,10 @@
 
 namespace Jstewmc\Rtf\Token\Group;
 
-/**
- * A test suite for the Token\Group\Close class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class CloseTest extends \PHPUnit\Framework\TestCase
 {
-    /* !__toString() */
-
-    /**
-     * __toString() should return the close-bracket character ("}")
-     */
-    public function testToStringReturnsString()
+    public function testToStringReturnsString(): void
     {
-        $token = new Close();
-
-        $this->assertEquals('}', (string)$token);
-
-        return;
+        $this->assertEquals('}', (string)(new Close()));
     }
 }
