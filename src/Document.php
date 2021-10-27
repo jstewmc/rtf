@@ -6,6 +6,12 @@ class Document
 {
 	private Lexer\Document $lex;
 
+	private Writer $writer;
+
+	private Parser $parser;
+
+	private Renderer $renderer;
+
 	private Element\Group $root;
 
 	public function getRoot(): ?Element\Group
@@ -85,7 +91,7 @@ class Document
 	private function detectFormat(string $pathname): string
 	{
 		$period = strrpos($pathname, '.');
-		
+
 		$extension = substr($pathname, $period + 1);
 
 		if ($extension === 'htm' || $extension === 'html') {
