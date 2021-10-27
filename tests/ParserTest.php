@@ -18,7 +18,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should return null if $tokens is empty
      */
-    public function testParse_returnsNull_ifTokensIsEmpty()
+    public function testParseReturnsNullWhenTokensIsEmpty()
     {
         $parser = new Parser();
 
@@ -30,7 +30,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should ignore any text that occurs before the first group-open token
      */
-    public function testParse_parsesPretext()
+    public function testParseParsesPretext()
     {
         $tokens = [
             new Token\Text('foo'),
@@ -49,7 +49,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse a group-open and -close
      */
-    public function testParse_parsesGroups()
+    public function testParseParsesGroups()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -70,7 +70,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should throw InvalidArgumentException if groups are mismatched
      */
-    public function test_parse_throwsInvalidArgumentException_ifGroupsMismatched()
+    public function testParseThrowsInvalidArgumentExceptionWhenGroupsMismatched()
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -88,7 +88,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse nested groups
      */
-    public function testParse_parsesGroupsNested()
+    public function testParseParsesGroupsNested()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -123,7 +123,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse a control word token
      */
-    public function testParse_parsesControlWords()
+    public function testParseParsesControlWords()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -151,7 +151,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should skip undefined control symbols
      */
-    public function testParse_parsesControlWordsUndefined()
+    public function testParseParsesControlWordsUndefined()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -179,7 +179,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse a control symbol token
      */
-    public function testParse_parsesControlSymbols()
+    public function testParseParsesControlSymbols()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -207,7 +207,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should skip undefined control symbols
      */
-    public function testParse_parsesControlSymbolsUndefined()
+    public function testParseParsesControlSymbolsUndefined()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -235,7 +235,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse a text token
      */
-    public function testParse_parsesText()
+    public function testParseParsesText()
     {
         $tokens = [
             new Token\Group\Open(),
@@ -263,7 +263,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should parse a small document
      */
-    public function testParse_parsesDocumentSmall()
+    public function testParseParsesDocumentSmall()
     {
         $tokens = [
             new Token\Group\Open(),
