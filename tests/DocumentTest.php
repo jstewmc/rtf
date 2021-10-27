@@ -6,103 +6,103 @@ use org\bovigo\vfs\{vfsStream, vfsStreamDirectory, vfsStreamFile};
 
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
-	private vfsStreamDirectory $root;
+    private vfsStreamDirectory $root;
 
     public function setUp(): void
     {
         $this->root = vfsStream::setup('root');
     }
 
-	public function testGetRootReturnsRoot(): void
-	{
-		$this->assertEquals(new Element\Group(), (new Document(''))->getRoot());
-	}
+    public function testGetRootReturnsRoot(): void
+    {
+        $this->assertEquals(new Element\Group(), (new Document(''))->getRoot());
+    }
 
-	public function testConstructReadsStringWhenSourceIsText(): void
-	{
-		$this->assertSuccess('{\b foo\b0}');
-	}
+    public function testConstructReadsStringWhenSourceIsText(): void
+    {
+        $this->assertSuccess('{\b foo\b0}');
+    }
 
-	public function testConstructLoadsFileWhenSourceIsFile(): void
-	{
-		$this->assertSuccess($this->file('{\b foo\b0}')->url());
-	}
+    public function testConstructLoadsFileWhenSourceIsFile(): void
+    {
+        $this->assertSuccess($this->file('{\b foo\b0}')->url());
+    }
 
-	public function testToStringReturnsStringWhenElementsDoNotExist(): void
-	{
-		$this->assertEquals('{}', (string)(new Document('')));
-	}
+    public function testToStringReturnsStringWhenElementsDoNotExist(): void
+    {
+        $this->assertEquals('{}', (string)(new Document('')));
+    }
 
-	public function testToStringReturnsStringWhenElementDoExist(): void
-	{
-		$rtf = '{\b foo\b0}';
+    public function testToStringReturnsStringWhenElementDoExist(): void
+    {
+        $rtf = '{\b foo\b0}';
 
-		$this->assertEquals($rtf, (string)(new Document($rtf)));
-	}
+        $this->assertEquals($rtf, (string)(new Document($rtf)));
+    }
 
-	public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
+    public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
 
-		(new Document(''))->write('foo');
-	}
+        (new Document(''))->write('foo');
+    }
 
-	public function testWriteReturnsStringWhenFormatIsHtml(): void
-	{
-		$this->assertEquals(
-			'<section style=""><p style=""><span style="font-weight: bold;">'
-				. 'foo</span></p></section>',
-			(new Document('{\b foo\b0}'))->write('html')
-		);
-	}
+    public function testWriteReturnsStringWhenFormatIsHtml(): void
+    {
+        $this->assertEquals(
+            '<section style=""><p style=""><span style="font-weight: bold;">'
+                . 'foo</span></p></section>',
+            (new Document('{\b foo\b0}'))->write('html')
+        );
+    }
 
-	public function testWriteReturnsStringWhenFormatIsRtf(): void
-	{
-		$this->assertEquals('{\b foo\b0}', (new Document('{\b foo\b0}'))->write());
-	}
+    public function testWriteReturnsStringWhenFormatIsRtf(): void
+    {
+        $this->assertEquals('{\b foo\b0}', (new Document('{\b foo\b0}'))->write());
+    }
 
-	public function testWriteReturnsStringWhenFormatIsText(): void
-	{
-		$this->assertEquals('foo', (new Document('{\b foo\b0}'))->write('text'));
-	}
+    public function testWriteReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals('foo', (new Document('{\b foo\b0}'))->write('text'));
+    }
 
-	public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
+    public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
 
-		(new Document(''))->save("{$this->root->url()}/example.txt", 'foo');
-	}
+        (new Document(''))->save("{$this->root->url()}/example.txt", 'foo');
+    }
 
-	public function testSaveThrowsInvalidArgumentExceptionWhenExtensionIsNotDetectable(): void
-	{
-		$this->expectException(\InvalidArgumentException::class);
+    public function testSaveThrowsInvalidArgumentExceptionWhenExtensionIsNotDetectable(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
 
-		(new Document(''))->save('foo');
-	}
+        (new Document(''))->save('foo');
+    }
 
-	public function testSaveWritesToFile(): void
-	{
-		$file = vfsStream::newFile('example.rtf')->at($this->root);
+    public function testSaveWritesToFile(): void
+    {
+        $file = vfsStream::newFile('example.rtf')->at($this->root);
 
-		$rtf = '{\b foo\b0}';
+        $rtf = '{\b foo\b0}';
 
-		(new Document($rtf))->save($file->url());
+        (new Document($rtf))->save($file->url());
 
-		$this->assertStringMatchesFormatFile($file->url(), $rtf);
-	}
+        $this->assertStringMatchesFormatFile($file->url(), $rtf);
+    }
 
-	private function file(string $content): vfsStreamFile
+    private function file(string $content): vfsStreamFile
     {
         return vfsStream::newFile('example.txt')
             ->withContent($content)
             ->at($this->root);
     }
 
-	private function assertSuccess(string $source): void
-	{
-		$this->assertEquals(
-			3,
-			(new Document($source))->getRoot()->getLength()
-		);
-	}
+    private function assertSuccess(string $source): void
+    {
+        $this->assertEquals(
+            3,
+            (new Document($source))->getRoot()->getLength()
+        );
+    }
 }

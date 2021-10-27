@@ -4,47 +4,47 @@ namespace Jstewmc\Rtf;
 
 class Snippet extends Element\Group
 {
-	public function __construct(string $source)
-	{
-		$this->read($source);
-	}
+    public function __construct(string $source)
+    {
+        $this->read($source);
+    }
 
-	public function __toString(): string
-	{
-		return $this->write();
-	}
+    public function __toString(): string
+    {
+        return $this->write();
+    }
 
-	public function write(string $format = 'rtf'): string
-	{
-		// get the snippet (which is posing as a group) as a string
-		$string = (new Writer())->write($this, $format);
+    public function write(string $format = 'rtf'): string
+    {
+        // get the snippet (which is posing as a group) as a string
+        $string = (new Writer())->write($this, $format);
 
-		// if the format is "rtf", remove the group-open and group-close we added
-		if ($format === 'rtf') {
-			$string = substr($string, 1, -1);
-		}
+        // if the format is "rtf", remove the group-open and group-close we added
+        if ($format === 'rtf') {
+            $string = substr($string, 1, -1);
+        }
 
-		return $string;
-	}
+        return $string;
+    }
 
-	private function read(string $string): void
-	{
-		// fake the snippet as a "root" group
-		$string = '{'.$string.'}';
+    private function read(string $string): void
+    {
+        // fake the snippet as a "root" group
+        $string = '{'.$string.'}';
 
-		// instantiate the string's chunker and stream
-		$stream = new Stream\Text($string);
+        // instantiate the string's chunker and stream
+        $stream = new Stream\Text($string);
 
-		// lex the stream
-		$tokens = (new Lexer\Document())($stream);
+        // lex the stream
+        $tokens = (new Lexer\Document())($stream);
 
-		// parse and render the tokens
-		$group = (new Renderer())->render((new Parser())->parse($tokens));
+        // parse and render the tokens
+        $group = (new Renderer())->render((new Parser())->parse($tokens));
 
-		// set the snippet's properties from the group
-		$this->parent     = null;
-		$this->children   = $group->getChildren();
-		$this->style      = $group->getStyle();
-		$this->isRendered = true;
-	}
+        // set the snippet's properties from the group
+        $this->parent     = null;
+        $this->children   = $group->getChildren();
+        $this->style      = $group->getStyle();
+        $this->isRendered = true;
+    }
 }

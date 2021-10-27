@@ -2,8 +2,6 @@
 
 namespace Jstewmc\Rtf\Token;
 
-use Jstewmc\Rtf\Stream\Stream;
-
 /**
  * A plain-text token (i.e., everything that isn't a group-open, group-close,
  * control word, or control symbol is plain-text). Special characters (i.e.,

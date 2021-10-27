@@ -4,108 +4,108 @@ namespace Jstewmc\Rtf;
 
 class Document
 {
-	private Lexer\Document $lex;
+    private Lexer\Document $lex;
 
-	private Writer $writer;
+    private Writer $writer;
 
-	private Parser $parser;
+    private Parser $parser;
 
-	private Renderer $renderer;
+    private Renderer $renderer;
 
-	private Element\Group $root;
+    private Element\Group $root;
 
-	public function getRoot(): ?Element\Group
-	{
-		return $this->root;
-	}
+    public function getRoot(): ?Element\Group
+    {
+        return $this->root;
+    }
 
-	public function __construct(string $source)
-	{
-		$this->root = new Element\Group();
+    public function __construct(string $source)
+    {
+        $this->root = new Element\Group();
 
-		$this->lex = new Lexer\Document();
-		$this->writer = new Writer();
-		$this->parser = new Parser();
-		$this->renderer = new Renderer();
+        $this->lex = new Lexer\Document();
+        $this->writer = new Writer();
+        $this->parser = new Parser();
+        $this->renderer = new Renderer();
 
-		is_readable($source) ? $this->load($source) : $this->read($source);
-	}
+        is_readable($source) ? $this->load($source) : $this->read($source);
+    }
 
-	private function load(string $pathname): void
-	{
-		$this->create(new Stream\File($pathname));
-	}
+    private function load(string $pathname): void
+    {
+        $this->create(new Stream\File($pathname));
+    }
 
-	private function read(string $string): void
-	{
-		$this->create(new Stream\Text($string));
-	}
+    private function read(string $string): void
+    {
+        $this->create(new Stream\Text($string));
+    }
 
-	private function create(Stream\Stream $stream): void
-	{
-		$tokens = ($this->lex)($stream);
+    private function create(Stream\Stream $stream): void
+    {
+        $tokens = ($this->lex)($stream);
 
-		if (empty($tokens)) {
-			return;
-		}
+        if (empty($tokens)) {
+            return;
+        }
 
-		$group = $this->parser->parse($tokens);
+        $group = $this->parser->parse($tokens);
 
-		$this->root = $this->renderer->render($group);
-	}
+        $this->root = $this->renderer->render($group);
+    }
 
-	public function __toString()
-	{
-		return $this->write();
-	}
+    public function __toString()
+    {
+        return $this->write();
+    }
 
-	public function write(string $format = 'rtf'): string
-	{
-		return $this->writer->write($this->root, $format);
-	}
+    public function write(string $format = 'rtf'): string
+    {
+        return $this->writer->write($this->root, $format);
+    }
 
-	public function save(string $pathname, ?string $format = null): void
-	{
-		$this->validateFormat($format);
+    public function save(string $pathname, ?string $format = null): void
+    {
+        $this->validateFormat($format);
 
-		if ($format === null) {
-			$format = $this->detectFormat($pathname);
-		}
+        if ($format === null) {
+            $format = $this->detectFormat($pathname);
+        }
 
-		file_put_contents($pathname, $this->write($format));
-	}
+        file_put_contents($pathname, $this->write($format));
+    }
 
-	private function validateFormat(?string $format): void
-	{
-		if ($format === null) {
-			return;
-		}
+    private function validateFormat(?string $format): void
+    {
+        if ($format === null) {
+            return;
+        }
 
-		if (!in_array($format, ['htm', 'html', 'rtf', 'text'])) {
-			throw new \InvalidArgumentException(
-				"format must be 'html', 'rtf', 'text', or null"
-			);
-		}
-	}
+        if (!in_array($format, ['htm', 'html', 'rtf', 'text'])) {
+            throw new \InvalidArgumentException(
+                "format must be 'html', 'rtf', 'text', or null"
+            );
+        }
+    }
 
-	private function detectFormat(string $pathname): string
-	{
-		$period = strrpos($pathname, '.');
+    private function detectFormat(string $pathname): string
+    {
+        $period = strrpos($pathname, '.');
 
-		$extension = substr($pathname, $period + 1);
+        $extension = substr($pathname, $period + 1);
 
-		if ($extension === 'htm' || $extension === 'html') {
-			$format = 'html';
-		} elseif ($extension === 'rtf') {
-			$format = 'rtf';
-		} elseif ($extension === 'txt') {
-			$format = 'text';
-		} else {
-			throw new \InvalidArgumentException(
-				'format could not be detected from pathname'
-			);
-		}
+        if ($extension === 'htm' || $extension === 'html') {
+            $format = 'html';
+        } elseif ($extension === 'rtf') {
+            $format = 'rtf';
+        } elseif ($extension === 'txt') {
+            $format = 'text';
+        } else {
+            throw new \InvalidArgumentException(
+                'format could not be detected from pathname'
+            );
+        }
 
-		return $format;
-	}
+        return $format;
+    }
 }

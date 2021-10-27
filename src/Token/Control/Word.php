@@ -2,8 +2,6 @@
 
 namespace Jstewmc\Rtf\Token\Control;
 
-use Jstewmc\Rtf\Stream\Stream;
-
 /**
  * A control word token
  *
