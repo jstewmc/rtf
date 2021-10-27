@@ -2,417 +2,107 @@
 
 namespace Jstewmc\Rtf;
 
-/**
- * A test suite for the Document class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
+use org\bovigo\vfs\{vfsStream, vfsStreamDirectory, vfsStreamFile};
+
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
-	/* !dataProviders */
+	private vfsStreamDirectory $root;
 
-	public function notAStringProvider()
+    public function setUp(): void
+    {
+        $this->root = vfsStream::setup('root');
+    }
+
+	public function testGetRootReturnsRoot(): void
 	{
-		return [
-			[null],
-			[true],
-			[1],
-			[1.0],
-			// ['foo'],
-			[[]],
-			[new \StdClass()]
-		];
+		$this->assertEquals(new Element\Group(), (new Document(''))->getRoot());
 	}
 
-	public function neitherAStringNorNullProvider()
+	public function testConstructReadsStringWhenSourceIsText(): void
 	{
-		return [
-			// [null],
-			[true],
-			[1],
-			[1.0],
-			// ['foo'],
-			[[]],
-			[new \StdClass()]
-		];
+		$this->assertSuccess('{\b foo\b0}');
 	}
 
-
-	/* !getRoot() / setRoot() */
-
-	/**
-	 * getRoot() and setRoot() should get and set the root, respectively
-	 */
-	public function testGetSetRoot()
+	public function testConstructLoadsFileWhenSourceIsFile(): void
 	{
-		$root = new Element\Group();
-
-		$document = new Document();
-		$document->setRoot($root);
-
-		$expected = $root;
-		$actual   = $document->getRoot();
-
-		$this->assertEquals($expected, $actual);
-
-		return;
+		$this->assertSuccess($this->file('{\b foo\b0}')->url());
 	}
 
-
-	/* !__construct() */
-
-	/**
-	 * __construct() should return document if $source is null
-	 */
-	public function testConstruct_returnsObject_ifSourceIsNull()
+	public function testToStringReturnsStringWhenElementsDoNotExist(): void
 	{
-		$document = new Document();
-
-		$this->assertTrue($document instanceof Document);
-
-		return;
+		$this->assertEquals('{}', (string)(new Document('')));
 	}
 
-	/**
-	 * __construct() should read() string if $source starts with open bracket ("{")
-	 */
-	public function testConstruct_readsString_ifSourceDoesStartWithOpenBracket()
-	{
-		$document = new Document('{\b foo\b0}');
-
-		$this->assertEquals(3, $document->getRoot()->getLength());
-
-		return;
-	}
-
-	/**
-	 * __construct() should load() file if $source does not start with open bracket ("{")
-	 */
-	public function testConstruct_loadsFile_ifSourceDoesNotStartWithOpenBracket()
-	{
-		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
-
-		file_put_contents($filename, '{\b foo\b0}');
-
-		$document = new Document($filename);
-
-		try {
-			$this->assertEquals(3, $document->getRoot()->getLength());
-			unlink($filename);
-		} catch (Exception $e) {
-			unlink($filename);
-			throw $e;
-		}
-
-		return;
-	}
-
-
-	/* !__toString() */
-
-	/**
-	 * __toString() should return a string if elements do not exist
-	 */
-	public function testToString_returnsString_ifElementsDoNotExist()
-	{
-		$document = new Document();
-
-		$this->assertEquals('{}', (string) $document);
-
-		return;
-	}
-
-	/**
-	 * __toString() should return a string if elements do exist
-	 */
-	public function testToString_returnsString_ifElementDoExist()
+	public function testToStringReturnsStringWhenElementDoExist(): void
 	{
 		$rtf = '{\b foo\b0}';
 
-		$document = new Document();
-		$document->read($rtf);
-
-		$expected = $rtf;
-		$actual   = (string) $document;
-
-		$this->assertEquals($expected, $actual);
-
-		return;
+		$this->assertEquals($rtf, (string)(new Document($rtf)));
 	}
 
-
-	/* !load() */
-
-	/**
-	 * load() should throw an InvalidArgumentException if $source is not a string
-	 *
-	 * @dataProvider  notAStringProvider
-	 */
-	public function testLoad_throwsInvalidArgumentException_ifSourceIsNotAString($source)
+	public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		$document = new Document();
-		$document->load($source);
-
-		return;
+		(new Document(''))->write('foo');
 	}
 
-	/**
-	 * load() should throw an InvalidArgumentException if $source does not exist or
-	 *     is not readable
-	 */
-	public function testLoad_throwsInvalidArgumentException_ifSourceIsNotReadable()
+	public function testWriteReturnsStringWhenFormatIsHtml(): void
+	{
+		$this->assertEquals(
+			'<section style=""><p style=""><span style="font-weight: bold;">'
+				. 'foo</span></p></section>',
+			(new Document('{\b foo\b0}'))->write('html')
+		);
+	}
+
+	public function testWriteReturnsStringWhenFormatIsRtf(): void
+	{
+		$this->assertEquals('{\b foo\b0}', (new Document('{\b foo\b0}'))->write());
+	}
+
+	public function testWriteReturnsStringWhenFormatIsText(): void
+	{
+		$this->assertEquals('foo', (new Document('{\b foo\b0}'))->write('text'));
+	}
+
+	public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
-
-		$document = new Document();
-		$document->load($filename);
-
-		return;
+		(new Document(''))->save("{$this->root->url()}/example.txt", 'foo');
 	}
 
-	/**
-	 * load() should return true if
-	 */
-	public function testLoad_returnsTrue_ifSuccess()
-	{
-		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
-		$contents = '{\b foo\b0}';
-
-		file_put_contents($filename, $contents);
-
-		$document = new Document();
-
-		try {
-			$this->assertTrue($document->load($filename));
-			$this->assertEquals(3, $document->getRoot()->getLength());
-			unlink($filename);
-		} catch (Exception $e) {
-			unlink($filename);
-			throw $e;
-		}
-
-		return;
-	}
-
-
-	/* !read() */
-
-	/**
-	 * read() should throw an InvalidArgumentException if $source is not a string
-	 *
-	 * @dataProvider  notAStringProvider
-	 */
-	public function testRead_throwsInvalidArgumentException_ifSourceIsNotAString($source)
+	public function testSaveThrowsInvalidArgumentExceptionWhenExtensionIsNotDetectable(): void
 	{
 		$this->expectException(\InvalidArgumentException::class);
 
-		$document = new Document();
-		$document->read($source);
-
-		return;
+		(new Document(''))->save('foo');
 	}
 
-	/**
-	 * read() should return true if $source is empty
-	 */
-	public function testRead_returnsFalse_ifSourceIsEmpty()
+	public function testSaveWritesToFile(): void
 	{
-		$document = new Document();
-
-		$this->assertFalse($document->read(''));
-
-		return;
-	}
-
-	// /**
-	//  * read() should return false if the load fails
-	//  */
-	// public function testRead_returnsFalse_ifLoadFails()
-	// {
-	// 	// hmmm, how do we test this?
-	// }
-
-	/**
-	 * read() should return true if the load succeeds
-	 */
-	public function testRead_returnsTrue_ifLoadSucceeds()
-	{
-		$document = new Document();
-
-		$group = (new Element\Group())
-			->appendChild(new Element\Control\Word\B())
-			->appendChild(new Element\Text('foo'))
-			->appendChild((new Element\Control\Word\B(0))->setIsSpaceDelimited(false));
-
-		$renderer = new Renderer();
-		$root = $renderer->render($group);
-
-		$this->assertTrue($document->read('{\b foo\b0}'));
-		$this->assertEquals(3, $document->getRoot()->getLength());
-		$this->assertEquals($root, $document->getRoot());
-
-		return;
-	}
-
-
-	/* !save() */
-
-	/**
-	 * save() should throw an InvalidArgumentException if $destination is not a string
-	 *
-	 * @dataProvider  notAStringProvider
-	 */
-	public function testSave_throwsInvalidArgumentException_ifDestinationIsNotAString($destination)
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		$document = new Document();
-		$document->save($destination);
-
-		return;
-	}
-
-	/**
-	 * save() should throw an InvalidArgumentException if $format is not a string or null
-	 *
-	 * @dataProvider  neitherAStringNorNullProvider
-	 */
-	public function testSave_throwsInvalidArgumentException_ifFormatIsNotAString($format)
-	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		$document = new Document();
-		$document->save('foo', $format);
-
-		return;
-	}
-
-	/**
-	 * save() should throw a BadMethodCallException if $format is null and destination
-	 *     doesn't end in 'html', 'rtf', or 'txt'
-	 */
-	public function testSave_throwsBadMethodCallException_ifExtensionIsNotValid()
-	{
-		$this->expectException(\BadMethodCallException::class);
-
-		$document = new Document();
-		$document->save('foo');
-
-		return;
-	}
-
-	// /**
-	//  * save() should return false if save fails
-	//  */
-	// public function testSave_returnsFalse_ifSaveFails()
-	// {
-	// 	// hmmm, how do we test this?
-	// }
-
-	/**
-	 * save() should return true if save is successful
-	 */
-	public function testSave_returnsTrue_ifSaveSucceeds()
-	{
-		$filename = dirname(__FILE__).DIRECTORY_SEPARATOR.'foo.rtf';
+		$file = vfsStream::newFile('example.rtf')->at($this->root);
 
 		$rtf = '{\b foo\b0}';
 
-		$document = new Document();
-		$document->read($rtf);
+		(new Document($rtf))->save($file->url());
 
-		try {
-			$this->assertTrue($document->save($filename));
-			$this->assertEquals($rtf, file_get_contents($filename));
-			unlink($filename);
-		} catch (Exception $e) {
-			unlink($filename);
-			throw $e;
-		}
-
-		return;
+		$this->assertStringMatchesFormatFile($file->url(), $rtf);
 	}
 
+	private function file(string $content): vfsStreamFile
+    {
+        return vfsStream::newFile('example.txt')
+            ->withContent($content)
+            ->at($this->root);
+    }
 
-	/* !write() */
-
-	/**
-	 * write() should throw InvalidArgumentException if $format is not a string
-	 *
-	 * @dataProvider  notAStringProvider
-	 */
-	public function testWrite_throwsInvalidArgumentException_ifFormatIsNotAString($format)
+	private function assertSuccess(string $source): void
 	{
-		$this->expectException(\InvalidArgumentException::class);
-
-		$rtf = '{\b foo\b0}';
-
-		$document = new Document();
-		$document->read($rtf);
-		$document->write($format);
-
-		return;
-	}
-
-	/**
-	 * write() should return a string if the format is html
-	 */
-	public function testWrite_returnsString_ifFormatIsHtml()
-	{
-		$rtf = '{\b foo\b0}';
-
-		$document = new Document();
-		$document->read($rtf);
-
-		$expected = '<section style=""><p style=""><span style="font-weight: bold;">'
-			. 'foo</span></p></section>';
-		$actual = $document->write('html');
-
-		$this->assertEquals($expected, $actual);
-
-		return;
-	}
-
-	/**
-	 * write() should return a string if the format is rtf
-	 */
-	public function testWrite_returnsString_ifFormatIsRtf()
-	{
-		$rtf = '{\b foo\b0}';
-
-		$document = new Document();
-		$document->read($rtf);
-
-		$expected = $rtf;
-		$actual   = $document->write();
-
-		$this->assertEquals($expected, $actual);
-
-		return;
-	}
-
-	/**
-	 * write() should return a string if the format is text
-	 */
-	public function testWrite_returnsString_ifFormatIsText()
-	{
-		$rtf = '{\b foo\b0}';
-
-		$document = new Document();
-		$document->read($rtf);
-
-		$expected = 'foo';
-		$actual   = $document->write('text');
-
-		$this->assertEquals($expected, $actual);
-
-		return;
+		$this->assertEquals(
+			3,
+			(new Document($source))->getRoot()->getLength()
+		);
 	}
 }
