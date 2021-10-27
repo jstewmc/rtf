@@ -10,7 +10,7 @@
 		}
 	],
 	"require": {
-		"jstewmc/stream": "^0.4"
+		"jstewmc/stream": "^0.4.2"
 	},
 	"require-dev": {
 		"mikey179/vfsstream": "^1.6",
