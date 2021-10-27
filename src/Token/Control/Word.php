@@ -63,7 +63,7 @@ class Word extends Control
         $this->word = $word;
     }
 
-    public function __toString()
+    public function __toString(): string
     {
         $string = "\\{$this->word}{$this->parameter}";
 
