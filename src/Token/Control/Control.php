@@ -24,14 +24,4 @@ abstract class Control extends \Jstewmc\Rtf\Token\Token
 
         return $this;
     }
-
-    protected static function readIsSpaceDelimited(Stream $stream): bool
-    {
-        if ($stream->isOnSpace()) {
-            return true;
-        } else {
-            $stream->previous();
-            return false;
-        }
-    }
 }
