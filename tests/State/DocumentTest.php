@@ -13,7 +13,7 @@ namespace Jstewmc\Rtf\State;
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
     public function testFormat()
-	{
-		return $this->assertEquals('', (new Document())->format('foo'));
-	}
+    {
+        return $this->assertEquals('', (new Document())->format('foo'));
+    }
 }

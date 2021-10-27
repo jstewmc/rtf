@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated from PHPUnit version 4 to version 9.
 - Added continuous integration with [CircleCI](https://circleci.com/gh/jstewmc/rtf).
 - Added code coverage analysis with [CodeCov](https://codecov.io/gh/jstewmc/rtf).
+- Added [slevomat/coding-standard](https://github.com/slevomat/coding-standard) to enforce coding standards.
 
 ## [0.4.3] - 2015-08-17
 

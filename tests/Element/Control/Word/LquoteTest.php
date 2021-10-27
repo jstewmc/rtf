@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class LquoteTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$word = new Lquote();
-		
-		$expected = '&lsquo;';
-		$actual   = $word->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$word = new Lquote();
-		
-		$expected = html_entity_decode('&lsquo;');
-		$actual   = $word->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsHtml()
+    {
+        $word = new Lquote();
+        
+        $expected = '&lsquo;';
+        $actual   = $word->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsText()
+    {
+        $word = new Lquote();
+        
+        $expected = html_entity_decode('&lsquo;');
+        $actual   = $word->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

@@ -13,26 +13,26 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class UlnoneTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should not underline (regardless of parameter's value)
-	 */
-	public function testRun_doesNotUnderline()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$style->getCharacter()->setIsUnderline(true);
-		
-		$element = new Ulnone();
-		$element->setStyle($style);
-		
-		$this->assertTrue($element->getStyle()->getCharacter()->getIsUnderline());
-		
-		$element->run();
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsUnderline());
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should not underline (regardless of parameter's value)
+     */
+    public function testRunDoesNotUnderline()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $style->getCharacter()->setIsUnderline(true);
+        
+        $element = new Ulnone();
+        $element->setStyle($style);
+        
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsUnderline());
+        
+        $element->run();
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsUnderline());
+        
+        return;
+    }
 }

@@ -1,0 +1,64 @@
+<?xml version="1.0"?>
+
+<ruleset name="Custom Standard">
+ <config name="installed_paths" value="../../slevomat/coding-standard"/>
+
+ <!--Exclude Paths-->
+ <exclude-pattern type="relative">vendor/*</exclude-pattern>
+ <exclude-pattern type="relative">docs/*</exclude-pattern>
+
+ <!--Generic Rules-->
+ <rule ref="PSR1"/>
+ <rule ref="PSR2"/>
+ <!-- Let me use grouped use statements! -->
+ <rule ref="PSR2.Namespaces.UseDeclaration">
+    <exclude-pattern>*</exclude-pattern>
+ </rule>
+ <rule ref="Generic.Arrays.DisallowLongArraySyntax"/>
+ <rule ref="Generic.CodeAnalysis.EmptyStatement"/>
+ <rule ref="Generic.CodeAnalysis.UnconditionalIfStatement"/>
+ <rule ref="Generic.CodeAnalysis.UnusedFunctionParameter"/>
+ <rule ref="Generic.CodeAnalysis.UselessOverridingMethod"/>
+ <rule ref="Generic.ControlStructures.InlineControlStructure"/>
+ <rule ref="Generic.Commenting.Fixme"/>
+ <rule ref="Generic.Commenting.Todo"/>
+ <rule ref="Generic.Files.LineLength">
+  <properties>
+   <property name="lineLimit" value="120"/>
+   <property name="absoluteLineLimit" value="120"/>
+  </properties>
+ </rule>
+ <rule ref="Generic.Formatting.DisallowMultipleStatements"/>
+ <rule ref="Generic.Formatting.NoSpaceAfterCast"/>
+ <rule ref="Generic.Functions.FunctionCallArgumentSpacing"/>
+ <rule ref="Generic.Metrics.CyclomaticComplexity"/>
+ <rule ref="Generic.Metrics.NestingLevel"/>
+ <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
+ <rule ref="Generic.PHP.LowerCaseConstant"/>
+ <rule ref="Generic.PHP.CharacterBeforePHPOpeningTag"/>
+ <rule ref="Generic.PHP.NoSilencedErrors">
+  <properties>
+   <property name="error" value="true"/>
+  </properties>
+ </rule>
+ <rule ref="Generic.WhiteSpace.DisallowTabIndent"/>
+
+ <!--Slevomat Rules-->
+ <rule ref="SlevomatCodingStandard.Namespaces.UnusedUses">
+  <properties>
+   <property name="searchAnnotations" value="true"/>
+  </properties>
+ </rule>
+ <rule ref="SlevomatCodingStandard.Classes.ClassConstantVisibility"/>
+ <rule ref="SlevomatCodingStandard.Commenting.EmptyComment"/>
+ <rule ref="SlevomatCodingStandard.ControlStructures.RequireShortTernaryOperator"/>
+ <rule ref="SlevomatCodingStandard.Namespaces.NamespaceDeclaration"/>
+ <rule ref="SlevomatCodingStandard.Namespaces.RequireOneNamespaceInFile"/>
+ <!-- Allow mutli-line argument lists
+ <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHintSpacing"/> -->
+ <rule ref="SlevomatCodingStandard.TypeHints.ReturnTypeHintSpacing"/>
+
+ <!--Arguments-->
+ <arg name="colors"/>
+ <arg value="sp"/>
+</ruleset>

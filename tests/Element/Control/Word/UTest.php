@@ -13,36 +13,36 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class UTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		// "&#60" is the less-than character
-		$word = new U(60);
-		
-		$expected = '&#60;';
-		$actual   = $word->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is text
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$word = new U(60);
-		
-		$expected = html_entity_decode('&#60;');
-		$actual   = $word->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsHtml()
+    {
+        // "&#60" is the less-than character
+        $word = new U(60);
+        
+        $expected = '&#60;';
+        $actual   = $word->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is text
+     */
+    public function testFormatReturnsStringWhenFormatIsText()
+    {
+        $word = new U(60);
+        
+        $expected = html_entity_decode('&#60;');
+        $actual   = $word->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

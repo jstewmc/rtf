@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  
 class TildeTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$symbol = new Tilde();
-		
-		$expected = '&nbsp;';
-		$actual   = $symbol->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$symbol = new Tilde();
-		
-		$expected = html_entity_decode('&nbsp;');
-		$actual   = $symbol->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}	
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsHtml()
+    {
+        $symbol = new Tilde();
+        
+        $expected = '&nbsp;';
+        $actual   = $symbol->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsText()
+    {
+        $symbol = new Tilde();
+        
+        $expected = html_entity_decode('&nbsp;');
+        $actual   = $symbol->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }

@@ -13,58 +13,58 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class VTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should make characters visible if parameter is omitted
-	 */
-	public function testRun_doesShow_ifParameterIsOmitted()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new V();
-		$element->setStyle($style);
-		
-		$element->run();
-		
-		$this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
-		
-		return;
-	}
-	
-	/**
-	 * run() should make characters visible if parameter is not zero
-	 */
-	public function testRun_doesShow_ifParameterIsNotZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new V();
-		$element->setParameter('1');
-		$element->setStyle($style);
-		
-		$element->run();
-		
-		$this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
-		
-		return;
-	}
-	
-	/**
-	 * run() should make characters visible if parameter is not zero
-	 */
-	public function testRun_doesNotShow_ifParameterIsZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new V();
-		$element->setParameter('0');
-		$element->setStyle($style);
-		
-		$element->run();
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsVisible());
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should make characters visible if parameter is omitted
+     */
+    public function testRunDoesShowWhenParameterIsOmitted()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new V();
+        $element->setStyle($style);
+        
+        $element->run();
+        
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
+        
+        return;
+    }
+    
+    /**
+     * run() should make characters visible if parameter is not zero
+     */
+    public function testRunDoesShowWhenParameterIsNotZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new V();
+        $element->setParameter('1');
+        $element->setStyle($style);
+        
+        $element->run();
+        
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
+        
+        return;
+    }
+    
+    /**
+     * run() should make characters visible if parameter is not zero
+     */
+    public function testRunDoesNotShowWhenParameterIsZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new V();
+        $element->setParameter('0');
+        $element->setStyle($style);
+        
+        $element->run();
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsVisible());
+        
+        return;
+    }
 }

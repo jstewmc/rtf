@@ -13,45 +13,45 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class BTest extends \PHPUnit\Framework\TestCase
 {
-	/* !run() */
-	
-	/**
-	 * run() should update the element's style
-	 */
-	public function testRun_doesBold_ifParameterIsNotZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new B();
-		$element->setParameter('1');
-		$element->setStyle($style);
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
-		
-		$element->run();
-		
-		$this->assertTrue($element->getStyle()->getCharacter()->getIsBold());
-		
-		return;
-	}
-	
-	/**
-	 * run() should update the element's style
-	 */
-	public function testRun_doesNotBold_ifParameterIsZero()
-	{
-		$style = new \Jstewmc\Rtf\Style();
-		
-		$element = new B();
-		$element->setParameter('0');
-		$element->setStyle($style);
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
-		
-		$element->run();
-		
-		$this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
-		
-		return;
-	}
+    /* !run() */
+    
+    /**
+     * run() should update the element's style
+     */
+    public function testRunDoesBoldWhenParameterIsNotZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new B();
+        $element->setParameter('1');
+        $element->setStyle($style);
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
+        
+        $element->run();
+        
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsBold());
+        
+        return;
+    }
+    
+    /**
+     * run() should update the element's style
+     */
+    public function testRunDoesNotBoldWhenParameterIsZero()
+    {
+        $style = new \Jstewmc\Rtf\Style();
+        
+        $element = new B();
+        $element->setParameter('0');
+        $element->setStyle($style);
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
+        
+        $element->run();
+        
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsBold());
+        
+        return;
+    }
 }

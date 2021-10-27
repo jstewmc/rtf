@@ -13,35 +13,35 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 class EmspaceTest extends \PHPUnit\Framework\TestCase
 {
-	/* !format() */
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsHtml()
-	{
-		$word = new Emspace();
-		
-		$expected = '&emsp;';
-		$actual   = $word->format('html');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
-	
-	/**
-	 * format() should return string if format is html
-	 */
-	public function testFormat_returnsString_ifFormatIsText()
-	{
-		$word = new Emspace();
-		
-		$expected = html_entity_decode('&emsp;');
-		$actual   = $word->format('text');
-		
-		$this->assertEquals($expected, $actual);
-		
-		return;
-	}
+    /* !format() */
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsHtml()
+    {
+        $word = new Emspace();
+        
+        $expected = '&emsp;';
+        $actual   = $word->format('html');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
+    
+    /**
+     * format() should return string if format is html
+     */
+    public function testFormatReturnsStringWhenFormatIsText()
+    {
+        $word = new Emspace();
+        
+        $expected = html_entity_decode('&emsp;');
+        $actual   = $word->format('text');
+        
+        $this->assertEquals($expected, $actual);
+        
+        return;
+    }
 }
