@@ -115,21 +115,7 @@ class Document
      */
     protected function parseControlWord(Token\Control\Word $token, Element\Group $group)
     {
-        // if a class exists for the control word
-        $filename  = ucfirst($token->getWord());
-        $classname = "Jstewmc\\Rtf\\Element\\Control\\Word\\$filename";
-        if (class_exists($classname)) {
-            // instantiate the control word element and break
-            $word = new $classname();
-        } else {
-            // otherwise, instantiate a generic control word
-            $word = new Element\Control\Word\Word();
-            $word->setWord($token->getWord());
-        }
-
-        // set the element's parameter
-        $word->setParameter($token->getParameter());
-        $word->setIsSpaceDelimited($token->getIsSpaceDelimited());
+        $word = (new ControlWord())($token);
 
         // append the element
         $word->setParent($group);
