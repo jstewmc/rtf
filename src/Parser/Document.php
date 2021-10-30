@@ -1,6 +1,8 @@
 <?php
 
-namespace Jstewmc\Rtf;
+namespace Jstewmc\Rtf\Parser;
+
+use Jstewmc\Rtf\{Element, Token};
 
 /**
  * A Rich Text Format (RTF) parser
@@ -14,7 +16,7 @@ namespace Jstewmc\Rtf;
  * @since      0.1.0
  */
 
-class Parser
+class Document
 {
     /* !Protected methods */
 

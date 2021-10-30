@@ -8,7 +8,7 @@ class Document
 
     private Writer $writer;
 
-    private Parser $parser;
+    private Parser\Document $parser;
 
     private Renderer $renderer;
 
@@ -24,8 +24,8 @@ class Document
         $this->root = new Element\Group();
 
         $this->lex = new Lexer\Document();
+        $this->parser = new Parser\Document();
         $this->writer = new Writer();
-        $this->parser = new Parser();
         $this->renderer = new Renderer();
 
         is_readable($source) ? $this->load($source) : $this->read($source);

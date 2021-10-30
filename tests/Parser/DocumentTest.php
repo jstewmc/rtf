@@ -1,6 +1,8 @@
 <?php
 
-namespace Jstewmc\Rtf;
+namespace Jstewmc\Rtf\Parser;
+
+use Jstewmc\Rtf\{Element, Token};
 
 /**
  * A test suite for the parser class
@@ -11,7 +13,7 @@ namespace Jstewmc\Rtf;
  * @since      0.1.0
  */
 
-class ParserTest extends \PHPUnit\Framework\TestCase
+class DocumentTest extends \PHPUnit\Framework\TestCase
 {
     /* !parse() */
 
@@ -20,7 +22,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
      */
     public function testParseReturnsNullWhenTokensIsEmpty()
     {
-        $parser = new Parser();
+        $parser = new Document();
 
         $this->assertNull($parser->parse([]));
 
@@ -38,7 +40,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close()
         ];
 
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         $this->assertEquals(new Element\Group(), $root);
@@ -57,7 +59,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         $group = new Element\Group();
@@ -80,7 +82,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close()
         ];
 
-        (new Parser())->parse($tokens);
+        (new Document())->parse($tokens);
 
         return;
     }
@@ -100,7 +102,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         // create group and text elements
@@ -132,7 +134,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         // create group and text elements
@@ -160,7 +162,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         $group = new Element\Group();
@@ -188,7 +190,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         // create group and text elements
@@ -216,7 +218,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         $group = new Element\Group();
@@ -244,7 +246,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
         ];
 
         // parse the tokens
-        $parser = new Parser();
+        $parser = new Document();
         $root   = $parser->parse($tokens);
 
         // create group and text elements
@@ -301,7 +303,7 @@ class ParserTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close()
         ];
 
-        $parser = new Parser();
+        $parser = new Document();
         $root = $parser->parse($tokens);
 
         // create the expected elements in order...

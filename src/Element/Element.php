@@ -1,41 +1,32 @@
 <?php
-    
+
 namespace Jstewmc\Rtf\Element;
 
 /**
- * A Rich Text Format (RTF) element
- *
- * A element is a component of a document, like a tag to an HTML document or a node
+ * A component of a document, like a tag to an HTML document or a node
  * to an XML document. RTF elements include: groups, text, control words, and
- * control symbols.
- *
- * Every element has a style. An element's style is the sum of its document-,
+ * control symbols. Every element has a style, the sum of its document-,
  * section-, paragraph-, and character-states.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
  */
 class Element
 {
     /* !Protected properties */
-    
+
     /**
      * @var  Jstewmc\Rtf\Element\Element  this element's parent element
      * @since  0.1.0
      */
     protected $parent;
-    
+
     /**
      * @var  Jstewmc\Rtf\Style  the element's style
      * @since  0.1.0
      */
     protected $style;
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the element's parent element
      *
@@ -46,7 +37,7 @@ class Element
     {
         return $this->parent;
     }
-    
+
     /**
      * Gets the element's style
      *
@@ -57,10 +48,10 @@ class Element
     {
         return $this->style;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets this element's parent element
      *
@@ -71,10 +62,10 @@ class Element
     public function setParent(Group $parent = null)
     {
         $this->parent = $parent;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the element's style
      *
@@ -85,13 +76,13 @@ class Element
     public function setStyle(\Jstewmc\Rtf\Style $style = null)
     {
         $this->style = $style;
-        
+
         return $this;
     }
 
 
     /* !Magic methods */
-    
+
     /**
      * Called when the object is used as a string
      *
@@ -102,10 +93,10 @@ class Element
     {
         return $this->toRtf();
     }
-    
-    
+
+
     /* !Public methods */
-    
+
     /**
      * Appends this element to $group
      *
@@ -116,10 +107,10 @@ class Element
     public function appendTo(Group $group)
     {
         $group->appendChild($this);
-        
+
         return $this;
     }
-    
+
     /**
      * Returns this element's index in its parent children
      *
@@ -136,7 +127,7 @@ class Element
     public function getIndex()
     {
         $index = false;
-        
+
         // if this element has a parent
         if (! empty($this->parent)) {
             $index = $this->parent->getChildIndex($this);
@@ -151,10 +142,10 @@ class Element
                 __METHOD__."() expects this element to have a parent element"
             );
         }
-        
+
         return $index;
     }
-    
+
     /**
      * Returns this element's next sibling or null if no sibling exists
      *
@@ -167,7 +158,7 @@ class Element
     public function getNextSibling()
     {
         $next = null;
-        
+
         // if this element has an index
         if (false !== ($index = $this->getIndex())) {
             // if this element has a next sibling
@@ -175,10 +166,10 @@ class Element
                 $next = $this->parent->getChild($index + 1);
             }
         }
-            
+
         return $next;
     }
-    
+
     /**
      * Returns this element's next text element or null if no next text element
      *     exists
@@ -191,23 +182,23 @@ class Element
     public function getNextText()
     {
         $text = null;
-        
+
         // get the element's next sibling element
         $next = $this->getNextSibling();
-        
+
         // while the next sibling element exists and is not a text element
         while ($next !== null && ! $next instanceof \Jstewmc\Rtf\Element\Text) {
             $next = $next->getNextSibling();
         }
-        
+
         // if a next text element exists
         if ($next !== null && $next instanceof \Jstewmc\Rtf\Element\Text) {
             $text = $next;
         }
-        
+
         return $text;
     }
-    
+
     /**
      * Returns this element's previous sibling or null if no sibling exists
      *
@@ -220,7 +211,7 @@ class Element
     public function getPreviousSibling()
     {
         $previous = null;
-        
+
         // if this element has an index
         if (false !== ($index = $this->getIndex())) {
             // if this element has a previous sibling
@@ -228,10 +219,10 @@ class Element
                 $previous = $this->parent->getChild($index - 1);
             }
         }
-        
+
         return $previous;
     }
-    
+
     /**
      * Returns this element's previous text element or null if not previous text
      *     element exists
@@ -244,23 +235,23 @@ class Element
     public function getPreviousText()
     {
         $text = null;
-        
+
         // get the element's preivous sibling element
         $previous = $this->getPreviousSibling();
-        
+
         // while the previous sibling element exists and is not a text element
         while ($previous !== null && ! $previous instanceof \Jstewmc\Rtf\Element\Text) {
             $previous = $previous->getPreviousSibling();
         }
-        
+
         // if a previous text element exists
         if ($previous !== null && $previous instanceof \Jstewmc\Rtf\Element\Text) {
             $text = $previous;
         }
-        
+
         return $text;
     }
-    
+
     /**
      * Returns the element as a string in $format
      *
@@ -274,7 +265,7 @@ class Element
     public function format($format = 'rtf')
     {
         $string = '';
-        
+
         // if $format is a string
         if (is_string($format)) {
             // switch on the lower-cased format
@@ -282,15 +273,15 @@ class Element
                 case 'html':
                     $string = $this->toHtml();
                     break;
-                    
+
                 case 'rtf':
                     $string = $this->toRtf();
                     break;
-                
+
                 case 'text':
                     $string = $this->toText();
                     break;
-                
+
                 default:
                     throw new \InvalidArgumentException(
                         __METHOD__."() expects parameter one, format, to be 'rtf', 'html', or 'text'"
@@ -301,10 +292,10 @@ class Element
                 __METHOD__."() expects parameter one, format, to be a string"
             );
         }
-        
+
         return $string;
     }
-    
+
     /**
      * Inserts this element after $element
      *
@@ -321,10 +312,10 @@ class Element
         if (false !== ($index = $element->getIndex())) {
             $element->getParent()->insertChild($this, $index + 1);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Inserts this element before $element
      *
@@ -341,10 +332,10 @@ class Element
         if (false !== ($index = $element->getIndex())) {
             $element->getParent()->insertChild($this, $index);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Returns true if this element is the first child
      *
@@ -358,7 +349,7 @@ class Element
     {
         return $this->getIndex() === 0;
     }
-    
+
     /**
      * Returns true if this element is the last child
      *
@@ -372,7 +363,7 @@ class Element
     {
         return $this->getIndex() === $this->parent->getLength() - 1;
     }
-    
+
     /**
      * Prepends the element to $group
      *
@@ -383,10 +374,10 @@ class Element
     public function prependTo(Group $group)
     {
         $group->prependChild($this);
-        
+
         return $this;
     }
-    
+
     /**
      * Inserts an element after this element
      *
@@ -402,10 +393,10 @@ class Element
         if (false !== ($index = $this->getIndex())) {
             $this->parent->insertChild($element, $index + 1);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Inserts $element before this element
      *
@@ -421,10 +412,10 @@ class Element
         if (false !== ($index = $this->getIndex())) {
             $this->parent->insertChild($element, $index);
         }
-        
+
         return $this;
     }
-    
+
     /**
      * Replaces this element with $element (and returns this element)
      *
@@ -443,13 +434,13 @@ class Element
                 __METHOD__."() expects this element to have a parent element"
             );
         }
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Protected methods */
-    
+
     /**
      * Returns the element as an html5 string
      *
@@ -460,7 +451,7 @@ class Element
     {
         return '';
     }
-    
+
     /**
      * Returns the element as an rtf string
      *
@@ -471,7 +462,7 @@ class Element
     {
         return '';
     }
-    
+
     /**
      * Returns the element as a plain text string
      *
