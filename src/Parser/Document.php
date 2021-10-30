@@ -5,36 +5,10 @@ namespace Jstewmc\Rtf\Parser;
 use Jstewmc\Rtf\{Element, Token};
 
 /**
- * A Rich Text Format (RTF) parser
- *
- * A Rich Text Format (RTF) parser parses an array of tokens into the document's
- * parse tree.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
+ * Parses an array of tokens into the document's parse tree.
  */
-
 class Document
 {
-    /* !Protected methods */
-
-    /**
-     * @var  string[]  an array of symbol names indexed by symbol character
-     * @since  0.1.0
-     */
-    protected static $symbols = [
-        '\'' => 'apostrophe',
-        '*'  => 'asterisk',
-        '-'  => 'hyphen',
-        '~'  => 'tilde',
-        '_'  => 'underscore'
-    ];
-
-
-    /* !Public methods */
-
     /**
      * Parses tokens into a parse tree
      *
@@ -45,16 +19,9 @@ class Document
      * @since  0.1.0
      * @since  0.4.2  add test for group-open and group-close mismatch
      */
-    public function parse(Array $tokens)
+    public function parse(array $tokens): ?Element\Group
     {
-        // if groups are mis-matched, short-circuit
-        if ($this->countGroupOpen($tokens) !== $this->countGroupClose($tokens)) {
-            throw new \InvalidArgumentException(
-                __METHOD__."() expects parameter one, tokens, to be valid RTF "
-                 . "string; however, the number of groups opened does not equal "
-                 . "the number of groups closed"
-            );
-        }
+        $this->validateTokens($tokens);
 
         $root  = null;
 
@@ -93,31 +60,26 @@ class Document
         return $root;
     }
 
+    private function validateTokens(array $tokens): void
+    {
+        $opens = $this->countGroupOpens($tokens);
+        $closes = $this->countGroupCloses($tokens);
 
-    /* !Protected methods */
+        if ($opens !== $closes) {
+            throw new \InvalidArgumentException(
+                'the number of groups opened does must equal the number closed'
+            );
+        }
+    }
 
-    /**
-     * Returns the number of group-close tokens in $tokens
-     *
-     * @param  Jstewmc\Rtf\Token\Token  $tokens  the tokens to test
-     * @return  int
-     * @since  0.4.2
-     */
-    protected function countGroupClose(Array $tokens)
+    private function countGroupCloses(array $tokens): int
     {
         return array_reduce($tokens, function ($carry, $item) {
             return $carry += $item instanceof Token\Group\Close;
         }, 0);
     }
 
-    /**
-     * Counts the number of group-open tokens
-     *
-     * @param  Jstewmc\Rtf\Token\Token  $tokens  the tokens to test
-     * @return  int
-     * @since  0.4.2
-     */
-    protected function countGroupOpen(Array $tokens)
+    private function countGroupOpens(array $tokens): int
     {
         return array_reduce($tokens, function ($carry, $item) {
             return $carry += $item instanceof Token\Group\Open;
@@ -134,28 +96,7 @@ class Document
      */
     protected function parseControlSymbol(Token\Control\Symbol $token, Element\Group $group)
     {
-        // if a class exists for the symbol, instantiate it; otherwise, instantiate
-        //     a generic control symbol element
-        // keep in mind, class_exists() requires a fully-qualified namespace
-        if (array_key_exists($token->getSymbol(), self::$symbols)) {
-            // get the symbol's name
-            $name = self::$symbols[$token->getSymbol()];
-            $name = ucfirst($name);
-            $classname = "Jstewmc\\Rtf\\Element\\Control\\Symbol\\$name";
-            if (class_exists($classname)) {
-                $symbol = new $classname();
-            } else {
-                $symbol = new Element\Control\Symbol\Symbol();
-                $symbol->setSymbol($token->getSymbol());
-            }
-        } else {
-            $symbol = new Element\Control\Symbol\Symbol();
-            $symbol->setSymbol($token->getSymbol());
-        }
-
-        // set the symbol's parameter
-        $symbol->setParameter($token->getParameter());
-        $symbol->setIsSpaceDelimited($token->getIsSpaceDelimited());
+        $symbol = (new ControlSymbol())($token);
 
         // append the element
         $symbol->setParent($group);
