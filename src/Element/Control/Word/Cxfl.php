@@ -21,21 +21,12 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxfl extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         // if the control word has a next text element
         if (null !== ($text = $this->getNextText())) {
             // lower-case the text's first character
             $text->setText(lcfirst($text->getText()));
         }
-
-        return;
     }
 }

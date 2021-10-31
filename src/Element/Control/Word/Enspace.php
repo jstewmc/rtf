@@ -12,7 +12,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * to trick readers unaware of "enspace" into parsing a regular space. This reader
  * will interpret that as an "enspace" and a regular space.
  */
-
 class Enspace extends Word
 {
     protected function toHtml(): string

@@ -9,17 +9,5 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxp extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
-    {
-        // nothing yet
-
-        return;
-    }
+    // nothing yet
 }

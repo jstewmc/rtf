@@ -7,19 +7,10 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class I extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getCharacter()->setIsItalic(
             $this->parameter === null || (bool)$this->parameter
         );
-
-        return;
     }
 }

@@ -7,17 +7,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Ulnone extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getCharacter()->setIsUnderline(false);
-
-        return;
     }
 }

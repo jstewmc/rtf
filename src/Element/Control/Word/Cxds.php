@@ -20,14 +20,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxds extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         // if the control word has a previous text element
         if (null !== ($text = $this->getPreviousText())) {
@@ -46,7 +39,5 @@ class Cxds extends Word
                 $text->setText(substr($text->getText(), 1));
             }
         }
-
-        return;
     }
 }

@@ -13,16 +13,16 @@ namespace Jstewmc\Rtf\Element\Control;
 class Control extends \Jstewmc\Rtf\Element\Element
 {
     /* !Protected properties */
-    
+
     /**
      * @var  bool|null  a flag indicating whether or not this control word or symbol
      *     is delimited by a space; defaults to true
      */
     protected $isSpaceDelimited = true;
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the control's is-space-delimited flag
      *
@@ -33,10 +33,10 @@ class Control extends \Jstewmc\Rtf\Element\Element
     {
         return $this->isSpaceDelimited;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the control's is-space-delimited flag
      *
@@ -48,19 +48,14 @@ class Control extends \Jstewmc\Rtf\Element\Element
     public function setIsSpaceDelimited($isSpaceDelimited)
     {
         $this->isSpaceDelimited = $isSpaceDelimited;
-        
+
         return $this;
     }
-    
-    /* !Public methods */
-    
+
     /**
-     * Runs the control word or control word
-     *
-     * @return  void
-     * @since  0.1.0
+     * Executes the control word or control word (defaults to a no-op)
      */
-    public function run()
+    public function run(): void
     {
         return;
     }

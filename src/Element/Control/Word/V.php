@@ -8,19 +8,10 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class V extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getCharacter()->setIsVisible(
             $this->parameter === null || (bool)$this->parameter
         );
-
-        return;
     }
 }

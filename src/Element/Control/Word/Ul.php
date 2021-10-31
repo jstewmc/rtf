@@ -11,19 +11,10 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Ul extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getCharacter()->setIsUnderline(
             $this->parameter === null || (bool)$this->parameter
         );
-
-        return;
     }
 }

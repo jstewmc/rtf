@@ -8,17 +8,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Sub extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getCharacter()->setIsSubscript((bool)$this->parameter);
-
-        return;
     }
 }

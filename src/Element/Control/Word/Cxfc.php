@@ -22,21 +22,12 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxfc extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         // if the control word has a next text element
         if (null !== ($text = $this->getNextText())) {
             // upper-case the first letter in the text element
             $text->setText(ucfirst($text->getText()));
         }
-
-        return;
     }
 }

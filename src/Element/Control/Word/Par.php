@@ -7,17 +7,10 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Par extends Word
 {
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
         $this->style->getParagraph()->setIndex(
             $this->style->getParagraph()->getIndex() + 1
         );
-
-        return;
     }
 }

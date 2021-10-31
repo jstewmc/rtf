@@ -10,16 +10,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Strike extends Word
 {
-    /* !Public methods */
-
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function run(): void
     {
-        return $this->style->getCharacter()->setIsStrikethrough(
+        $this->style->getCharacter()->setIsStrikethrough(
             $this->parameter === null || (bool)$this->parameter
         );
     }
