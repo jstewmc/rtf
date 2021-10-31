@@ -16,6 +16,7 @@ class Document
 
     private \SplStack $groups;
 
+    private Element\Group $root;
 
     public function __construct()
     {
@@ -25,59 +26,60 @@ class Document
         $this->parseControlWord = new ControlWord();
         $this->parseControlSymbol = new ControlSymbol();
 
-        $this->groups = new \SplStack();
+        $this->reset();
     }
 
-    /**
-     * Parses tokens into a parse tree
-     *
-     * @param  Jstewmc\Rtf\Token[]  $tokens  an array of tokens to parse
-     * @return  Jstewmc\Rtf\Element\Group|null  the parse tree's root group (or
-     *     null if $tokens is an empty array)
-     * @throws  InvalidArgumentException  if groups are mismatched in $tokens
-     * @since  0.1.0
-     * @since  0.4.2  add test for group-open and group-close mismatch
-     */
-    public function parse(array $tokens): ?Element\Group
+    public function parse(array $tokens): Element\Group
     {
         ($this->validate)($tokens);
 
         $tokens = ($this->sanitize)($tokens);
 
-        $root  = null;
+        $this->parseRoot($tokens);
 
-        // loop through the tokens
-        foreach ($tokens as $token) {
-            // if the token is a group-open token
-            if ($token instanceof Token\Group\Open) {
-                $this->parseGroupOpen();
-                if ($root === null) {
-                    $root = $this->groups->bottom();
-                }
-            } else {
-                if ($token instanceof Token\Group\Close) {
-                    $this->parseGroupClose();
-                } else {
-                    if ($token instanceof Token\Control\Word) {
-                        $element = ($this->parseControlWord)($token);
-                    } elseif ($token instanceof Token\Control\Symbol) {
-                        $element = ($this->parseControlSymbol)($token);
-                    } elseif ($token instanceof Token\Text) {
-                        $element = $this->parseText($token);
-                    }
-                    $this->relate($this->groups->top(), $element);
-                }
-            }
-        }
+        $this->parseRest($tokens);
 
-        return $root;
+        return $this->root;
     }
 
-    private function relate(Element\Group $parent, Element\Element $child): void
+    private function parseRoot(array &$tokens): void
     {
-        $child->setParent($parent);
+        $this->reset();
 
-        $parent->appendChild($child);
+        $this->groups->push($this->root);
+
+        array_shift($tokens);
+    }
+
+    private function reset(): void
+    {
+        unset($this->groups);
+        $this->groups = new \SplStack();
+
+        unset($this->root);
+        $this->root = new Element\Group();
+    }
+
+    private function parseRest(array $tokens): void
+    {
+        foreach ($tokens as $token) {
+            if ($token instanceof Token\Group\Open) {
+                $this->parseGroupOpen();
+            } elseif ($token instanceof Token\Group\Close) {
+                $this->parseGroupClose();
+            } else {
+                $this->parseGroupMember($token);
+            }
+        }
+    }
+
+    private function parseGroupOpen(): void
+    {
+        $group = new Element\Group();
+
+        $this->relate($this->groups->top(), $group);
+
+        $this->groups->push($group);
     }
 
     private function parseGroupClose(): void
@@ -85,16 +87,24 @@ class Document
         $this->groups->pop();
     }
 
-    private function parseGroupOpen(): void
+    private function parseGroupMember(Token\Token $token): void
     {
-        $group = new Element\Group();
-
-        // if the group is not the root
-        if ($this->groups->count() > 0) {
-            $this->relate($this->groups->top(), $group);
+        if ($token instanceof Token\Control\Word) {
+            $element = ($this->parseControlWord)($token);
+        } elseif ($token instanceof Token\Control\Symbol) {
+            $element = ($this->parseControlSymbol)($token);
+        } elseif ($token instanceof Token\Text) {
+            $element = $this->parseText($token);
         }
 
-        $this->groups->push($group);
+        $this->relate($this->groups->top(), $element);
+    }
+
+    private function relate(Element\Group $parent, Element\Element $child): void
+    {
+        $child->setParent($parent);
+
+        $parent->appendChild($child);
     }
 
     private function parseText(Token\Text $token): Element\Text
