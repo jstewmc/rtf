@@ -14,7 +14,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
 class Symbol extends \Jstewmc\Rtf\Element\Control\Control
 {
     /* !Protected properties */
-    
+
     /**
      * @var  string  the control symbol's parameter; generally, empty, unless the
      *     symbol is an apostrophe
@@ -27,7 +27,7 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
      * @since  0.1.0
      */
     protected $symbol;
-    
+
     /**
      * @var  string[]  an array of symbol names indexed by symbol character
      * @since  0.1.0
@@ -39,10 +39,10 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
         '~'  => 'tilde',
         '_'  => 'underscore'
     ];
-    
-    
+
+
     /* !Get methods */
-    
+
     /**
      * Gets the control symbol's parameter
      *
@@ -53,7 +53,7 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
     {
         return $this->parameter;
     }
-    
+
     /**
      * Gets the control symbol's symbol
      *
@@ -64,10 +64,10 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
     {
         return $this->symbol;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the control symbol's parameter
      *
@@ -78,10 +78,10 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
     public function setParameter($parameter)
     {
         $this->parameter = $parameter;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the control symbol's symbol
      *
@@ -92,13 +92,13 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
     public function setSymbol($symbol)
     {
         $this->symbol = $symbol;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Magic methods */
-    
+
     /**
      * Constructs the object
      *
@@ -110,30 +110,22 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
         if ($parameter !== null) {
             $this->parameter = $parameter;
         }
-        
+
         return;
     }
+
     
-    
-    /* !Protected methods */
-    
-    /**
-     * Returns the control symbol as an rtf string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function toRtf()
+    public function toRtf(): string
     {
         $rtf = '';
-        
+
         if ($this->symbol) {
             $rtf = "\\{$this->symbol}{$this->parameter}";
             if ($this->isSpaceDelimited) {
                 $rtf .= ' ';
             }
         }
-        
+
         return $rtf;
     }
 }

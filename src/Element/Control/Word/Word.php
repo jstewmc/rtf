@@ -4,23 +4,17 @@ namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
  * A control word element
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
  */
-
 class Word extends \Jstewmc\Rtf\Element\Control\Control
 {
     /* !Protected properties */
-    
+
     /**
      * @var  bool  a flag indicating whether or not the control word should be
      *     preceeded by the "ignored" control symbol; defaults to false
      */
     protected $isIgnored = false;
-    
+
     /**
      * @var  int  the control word's parameter; the parameters of certain control
      *     words (such as bold and italic) have only two states; if the parameter
@@ -29,7 +23,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
      * @since  0.1.0
      */
     protected $parameter;
-    
+
     /**
      * @var  string  the control word's word; defaults to the classname if this
      *     property is null on construction
@@ -37,9 +31,9 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
      */
     protected $word;
 
-    
+
     /* !Get methods */
-    
+
     /**
      * Gets the word's is ignored flag
      *
@@ -49,7 +43,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     {
         return $this->isIgnored;
     }
-    
+
     /**
      * Gets the word's parameter
      *
@@ -60,7 +54,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     {
         return $this->parameter;
     }
-    
+
     /**
      * Gets the word's word
      *
@@ -71,10 +65,10 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     {
         return $this->word;
     }
-    
-    
+
+
     /* !Set methods */
-    
+
     /**
      * Sets the control word's isIgnored flag
      *
@@ -85,10 +79,10 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     public function setIsIgnored($isIgnored)
     {
         $this->isIgnored = $isIgnored;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the control word's parameter
      *
@@ -99,10 +93,10 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     public function setParameter($parameter)
     {
         $this->parameter = $parameter;
-        
+
         return $this;
     }
-    
+
     /**
      * Sets the control word's word
      *
@@ -113,13 +107,13 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     public function setWord($word)
     {
         $this->word = $word;
-        
+
         return $this;
     }
-    
-    
+
+
     /* !Magic methods */
-    
+
     /**
      * Constructs this object
      *
@@ -134,28 +128,19 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
             $fqns       = explode('\\', get_class($this));
             $this->word = strtolower(end($fqns));
         }
-        
+
         // if parameter was passed
         if ($parameter !== null) {
             $this->parameter = $parameter;
         }
-        
+
         return;
     }
-    
-    
-    /* !Protected methods */
-    
-    /**
-     * Returns this control word as an rtf string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toRtf()
+
+    protected function toRtf(): string
     {
         $rtf = '';
-        
+
         // if a word exists
         if ($this->word) {
             // if the word is ignored
@@ -170,7 +155,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
                 $rtf .= ' ';
             }
         }
-        
+
         return $rtf;
     }
 }

@@ -18,15 +18,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * The RTF-CRE specification is ambiguous as to the proximity of the control word and
  * the text it affects. I assume the text element and the control word may be
  * separated by any number of other elements, but they must appear in the same group.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
  */
 class Cxfl extends Word
 {
     /* !Public methods */
-    
+
     /**
      * Runs the command
      *
@@ -39,7 +35,7 @@ class Cxfl extends Word
             // lower-case the text's first character
             $text->setText(lcfirst($text->getText()));
         }
-        
+
         return;
     }
 }

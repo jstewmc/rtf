@@ -663,13 +663,7 @@ class Group extends Element
         return;
     }
 
-    /**
-     * Returns the group as an html5 string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function toHtml()
+    public function toHtml(): string
     {
         $html = '';
 
@@ -739,13 +733,7 @@ class Group extends Element
         return $html;
     }
 
-    /**
-     * Returns the group as an rtf string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function toRtf()
+    public function toRtf(): string
     {
         $rtf = '{';
 
@@ -758,13 +746,7 @@ class Group extends Element
         return $rtf;
     }
 
-    /**
-     * Returns the group as plain text
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function toText()
+    public function toText(): string
     {
         $text = '';
 

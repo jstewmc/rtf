@@ -13,9 +13,6 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * For example:
  *
  *     \par\s1{\cxa Q. }{\*\cxs STAEUT}State {\*\cxs UR}your...
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
  */
 class Cxa extends Word
 {

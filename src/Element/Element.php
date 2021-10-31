@@ -2,109 +2,48 @@
 
 namespace Jstewmc\Rtf\Element;
 
+use Jstewmc\Rtf\Style;
+
 /**
- * A component of a document, like a tag to an HTML document or a node
- * to an XML document. RTF elements include: groups, text, control words, and
- * control symbols. Every element has a style, the sum of its document-,
- * section-, paragraph-, and character-states.
+ * A component of an RTF document, like an HTML tag or an XML node. Elements
+ * can be groups, text, control words, and control symbols.
  */
 class Element
 {
-    /* !Protected properties */
+    protected ?Group $parent = null;
 
-    /**
-     * @var  Jstewmc\Rtf\Element\Element  this element's parent element
-     * @since  0.1.0
-     */
-    protected $parent;
+    protected ?Style $style = null;
 
-    /**
-     * @var  Jstewmc\Rtf\Style  the element's style
-     * @since  0.1.0
-     */
-    protected $style;
-
-
-    /* !Get methods */
-
-    /**
-     * Gets the element's parent element
-     *
-     * @return  Jstewmc\Rtf\Element\Element
-     * @since  0.1.0
-     */
-    public function getParent()
+    public function getParent(): ?Group
     {
         return $this->parent;
     }
 
-    /**
-     * Gets the element's style
-     *
-     * @return  Jstewmc\Rtf\Style
-     * @since  0.1.0
-     */
-    public function getStyle()
-    {
-        return $this->style;
-    }
-
-
-    /* !Set methods */
-
-    /**
-     * Sets this element's parent element
-     *
-     * @param  Jstewmc\Rtf\Element\Group|null  $parent  the element's parent element
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setParent(Group $parent = null)
+    public function setParent(Group $parent = null): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    /**
-     * Sets the element's style
-     *
-     * @param  Jstewmc\Rtf\Style|null  $style  the element's style
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setStyle(\Jstewmc\Rtf\Style $style = null)
+    public function getStyle(): ?Style
+    {
+        return $this->style;
+    }
+
+    public function setStyle(Style $style = null): self
     {
         $this->style = $style;
 
         return $this;
     }
 
-
-    /* !Magic methods */
-
-    /**
-     * Called when the object is used as a string
-     *
-     * @return  string
-     * @since   0.1.0
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toRtf();
     }
 
-
-    /* !Public methods */
-
-    /**
-     * Appends this element to $group
-     *
-     * @param  Jstewmc\Rtf\Element\Group  $group  the group to append
-     * @return  self
-     * @since  0.1.0
-     */
-    public function appendTo(Group $group)
+    public function appendTo(Group $group): self
     {
         $group->appendChild($this);
 
@@ -187,12 +126,12 @@ class Element
         $next = $this->getNextSibling();
 
         // while the next sibling element exists and is not a text element
-        while ($next !== null && ! $next instanceof \Jstewmc\Rtf\Element\Text) {
+        while ($next !== null && ! $next instanceof Text) {
             $next = $next->getNextSibling();
         }
 
         // if a next text element exists
-        if ($next !== null && $next instanceof \Jstewmc\Rtf\Element\Text) {
+        if ($next !== null && $next instanceof Text) {
             $text = $next;
         }
 
@@ -240,12 +179,12 @@ class Element
         $previous = $this->getPreviousSibling();
 
         // while the previous sibling element exists and is not a text element
-        while ($previous !== null && ! $previous instanceof \Jstewmc\Rtf\Element\Text) {
+        while ($previous !== null && ! $previous instanceof Text) {
             $previous = $previous->getPreviousSibling();
         }
 
         // if a previous text element exists
-        if ($previous !== null && $previous instanceof \Jstewmc\Rtf\Element\Text) {
+        if ($previous !== null && $previous instanceof Text) {
             $text = $previous;
         }
 
@@ -438,38 +377,17 @@ class Element
         return $this;
     }
 
-
-    /* !Protected methods */
-
-    /**
-     * Returns the element as an html5 string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toHtml()
+    protected function toHtml(): string
     {
         return '';
     }
 
-    /**
-     * Returns the element as an rtf string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toRtf()
+    protected function toRtf(): string
     {
         return '';
     }
 
-    /**
-     * Returns the element as a plain text string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toText()
+    protected function toText(): string
     {
         return '';
     }
