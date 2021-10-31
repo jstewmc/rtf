@@ -20,8 +20,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     /**
      * parse() should return null if $tokens is empty
      */
-    public function testParseReturnsNullWhenTokensIsEmpty()
+    public function testParseThrowsInvalidArgumentExceptionWhenTokensIsEmpty()
     {
+        $this->expectException(\InvalidArgumentException::class);
+
         $parser = new Document();
 
         $this->assertNull($parser->parse([]));

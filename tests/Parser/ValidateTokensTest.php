@@ -6,6 +6,13 @@ use Jstewmc\Rtf\Token;
 
 class ValidateTokensTest extends \PHPUnit\Framework\TestCase
 {
+    public function testInvokeThrowsInvalidArgumentExceptionWhenTokensAreEmpty(): void
+    {
+        $this->expectException(\InvalidArgumentException::class);
+
+        (new ValidateTokens())([]);
+    }
+
     public function testInvokeThrowsInvalidArgumentExceptionWhenRootIsMissing(): void
     {
         $this->expectException(\InvalidArgumentException::class);

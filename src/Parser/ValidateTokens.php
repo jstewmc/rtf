@@ -8,11 +8,11 @@ class ValidateTokens
 {
     public function __invoke(array $tokens): void
     {
-        // if (!$this->hasTokens($tokens)) {
-        //     throw new \InvalidArgumentException(
-        //         'tokens must not be empty'
-        //     );
-        // }
+        if (!$this->hasTokens($tokens)) {
+            throw new \InvalidArgumentException(
+                'tokens must not be empty'
+            );
+        }
 
         if (!$this->hasRoot($tokens)) {
             throw new \InvalidArgumentException(

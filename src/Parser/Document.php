@@ -21,10 +21,6 @@ class Document
      */
     public function parse(array $tokens): ?Element\Group
     {
-        if (empty($tokens)) {
-            return null;
-        }
-        
         $this->validateTokens($tokens);
 
         $root  = null;
