@@ -26,7 +26,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         $parser = new Document();
 
-        $this->assertNull($parser->parse([]));
+        $this->assertNull($parser([]));
 
         return;
     }
@@ -43,7 +43,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         ];
 
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         $this->assertEquals(new Element\Group(), $root);
 
@@ -62,7 +62,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         $group = new Element\Group();
 
@@ -84,7 +84,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close()
         ];
 
-        (new Document())->parse($tokens);
+        (new Document())($tokens);
 
         return;
     }
@@ -105,7 +105,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         // create group and text elements
         $group1 = new Element\Group();
@@ -137,7 +137,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         // create group and text elements
         $group = new Element\Group();
@@ -165,7 +165,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         $group = new Element\Group();
 
@@ -193,7 +193,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         // create group and text elements
         $group  = new Element\Group();
@@ -221,7 +221,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         $group = new Element\Group();
 
@@ -249,7 +249,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // parse the tokens
         $parser = new Document();
-        $root   = $parser->parse($tokens);
+        $root   = $parser($tokens);
 
         // create group and text elements
         $group = new Element\Group();
@@ -306,7 +306,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         ];
 
         $parser = new Document();
-        $root = $parser->parse($tokens);
+        $root = $parser($tokens);
 
         // create the expected elements in order...
 

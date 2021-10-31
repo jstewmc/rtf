@@ -49,7 +49,7 @@ class Document
             return;
         }
 
-        $group = $this->parser->parse($tokens);
+        $group = ($this->parser)($tokens);
 
         $this->root = $this->renderer->render($group);
     }

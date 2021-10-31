@@ -29,7 +29,7 @@ class Document
         $this->reset();
     }
 
-    public function parse(array $tokens): Element\Group
+    public function __invoke(array $tokens): Element\Group
     {
         ($this->validate)($tokens);
 
