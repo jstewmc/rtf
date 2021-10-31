@@ -6,6 +6,23 @@ use Jstewmc\Rtf\{Element, Token};
 
 class Document
 {
+    private SanitizeTokens $sanitize;
+
+    private ValidateTokens $validate;
+
+    private ControlWord $parseControlWord;
+
+    private ControlSymbol $parseControlSymbol;
+
+    public function __construct()
+    {
+        $this->validate = new ValidateTokens();
+        $this->sanitize = new SanitizeTokens();
+
+        $this->parseControlWord = new ControlWord();
+        $this->parseControlSymbol = new ControlSymbol();
+    }
+
     /**
      * Parses tokens into a parse tree
      *
@@ -18,9 +35,9 @@ class Document
      */
     public function parse(array $tokens): ?Element\Group
     {
-        $this->validateTokens($tokens);
+        ($this->validate)($tokens);
 
-        $tokens = $this->sanitizeTokens($tokens);
+        $tokens = ($this->sanitize)($tokens);
 
         $root  = null;
 
@@ -38,9 +55,9 @@ class Document
                     $this->parseGroupClose($stack);
                 } else {
                     if ($token instanceof Token\Control\Word) {
-                        $element = $this->parseControlWord($token);
+                        $element = ($this->parseControlWord)($token);
                     } elseif ($token instanceof Token\Control\Symbol) {
-                        $element = $this->parseControlSymbol($token);
+                        $element = ($this->parseControlSymbol)($token);
                     } elseif ($token instanceof Token\Text) {
                         $element = $this->parseText($token);
                     }
@@ -52,47 +69,11 @@ class Document
         return $root;
     }
 
-    private function validateTokens(array $tokens): void
-    {
-        (new ValidateTokens())($tokens);
-    }
-
-    private function sanitizeTokens(array $tokens): array
-    {
-        return (new SanitizeTokens())($tokens);
-    }
-
     private function relate(Element\Group $parent, Element\Element $child): void
     {
         $child->setParent($parent);
 
         $parent->appendChild($child);
-    }
-
-    /**
-     * Parses a control symbol token
-     *
-     * @param  Jstewnc\Rtf\Token\Control\Symbol $token  the control symbol token
-     * @param  Jstewmc\Rtf\Element\Group        $group  the current group
-     * @return  void
-     * @since  0.1.0
-     */
-    private function parseControlSymbol(Token\Control\Symbol $token)
-    {
-        return (new ControlSymbol())($token);
-    }
-
-    /**
-     * Parses a control word token
-     *
-     * @param  Jstewmc\Rtf\Token\Control\Word  $token  the control word token
-     * @param  Jstewmc\Rtf\Element\Group       $group  the current group
-     * @return  void
-     * @since   0.1.0
-     */
-    private function parseControlWord(Token\Control\Word $token)
-    {
-        return (new ControlWord())($token);
     }
 
     /**
