@@ -21,6 +21,10 @@ class Document
      */
     public function parse(array $tokens): ?Element\Group
     {
+        if (empty($tokens)) {
+            return null;
+        }
+        
         $this->validateTokens($tokens);
 
         $root  = null;
@@ -62,28 +66,7 @@ class Document
 
     private function validateTokens(array $tokens): void
     {
-        $opens = $this->countGroupOpens($tokens);
-        $closes = $this->countGroupCloses($tokens);
-
-        if ($opens !== $closes) {
-            throw new \InvalidArgumentException(
-                'the number of groups opened does must equal the number closed'
-            );
-        }
-    }
-
-    private function countGroupCloses(array $tokens): int
-    {
-        return array_reduce($tokens, function ($carry, $item) {
-            return $carry += $item instanceof Token\Group\Close;
-        }, 0);
-    }
-
-    private function countGroupOpens(array $tokens): int
-    {
-        return array_reduce($tokens, function ($carry, $item) {
-            return $carry += $item instanceof Token\Group\Open;
-        }, 0);
+        (new ValidateTokens())($tokens);
     }
 
     /**
