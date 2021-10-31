@@ -14,6 +14,9 @@ class Document
 
     private ControlSymbol $parseControlSymbol;
 
+    private \SplStack $groups;
+
+
     public function __construct()
     {
         $this->validate = new ValidateTokens();
@@ -21,6 +24,8 @@ class Document
 
         $this->parseControlWord = new ControlWord();
         $this->parseControlSymbol = new ControlSymbol();
+
+        $this->groups = new \SplStack();
     }
 
     /**
@@ -42,17 +47,16 @@ class Document
         $root  = null;
 
         // loop through the tokens
-        $stack = new \SplStack();
         foreach ($tokens as $token) {
             // if the token is a group-open token
             if ($token instanceof Token\Group\Open) {
-                $this->parseGroupOpen($stack);
+                $this->parseGroupOpen();
                 if ($root === null) {
-                    $root = $stack->bottom();
+                    $root = $this->groups->bottom();
                 }
             } else {
                 if ($token instanceof Token\Group\Close) {
-                    $this->parseGroupClose($stack);
+                    $this->parseGroupClose();
                 } else {
                     if ($token instanceof Token\Control\Word) {
                         $element = ($this->parseControlWord)($token);
@@ -61,7 +65,7 @@ class Document
                     } elseif ($token instanceof Token\Text) {
                         $element = $this->parseText($token);
                     }
-                    $this->relate($stack->top(), $element);
+                    $this->relate($this->groups->top(), $element);
                 }
             }
         }
@@ -76,52 +80,24 @@ class Document
         $parent->appendChild($child);
     }
 
-    /**
-     * Parses a group-close token
-     *
-     * @param  SplStack                       $stack  the group stack
-     * @return  void
-     * @since  0.1.0
-     */
-    private function parseGroupClose(\SplStack $stack)
+    private function parseGroupClose(): void
     {
-        $stack->pop();
-
-        return;
+        $this->groups->pop();
     }
 
-    /**
-     * Parses a group-open token
-     *
-     * @param  SplStack                      $stack  the group stack
-     * @param  Jstewmc\Rtf\Element\Group     $root   the root group (optional; if
-     *     omitted, defaults to null)
-     * @return  void
-     * @since  0.1.0
-     */
-    private function parseGroupOpen(\SplStack $stack)
+    private function parseGroupOpen(): void
     {
         $group = new Element\Group();
 
         // if the group is not the root
-        if ($stack->count() > 0) {
-            $this->relate($stack->top(), $group);
+        if ($this->groups->count() > 0) {
+            $this->relate($this->groups->top(), $group);
         }
 
-        $stack->push($group);
-
-        return;
+        $this->groups->push($group);
     }
 
-    /**
-     * Parses a text token
-     *
-     * @param  Jstewmc\Rtf\Token\Text     $token  a text token
-     * @param  Jstewmc\Rtf\Element\Group  $group  the current group
-     * @return  void
-     * @since  0.1.0
-     */
-    private function parseText(Token\Text $token)
+    private function parseText(Token\Text $token): Element\Text
     {
         return new Element\Text($token->getText());
     }
