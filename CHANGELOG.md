@@ -13,6 +13,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Added continuous integration with [CircleCI](https://circleci.com/gh/jstewmc/rtf).
 - Added code coverage analysis with [CodeCov](https://codecov.io/gh/jstewmc/rtf).
 - Added [slevomat/coding-standard](https://github.com/slevomat/coding-standard) to enforce coding standards.
+- Extend `jstewmc/stream` with custom methods to make lexing easier.
+- Modernize the Lexing and Parsing classes (i.e., type hints, smaller methods, guard clauses, etc).
 
 ## [0.4.3] - 2015-08-17
 
