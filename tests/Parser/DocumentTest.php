@@ -4,77 +4,23 @@ namespace Jstewmc\Rtf\Parser;
 
 use Jstewmc\Rtf\{Element, Token};
 
-/**
- * A test suite for the parser class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class DocumentTest extends \PHPUnit\Framework\TestCase
 {
-    /* !parse() */
-
-    /**
-     * parse() should return null if $tokens is empty
-     */
-    public function testParseThrowsInvalidArgumentExceptionWhenTokensIsEmpty()
+    public function testInvokeThrowsInvalidArgumentExceptionWhenTokensIsEmpty(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $parser = new Document();
-
-        $this->assertNull($parser([]));
-
-        return;
+        (new Document())([]);
     }
 
-    /**
-     * parse() should ignore any text that occurs before the first group-open token
-     */
-    public function testParseParsesPretext()
+    public function testInvokeThrowsInvalidArgumentExceptionWhenRootIsMissing(): void
     {
-        $tokens = [
-            new Token\Text('foo'),
-            new Token\Group\Open(),
-            new Token\Group\Close()
-        ];
+        $this->expectException(\InvalidArgumentException::class);
 
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        $this->assertEquals(new Element\Group(), $root);
-
-        return;
+        (new Document())([new Token\Text('foo')]);
     }
 
-    /**
-     * parse() should parse a group-open and -close
-     */
-    public function testParseParsesGroups()
-    {
-        $tokens = [
-            new Token\Group\Open(),
-            new Token\Group\Close()
-        ];
-
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        $group = new Element\Group();
-
-        $this->assertEquals($group, $root);
-
-        return;
-    }
-
-    /**
-     * parse() should throw InvalidArgumentException if groups are mismatched
-     */
-    public function testParseThrowsInvalidArgumentExceptionWhenGroupsMismatched()
+    public function testInvokeThrowsInvalidArgumentExceptionWhenGroupsMismatched(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
@@ -85,16 +31,40 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         ];
 
         (new Document())($tokens);
-
-        return;
     }
 
-    /**
-     * parse() should parse nested groups
-     */
-    public function testParseParsesGroupsNested()
+    public function testInvokeReturnsRootWhenTokensPreceedRootGroupOpen(): void
     {
         $tokens = [
+            new Token\Text('foo'),
+            new Token\Group\Open(),
+            new Token\Group\Close()
+        ];
+
+        $this->assertEquals(new Element\Group(), (new Document())($tokens));
+    }
+
+    public function testInvokeParsesGroups(): void
+    {
+        $tokens = [
+            new Token\Group\Open(),
+            new Token\Group\Close()
+        ];
+
+        $this->assertEquals(new Element\Group(), (new Document())($tokens));
+    }
+
+    public function testInvokeParsesNestedGroups(): void
+    {
+        $this->assertEquals(
+            $this->nestedGroupRoot(),
+            (new Document())($this->nestedGroupTokens())
+        );
+    }
+
+    private function nestedGroupTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Group\Open(),
             new Token\Group\Open(),
@@ -102,174 +72,183 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close(),
             new Token\Group\Close()
         ];
+    }
 
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        // create group and text elements
+    private function nestedGroupRoot(): Element\Group
+    {
         $group1 = new Element\Group();
         $group2 = new Element\Group();
         $group3 = new Element\Group();
 
-        // set parent-child and child-parent relationships
         $group2->setParent($group1);
         $group1->appendChild($group2);
 
         $group3->setParent($group2);
         $group2->appendChild($group3);
 
-        $this->assertEquals($group1, $root);
-
-        return;
+        return $group1;
     }
 
-    /**
-     * parse() should parse a control word token
-     */
-    public function testParseParsesControlWords()
+    public function testInvokeParsesSpecificControlWords(): void
     {
-        $tokens = [
+        $this->assertEquals(
+            $this->specificControlWordRoot(),
+            (new Document())($this->specificControlWordTokens())
+        );
+    }
+
+    private function specificControlWordTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Control\Word('b'),
             new Token\Group\Close()
         ];
-
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        // create group and text elements
-        $group = new Element\Group();
-        $word  = new Element\Control\Word\B();
-
-        // set parent-child and child-parent relationships
-        $word->setParent($group);
-        $group->appendChild($word);
-
-        $this->assertEquals($group, $root);
-
-        return;
     }
 
-    /**
-     * parse() should skip undefined control symbols
-     */
-    public function testParseParsesControlWordsUndefined()
+    private function specificControlWordRoot(): Element\Group
     {
-        $tokens = [
+        $root = new Element\Group();
+
+        $word = new Element\Control\Word\B();
+        $word->setParent($root);
+
+        $root->appendChild($word);
+
+        return $root;
+    }
+
+    public function testInvokeParsesGenericControlWord(): void
+    {
+        $this->assertEquals(
+            $this->genericControlWordRoot(),
+            (new Document())($this->genericControlWordTokens())
+        );
+    }
+
+    private function genericControlWordTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Control\Word('foo'),
             new Token\Group\Close()
         ];
+    }
 
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        $group = new Element\Group();
+    private function genericControlWordRoot(): Element\Group
+    {
+        $root = new Element\Group();
 
         $word = new Element\Control\Word\Word();
         $word->setWord('foo');
 
-        $word->setParent($group);
-        $group->appendChild($word);
+        $word->setParent($root);
+        $root->appendChild($word);
 
-        $this->assertEquals($group, $root);
-
-        return;
+        return $root;
     }
 
-    /**
-     * parse() should parse a control symbol token
-     */
-    public function testParseParsesControlSymbols()
+    public function testInvokeParsesSpecificControlSymbol(): void
     {
-        $tokens = [
+        $this->assertEquals(
+            $this->specificControlSymbolRoot(),
+            (new Document())($this->specificControlSymbolTokens())
+        );
+    }
+
+    private function specificControlSymbolTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Control\Symbol('*'),
             new Token\Group\Close()
         ];
-
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        // create group and text elements
-        $group  = new Element\Group();
-        $symbol = new Element\Control\Symbol\Asterisk();
-
-        // set parent-child and child-parent relationships
-        $symbol->setParent($group);
-        $group->appendChild($symbol);
-
-        $this->assertEquals($group, $root);
-
-        return;
     }
 
-    /**
-     * parse() should skip undefined control symbols
-     */
-    public function testParseParsesControlSymbolsUndefined()
+    private function specificControlSymbolRoot(): Element\Group
     {
-        $tokens = [
+        $root = new Element\Group();
+
+        $symbol = new Element\Control\Symbol\Asterisk();
+        $symbol->setParent($root);
+
+        $root->appendChild($symbol);
+
+        return $root;
+    }
+
+    public function testInvokeParsesGenericControlSymbol(): void
+    {
+        $this->assertEquals(
+            $this->genericControlSymbolRoot(),
+            (new Document())($this->genericControlSymbolTokens())
+        );
+    }
+
+    private function genericControlSymbolTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Control\Symbol('#'),
             new Token\Group\Close()
         ];
+    }
 
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        $group = new Element\Group();
+    private function genericControlSymbolRoot(): Element\Group
+    {
+        $root = new Element\Group();
 
         $symbol = new Element\Control\Symbol\Symbol();
         $symbol->setSymbol('#');
+        $symbol->setParent($root);
 
-        $symbol->setParent($group);
-        $group->appendChild($symbol);
+        $root->appendChild($symbol);
 
-        $this->assertEquals($group, $root);
-
-        return;
+        return $root;
     }
 
-    /**
-     * parse() should parse a text token
-     */
-    public function testParseParsesText()
+
+    public function testInvokeParsesText(): void
     {
-        $tokens = [
+        $this->assertEquals(
+            $this->textRoot(),
+            (new Document())($this->textTokens())
+        );
+    }
+
+    private function textTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             new Token\Text('foo'),
             new Token\Group\Close()
         ];
-
-        // parse the tokens
-        $parser = new Document();
-        $root   = $parser($tokens);
-
-        // create group and text elements
-        $group = new Element\Group();
-        $text  = new Element\Text('foo');
-
-        // set parent-child and child-parent relationships
-        $text->setParent($group);
-        $group->appendChild($text);
-
-        $this->assertEquals($group, $root);
-
-        return;
     }
 
-    /**
-     * parse() should parse a small document
-     */
-    public function testParseParsesDocumentSmall()
+    private function textRoot(): Element\Group
     {
-        $tokens = [
+        $root = new Element\Group();
+
+        $text = new Element\Text('foo');
+        $text->setParent($root);
+
+        $root->appendChild($text);
+
+        return $root;
+    }
+
+
+    public function testInvokeParsesDocumentSmall(): void
+    {
+        $this->assertEquals(
+            $this->documentRoot(),
+            (new Document())($this->documentTokens())
+        );
+    }
+
+    private function documentTokens(): array
+    {
+        return [
             new Token\Group\Open(),
             (new Token\Control\Word('rtf'))->setParameter(1),
             new Token\Control\Word('ansi'),
@@ -304,12 +283,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             new Token\Control\Word('par'),
             new Token\Group\Close()
         ];
+    }
 
-        $parser = new Document();
-        $root = $parser($tokens);
-
-        // create the expected elements in order...
-
+    private function documentRoot(): Element\Group
+    {
         $groupA = new Element\Group();
 
         $a_1 = new Element\Control\Word\Word();
@@ -458,9 +435,6 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild($a_16)
             ->appendChild($a_17);
 
-        // phew!
-        $this->assertEquals($groupA, $root);
-
-        return;
+        return $groupA;
     }
 }
