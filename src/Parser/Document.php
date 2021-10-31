@@ -36,12 +36,15 @@ class Document
             } else {
                 if ($token instanceof Token\Group\Close) {
                     $this->parseGroupClose($stack);
-                } elseif ($token instanceof Token\Control\Word) {
-                    $this->parseControlWord($token, $stack->top());
-                } elseif ($token instanceof Token\Control\Symbol) {
-                    $this->parseControlSymbol($token, $stack->top());
-                } elseif ($token instanceof Token\Text) {
-                    $this->parseText($token, $stack->top());
+                } else {
+                    if ($token instanceof Token\Control\Word) {
+                        $element = $this->parseControlWord($token);
+                    } elseif ($token instanceof Token\Control\Symbol) {
+                        $element = $this->parseControlSymbol($token);
+                    } elseif ($token instanceof Token\Text) {
+                        $element = $this->parseText($token);
+                    }
+                    $this->relate($stack->top(), $element);
                 }
             }
         }
@@ -59,6 +62,13 @@ class Document
         return (new SanitizeTokens())($tokens);
     }
 
+    private function relate(Element\Group $parent, Element\Element $child): void
+    {
+        $child->setParent($parent);
+
+        $parent->appendChild($child);
+    }
+
     /**
      * Parses a control symbol token
      *
@@ -67,15 +77,9 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    private function parseControlSymbol(Token\Control\Symbol $token, Element\Group $group)
+    private function parseControlSymbol(Token\Control\Symbol $token)
     {
-        $symbol = (new ControlSymbol())($token);
-
-        // append the element
-        $symbol->setParent($group);
-        $group->appendChild($symbol);
-
-        return;
+        return (new ControlSymbol())($token);
     }
 
     /**
@@ -86,15 +90,9 @@ class Document
      * @return  void
      * @since   0.1.0
      */
-    private function parseControlWord(Token\Control\Word $token, Element\Group $group)
+    private function parseControlWord(Token\Control\Word $token)
     {
-        $word = (new ControlWord())($token);
-
-        // append the element
-        $word->setParent($group);
-        $group->appendChild($word);
-
-        return;
+        return (new ControlWord())($token);
     }
 
     /**
@@ -126,9 +124,7 @@ class Document
 
         // if the group is not the root
         if ($stack->count() > 0) {
-            // set the parent-child and child-parent relationships
-            $group->setParent($stack->top());
-            $stack->top()->appendChild($group);
+            $this->relate($stack->top(), $group);
         }
 
         $stack->push($group);
@@ -144,13 +140,8 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    private function parseText(Token\Text $token, Element\Group $group)
+    private function parseText(Token\Text $token)
     {
-        $text = new Element\Text($token->getText());
-
-        $text->setParent($group);
-        $group->appendChild($text);
-
-        return;
+        return new Element\Text($token->getText());
     }
 }
