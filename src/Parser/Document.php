@@ -23,6 +23,8 @@ class Document
     {
         $this->validateTokens($tokens);
 
+        $tokens = $this->sanitizeTokens($tokens);
+
         $root  = null;
 
         // loop through the tokens
@@ -35,24 +37,14 @@ class Document
                     $root = $stack->bottom();
                 }
             } else {
-                // if at least a root group exists
-                if ($stack->count()) {
-                    if ($token instanceof Token\Group\Close) {
-                        $this->parseGroupClose($stack);
-                    } elseif ($token instanceof Token\Control\Word) {
-                        $this->parseControlWord($token, $stack->top());
-                    } elseif ($token instanceof Token\Control\Symbol) {
-                        $this->parseControlSymbol($token, $stack->top());
-                    } elseif ($token instanceof Token\Text) {
-                        $this->parseText($token, $stack->top());
-                    }
-                } else { // phpcs:ignore Generic.CodeAnalysis.EmptyStatement.DetectedElse -- will refactor soon
-                    // otherwise, ignore the tokens
-                    // hmmm, this is good because if text preceeds the root group
-                    //     (observed in wild) it's ignored as it should be; however,
-                    //     it's also bad, because if an extra bracket closes the
-                    //     root-group early (also observed in the wild), it's not an
-                    //     error
+                if ($token instanceof Token\Group\Close) {
+                    $this->parseGroupClose($stack);
+                } elseif ($token instanceof Token\Control\Word) {
+                    $this->parseControlWord($token, $stack->top());
+                } elseif ($token instanceof Token\Control\Symbol) {
+                    $this->parseControlSymbol($token, $stack->top());
+                } elseif ($token instanceof Token\Text) {
+                    $this->parseText($token, $stack->top());
                 }
             }
         }
@@ -63,6 +55,11 @@ class Document
     private function validateTokens(array $tokens): void
     {
         (new ValidateTokens())($tokens);
+    }
+
+    private function sanitizeTokens(array $tokens): array
+    {
+        return (new SanitizeTokens())($tokens);
     }
 
     /**
