@@ -253,7 +253,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // create group and text elements
         $group = new Element\Group();
-        $text  = new ELement\Text('foo');
+        $text  = new Element\Text('foo');
 
         // set parent-child and child-parent relationships
         $text->setParent($group);
