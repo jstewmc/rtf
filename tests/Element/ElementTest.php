@@ -13,21 +13,6 @@ namespace Jstewmc\Rtf\Element;
 
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
-    /* !Providers */
-
-    public function notAStringProvider()
-    {
-        return [
-            [null],
-            [false],
-            [1],
-            [1.0],
-            // ['foo'],
-            [[]],
-            [new \StdClass()]
-        ];
-    }
-
     /* !Get/set methods */
 
     /**
@@ -546,15 +531,13 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
     /**
      * format() should throw an InvalidArgumentException if $format is not a string
-     *
-     * @dataProvider  notAStringProvider
      */
-    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotAString()
     {
         $this->expectException(\InvalidArgumentException::class);
 
         $element = new Element();
-        $element->format($format);
+        $element->format('foo');
 
         return;
     }
@@ -700,8 +683,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $bar = new Text('bar');
 
         $foo->insertBefore($bar);
-
-        return;
     }
 
     /**
@@ -720,8 +701,6 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $bar->setParent($group);
 
         $foo->insertBefore($bar);
-
-        return;
     }
 
     /**
