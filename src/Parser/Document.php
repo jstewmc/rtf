@@ -4,9 +4,6 @@ namespace Jstewmc\Rtf\Parser;
 
 use Jstewmc\Rtf\{Element, Token};
 
-/**
- * Parses an array of tokens into the document's parse tree.
- */
 class Document
 {
     /**
@@ -70,7 +67,7 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    protected function parseControlSymbol(Token\Control\Symbol $token, Element\Group $group)
+    private function parseControlSymbol(Token\Control\Symbol $token, Element\Group $group)
     {
         $symbol = (new ControlSymbol())($token);
 
@@ -89,7 +86,7 @@ class Document
      * @return  void
      * @since   0.1.0
      */
-    protected function parseControlWord(Token\Control\Word $token, Element\Group $group)
+    private function parseControlWord(Token\Control\Word $token, Element\Group $group)
     {
         $word = (new ControlWord())($token);
 
@@ -107,7 +104,7 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    protected function parseGroupClose(\SplStack $stack)
+    private function parseGroupClose(\SplStack $stack)
     {
         $stack->pop();
 
@@ -123,7 +120,7 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    protected function parseGroupOpen(\SplStack $stack)
+    private function parseGroupOpen(\SplStack $stack)
     {
         $group = new Element\Group();
 
@@ -147,7 +144,7 @@ class Document
      * @return  void
      * @since  0.1.0
      */
-    protected function parseText(Token\Text $token, Element\Group $group)
+    private function parseText(Token\Text $token, Element\Group $group)
     {
         $text = new Element\Text($token->getText());
 
