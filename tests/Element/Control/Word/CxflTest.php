@@ -36,7 +36,7 @@ class CxflTest extends \PHPUnit\Framework\TestCase
     public function testRunLowerCasesFirstCharacterWhenNextTextElementDoesExist()
     {
         $word = new Cxfl();
-        $text = (new Text())->setText('FOO');  // note the upper-case
+        $text = new Text('FOO');  // note the upper-case
 
         $parent = (new Group())
             ->setStyle(new Style())

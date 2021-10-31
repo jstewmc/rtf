@@ -54,7 +54,7 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     public function testRunDoesNothingWhenPreviousTextElementDoesNotEndWithSpace()
     {
         $word = new Cxds();
-        $text = (new Text())->setText('foo');
+        $text = new Text('foo');
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -74,7 +74,7 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     {
         $word = new Cxds();
 
-        $text = (new Text())->setText('foo');
+        $text = new Text('foo');
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -93,7 +93,7 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     public function testRunDeletesSpaceWhenPreviousTextElementDoesEndWithSpace()
     {
         $word = new Cxds();
-        $text = (new Text())->setText('foo ');  // note the space
+        $text = new Text('foo ');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -113,7 +113,7 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     {
         $word = new Cxds();
 
-        $text = (new Text())->setText(' foo');  // note the space
+        $text = new Text(' foo');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -133,8 +133,8 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     {
         $word = new Cxds();
 
-        $text1 = (new Text())->setText('foo ');  // note the space
-        $text2 = (new Text())->setText(' bar');  // note the space
+        $text1 = new Text('foo ');  // note the space
+        $text2 = new Text(' bar');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -156,8 +156,8 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
     {
         $word = new Cxds();
 
-        $text1 = (new Text())->setText('foo');
-        $text2 = (new Text())->setText('bar');
+        $text1 = new Text('foo');
+        $text2 = new Text('bar');
 
         $parent = (new Group())
             ->setStyle(new Style())

@@ -36,7 +36,7 @@ class CxfcTest extends \PHPUnit\Framework\TestCase
     public function testRunUpperCasesFirstCharacterWhenNextTextElementDoesExist()
     {
         $word = new Cxfc();
-        $text = (new Text())->setText('foo');  // note the lower-case
+        $text = new Text('foo');  // note the lower-case
 
         $parent = (new Group())
             ->setStyle(new Style())

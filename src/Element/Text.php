@@ -2,72 +2,26 @@
 
 namespace Jstewmc\Rtf\Element;
 
-/**
- * A plain-text element
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class Text extends Element
 {
-    /* !Protected properties */
+    protected string $text;
 
-    /**
-     * @var  string  the text element's text
-     * @since  0.1.0
-     */
-    protected $text;
-
-
-    /* !Get methods */
-
-    /**
-     * Gets this text element's text
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function getText()
+    public function getText(): string
     {
         return $this->text;
     }
 
-
-    /* !Set methods */
-
-    /**
-     * Sets this text element's text
-     *
-     * @param  string  $text  the element's text
-     * @since  0.1.0
-     */
-    public function setText($text)
+    // Some control words will mutate the element's text.
+    public function setText(string $text): self
     {
         $this->text = $text;
 
         return $this;
     }
 
-
-    /* !Magic methods */
-
-    /**
-     * Constructs the object
-     *
-     * @param  string  $text  the text element's text
-     * @return  self
-     * @since  0.1.0
-     */
-    public function __construct($text = null)
+    public function __construct(string $text)
     {
-        if (is_string($text)) {
-            $this->text = $text;
-        }
-
-        return;
+        $this->text = $text;
     }
 
     public function toHtml(): string
@@ -82,7 +36,7 @@ class Text extends Element
         $text = str_replace('{', '\{', $text);
         $text = str_replace('}', '\}', $text);
 
-        return "$text";
+        return $text;
     }
 
     public function toText(): string

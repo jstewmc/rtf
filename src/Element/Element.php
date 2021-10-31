@@ -10,6 +10,9 @@ use Jstewmc\Rtf\Style;
  */
 class Element
 {
+    /**
+     * The element's parent group (null for the root group)
+     */
     protected ?Group $parent = null;
 
     protected ?Style $style = null;
