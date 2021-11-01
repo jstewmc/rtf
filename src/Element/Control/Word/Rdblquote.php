@@ -7,9 +7,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Rdblquote extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('rdblquote', $parameter);
+        parent::__construct('rdblquote');
     }
 
     protected function toHtml(): string

@@ -8,9 +8,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Plain extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('plain', $parameter);
+        parent::__construct('plain');
     }
 
     public function run(): void

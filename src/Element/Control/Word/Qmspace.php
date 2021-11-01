@@ -7,9 +7,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Qmspace extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('qmspace', $parameter);
+        parent::__construct('qmspace');
     }
 
     protected function toHtml(): string

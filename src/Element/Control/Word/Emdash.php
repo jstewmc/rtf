@@ -7,9 +7,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Emdash extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('emdash', $parameter);
+        parent::__construct('emdash');
     }
 
     protected function toHtml(): string

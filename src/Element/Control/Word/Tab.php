@@ -7,9 +7,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Tab extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('tab', $parameter);
+        parent::__construct('tab');
     }
 
     protected function toHtml(): string

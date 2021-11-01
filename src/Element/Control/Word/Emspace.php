@@ -12,9 +12,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Emspace extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('emspace', $parameter);
+        parent::__construct('emspace');
     }
 
     protected function toHtml(): string

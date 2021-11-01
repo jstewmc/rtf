@@ -20,9 +20,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxfc extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('cxfc', $parameter);
+        parent::__construct('cxfc');
     }
 
     public function run(): void

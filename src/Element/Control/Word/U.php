@@ -15,7 +15,7 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class U extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct(int $parameter)
     {
         parent::__construct('u', $parameter);
     }

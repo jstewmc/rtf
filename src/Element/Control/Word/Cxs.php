@@ -27,8 +27,8 @@ class Cxs extends Word
      */
     protected bool $isIgnored = true;
 
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('cxs', $parameter);
+        parent::__construct('cxs');
     }
 }

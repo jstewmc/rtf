@@ -8,9 +8,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Chdpa extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('chdpa', $parameter);
+        parent::__construct('chdpa');
     }
 
     protected function toHtml(): string

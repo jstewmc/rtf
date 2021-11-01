@@ -9,8 +9,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxp extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('cxp', $parameter);
+        parent::__construct('cxp');
     }
 }

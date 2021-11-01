@@ -7,9 +7,9 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Ulnone extends Word
 {
-    public function __construct(?int $parameter = null)
+    public function __construct()
     {
-        parent::__construct('ulnone', $parameter);
+        parent::__construct('ulnone');
     }
 
     public function run(): void
