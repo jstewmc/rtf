@@ -297,32 +297,16 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     /* !getChild() */
 
-    /**
-     * getChild() should throw an InvalidArgumentException if index is not a integer
-     *
-     * @dataProvider  notAnIntegerProvider()
-     */
-    public function testGetChildThrowsInvalidArgumentExceptionWhenIndexIsNotAnInteger($index)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $group = new Group();
-        $group->getChild($index);
-
-        return;
-    }
 
     /**
      * getChild() should throw an OutOfBoundsException if index is invalid
      */
     public function testGetChildThrowsOutOfBoundsExceptionWhenIndexIsNotValid()
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
         $group = new Group();
         $group->getChild(999);
-
-        return;
     }
 
     /**
@@ -346,20 +330,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     /* !getControlWords() */
 
-    /**
-     * getControlWords() should throw InvalidArgumentException if $word is not a string
-     *
-     * @dataProvider  notAStringProvider
-     */
-    public function testGetControlWordsThrowsInvalidArgumentExceptionWhenWordIsNotAString($word)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $group = new Group();
-        $group->getControlWords($word);
-
-        return;
-    }
 
     /**
      * getControlWords() should throw InvalidArgumentException if $parameter is not null,
@@ -453,21 +423,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
 
     /* !getControlSymbols() */
-
-    /**
-     * getControlSymbols() should throw InvalidArgumentException if $symbol is not a string
-     *
-     * @dataProvider  notAStringProvider
-     */
-    public function testGetControlSymbolsThrowsInvalidArgumentExceptionWhenWordIsNotAString($symbol)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $group = new Group();
-        $group->getControlSymbols($symbol);
-
-        return;
-    }
 
     /**
      * getControlSymbols() should throw InvalidArgumentException if $parameter is not null,
@@ -711,21 +666,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     }
 
 
-    /* !hasChild() */
-
-    /**
-     * hasChild() should throw a BadMethodCallException if $element and $index are null
-     */
-    public function testHasCHildThrowsBadMethodCallExceptionWhenElementAndIndexAreNull()
-    {
-        $this->expectException(\BadMethodCallException::class);
-
-        $group = new Group();
-        $group->hasChild(0, 0);
-
-        return;
-    }
-
     /**
      * hasChild() should throw an InvalidArgumentException if $index is not an integer
      *    or element
@@ -740,19 +680,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         return;
     }
 
-    /**
-     * hasChild() should throw an InvalidArgumentException if $index is not an integer
-     *    or element
-     */
-    public function testHasChildThrowsInvalidArgumentExceptionWhenTwoIsNotAnIntegerOrElementOrNull()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $group = new Group();
-        $group->hasChild(1, 'foo');
-
-        return;
-    }
 
     /**
      * hasChild() should return false if parent has no children
@@ -803,20 +730,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
     /* !insertChild() */
 
-    /**
-     * insertChild() should throw an InvalidArgumentException if $index is not an integer
-     *
-     * @dataProvider  notAnIntegerProvider
-     */
-    public function testInsertChildThrowsInvalidArgumentExceptionWhenIndexIsNotAnInteger($index)
-    {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $group = new Group();
-        $group->insertChild(new Element(), $index);
-
-        return;
-    }
 
     /**
      * insertChild() should throw an OutOfBoundsException if $index is too high
