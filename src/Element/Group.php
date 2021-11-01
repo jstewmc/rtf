@@ -116,8 +116,7 @@ class Group extends Element
                     $words,
                     $child->getControlWords($word, $parameter)
                 );
-            } elseif (
-                $child instanceof Control\Word\Word &&
+            } elseif ($child instanceof Control\Word\Word &&
                 $child->getWord() == $word &&
                 $this->matchesParameter($parameter, $child)
             ) {
@@ -130,8 +129,7 @@ class Group extends Element
 
     private function validateControlWordSearchParameter($parameter): void
     {
-        if (
-            $parameter !== null &&
+        if ($parameter !== null &&
             $parameter !== false &&
             !(is_numeric($parameter) && is_int(+$parameter))
         ) {
@@ -168,8 +166,7 @@ class Group extends Element
                     $symbols,
                     $child->getControlSymbols($symbol, $parameter)
                 );
-            } elseif (
-                $child instanceof Control\Symbol\Symbol &&
+            } elseif ($child instanceof Control\Symbol\Symbol &&
                 $child->getSymbol() == $symbol &&
                 $this->matchesParameter($parameter, $child)
             ) {
