@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  */
 class Apostrophe extends Symbol
 {
-    protected $symbol = '\'';
+    protected string $symbol = '\'';
 
     protected function toHtml(): string
     {

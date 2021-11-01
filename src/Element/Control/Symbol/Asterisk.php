@@ -9,5 +9,5 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  */
 class Asterisk extends Symbol
 {
-    protected $symbol = '*';
+    protected string $symbol = '*';
 }

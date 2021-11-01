@@ -7,7 +7,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  */
 class Underscore extends Symbol
 {
-    protected $symbol = '_';
+    protected string $symbol = '_';
 
     protected function toHtml(): string
     {
