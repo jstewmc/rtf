@@ -22,7 +22,8 @@
 			"Jstewmc\\Rtf\\": "src/"
 		},
 		"classmap": [
-        "tests/Element/TestElement.php"
+        "tests/Element/TestElement.php",
+				"tests/Element/Control/TestControl.php"
     ]
 	}
 }

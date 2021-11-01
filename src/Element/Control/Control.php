@@ -2,7 +2,7 @@
 
 namespace Jstewmc\Rtf\Element\Control;
 
-class Control extends \Jstewmc\Rtf\Element\Element
+abstract class Control extends \Jstewmc\Rtf\Element\Element
 {
     /**
      * A flag indicating whether or not this control word or symbol is delimited
