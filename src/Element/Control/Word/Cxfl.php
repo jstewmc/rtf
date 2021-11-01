@@ -19,6 +19,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxfl extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('cxfl', $parameter);
+    }
+
     public function run(): void
     {
         // if the control word has a next text element

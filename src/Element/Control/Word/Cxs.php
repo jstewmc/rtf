@@ -26,4 +26,9 @@ class Cxs extends Word
      * The "\cxs" is an ignored control word
      */
     protected $isIgnored = true;
+
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('cxs', $parameter);
+    }
 }

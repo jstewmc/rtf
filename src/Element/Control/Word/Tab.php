@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Tab extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('tab', $parameter);
+    }
+
     protected function toHtml(): string
     {
         // hmmm, what is the HTML equivalent of a tab character?

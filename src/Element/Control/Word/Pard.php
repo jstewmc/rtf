@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Pard extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('pard', $parameter);
+    }
+
     public function run(): void
     {
         $this->style->getParagraph()->reset();

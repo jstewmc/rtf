@@ -8,6 +8,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Super extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('super', $parameter);
+    }
+
     public function run(): void
     {
         $this->style->getCharacter()->setIsSuperscript(

@@ -283,7 +283,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $group
             ->appendChild(new Control\Symbol\Asterisk())
-            ->appendChild((new Control\Word\Word())->setWord('foo'))
+            ->appendChild(new Control\Word\Word('foo'))
             ->appendChild(new Text('bar'));
 
         $expected = '';

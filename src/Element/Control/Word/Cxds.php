@@ -20,6 +20,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxds extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('cxds', $parameter);
+    }
+
     public function run(): void
     {
         // if the control word has a previous text element

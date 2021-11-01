@@ -14,6 +14,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Enspace extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('enspace', $parameter);
+    }
+
     protected function toHtml(): string
     {
         return '&ensp;';

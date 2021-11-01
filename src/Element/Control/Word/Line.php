@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Line extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('line', $parameter);
+    }
+
     protected function toHtml(): string
     {
         return '<br>';

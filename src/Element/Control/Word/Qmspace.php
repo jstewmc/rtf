@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Qmspace extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('qmspace', $parameter);
+    }
+
     protected function toHtml(): string
     {
         return '&thinsp;';

@@ -14,5 +14,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxa extends Word
 {
-    // nothing yet
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('cxa', $parameter);
+    }
 }

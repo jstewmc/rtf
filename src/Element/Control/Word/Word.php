@@ -17,7 +17,7 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
      * two states: missing or non-zero values turns _on_ the control word, and
      * a zero value turns _off_ the control world
      */
-    protected ?int $parameter = null;
+    protected ?int $parameter;
 
     /**
      * The control word's word (defaults to classname)
@@ -53,52 +53,19 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
         return $this;
     }
 
-    public function setWord(string $word): self
+    public function __construct(string $word, ?int $parameter = null)
     {
         $this->word = $word;
-
-        return $this;
-    }
-
-
-    public function __construct($parameter = null)
-    {
-        $this->word = $this->getDefaultWord();
-
-        if ($parameter !== null) {
-            $this->parameter = $parameter;
-        }
-    }
-
-    private function getDefaultWord(): string
-    {
-        $classname = get_class($this);
-
-        $segments = explode('\\', $classname);
-
-        $filename = strtolower(end($segments));
-
-        return $filename;
+        $this->parameter = $parameter;
     }
 
     protected function toRtf(): string
     {
-        $rtf = '';
+        $rtf = $this->isIgnored ? '\\*' : '';
 
-        // if a word exists
-        if ($this->word) {
-            // if the word is ignored
-            if ($this->isIgnored) {
-                // prepend the ignored control symbol
-                $rtf = '\\*';
-            }
-            // append the word and its parameter
-            $rtf .= "\\{$this->word}{$this->parameter}";
-            // if the word is space-delimited, append the space
-            if ($this->isSpaceDelimited) {
-                $rtf .= ' ';
-            }
-        }
+        $rtf .= "\\{$this->word}{$this->parameter}";
+
+        $rtf = $this->isSpaceDelimited ? $rtf.' ' : $rtf;
 
         return $rtf;
     }

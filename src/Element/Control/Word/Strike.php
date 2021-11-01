@@ -8,6 +8,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Strike extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('strike', $parameter);
+    }
+
     public function run(): void
     {
         $this->style->getCharacter()->setIsStrikethrough(

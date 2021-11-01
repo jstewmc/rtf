@@ -11,6 +11,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Ul extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('ui', $parameter);
+    }
+
     public function run(): void
     {
         $this->style->getCharacter()->setIsUnderline(

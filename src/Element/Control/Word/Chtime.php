@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Chtime extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('chtime', $parameter);
+    }
+
     protected function toHtml(): string
     {
         return $this->toText();

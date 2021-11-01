@@ -7,6 +7,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Bullet extends Word
 {
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('bullet', $parameter);
+    }
+
     protected function toHtml(): string
     {
         return '&bull;';

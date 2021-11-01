@@ -15,5 +15,8 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  */
 class Cxstit extends Word
 {
-    // nothing yet
+    public function __construct(?int $parameter = null)
+    {
+        parent::__construct('cxstit', $parameter);
+    }
 }
