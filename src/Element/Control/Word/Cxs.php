@@ -25,5 +25,5 @@ class Cxs extends Word
     /**
      * The "\cxs" is an ignored control word
      */
-    protected bool $isIgnored = true;
+    protected $isIgnored = true;
 }
