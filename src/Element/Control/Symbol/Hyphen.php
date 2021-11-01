@@ -7,7 +7,10 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  */
 class Hyphen extends Symbol
 {
-    protected string $symbol = '-';
+    public function __construct()
+    {
+        parent::__construct('-');
+    }
 
     protected function toHtml(): string
     {

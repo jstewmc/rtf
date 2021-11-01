@@ -25,7 +25,6 @@ class ControlSymbol
             $symbol = $this->parseGeneric($token);
         }
 
-        $symbol->setParameter($token->getParameter());
         $symbol->setIsSpaceDelimited($token->getIsSpaceDelimited());
 
         return $symbol;
@@ -58,13 +57,19 @@ class ControlSymbol
 
     private function parseGeneric(Token $token): Element
     {
-        return (new Element())->setSymbol($token->getSymbol());
+        return new Element($token->getSymbol());
     }
 
     private function parseSpecific(Token $token): Element
     {
         $classname = $this->getClassname($token->getSymbol());
 
-        return new $classname();
+        if ($classname === 'asterisk') {
+            $element = new $classname($token->getParameter());
+        } else {
+            $element = new $classname();
+        }
+
+        return $element;
     }
 }

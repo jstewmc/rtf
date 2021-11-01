@@ -4,13 +4,9 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
 
 class Symbol extends \Jstewmc\Rtf\Element\Control\Control
 {
-    /**
-     * The control symbol's parameter; generally, empty, unless the symbol is an
-     * apostrophe
-     */
-    protected string $parameter = '';
+    protected ?string $parameter;
 
-    protected string $symbol = '';
+    protected string $symbol;
 
     public function getParameter(): string
     {
@@ -29,32 +25,17 @@ class Symbol extends \Jstewmc\Rtf\Element\Control\Control
         return $this;
     }
 
-    public function setSymbol(string $symbol): self
+    public function __construct(string $symbol, ?string $parameter = null)
     {
         $this->symbol = $symbol;
-
-        return $this;
-    }
-
-    public function __construct($parameter = null)
-    {
-        if ($parameter !== null) {
-            $this->parameter = $parameter;
-        }
-
-        return;
+        $this->parameter = $parameter;
     }
 
     public function toRtf(): string
     {
-        $rtf = '';
+        $rtf = "\\{$this->symbol}{$this->parameter}";
 
-        if ($this->symbol) {
-            $rtf = "\\{$this->symbol}{$this->parameter}";
-            if ($this->isSpaceDelimited) {
-                $rtf .= ' ';
-            }
-        }
+        $rtf = $this->isSpaceDelimited ? $rtf.' ' : $rtf;
 
         return $rtf;
     }

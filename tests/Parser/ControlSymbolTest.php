@@ -20,7 +20,7 @@ class ControlSymbolTest extends \PHPUnit\Framework\TestCase
     public function testInvokeReturnsElementWhenSymbolIsGenerci(): void
     {
         $this->assertEquals(
-            (new Element\Symbol())->setSymbol('#'),
+            new Element\Symbol('#'),
             (new ControlSymbol())(new Token('#'))
         );
     }

@@ -197,8 +197,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $root = new Element\Group();
 
-        $symbol = new Element\Control\Symbol\Symbol();
-        $symbol->setSymbol('#');
+        $symbol = new Element\Control\Symbol\Symbol('#');
         $symbol->setParent($root);
 
         $root->appendChild($symbol);
