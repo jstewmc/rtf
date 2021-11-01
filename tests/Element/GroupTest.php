@@ -62,7 +62,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testSetAndGetChildren()
     {
-        $children = [new Element(), new Element()];
+        $children = [new TestElement(), new TestElement()];
 
         $group = new Group();
         $group->setChildren($children);
@@ -132,7 +132,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testAppendChildAppendsChildWhenZeroChildrenExist()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
         $group->appendChild($child);
@@ -152,13 +152,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
-        $child = new Element();
+        $child = new TestElement();
 
         $group->appendChild($child);
 
@@ -182,7 +182,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($group->getIsRendered());
 
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
 
@@ -200,7 +200,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($group->getIsRendered());
 
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $this->assertTrue($group->getIsRendered());
 
@@ -314,7 +314,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetChildReturnsElementWhenIndexIsValid()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
         $group->appendChild($child);
@@ -586,9 +586,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetFirstChildReturnsElementWhenChildrenDoExist()
     {
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group = new Group();
         $group->setChildren([$first, $middle, $last]);
@@ -621,9 +621,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetLastChildReturnsElementWhenChildrenDoExist()
     {
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group = new Group();
         $group->setChildren([$first, $middle, $last]);
@@ -658,7 +658,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $group->appendChild(new Element())->appendChild(new Element());
+        $group->appendChild(new TestElement())->appendChild(new TestElement());
 
         $this->assertEquals(2, $group->getLength());
 
@@ -689,8 +689,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group = new Group();
 
         $this->assertFalse($group->hasChild(0));
-        $this->assertFalse($group->hasChild(new Element()));
-        $this->assertFalse($group->hasChild(new Element(), 0));
+        $this->assertFalse($group->hasChild(new TestElement()));
+        $this->assertFalse($group->hasChild(new TestElement(), 0));
 
         return;
     }
@@ -704,8 +704,8 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->appendChild(new Text('foo'));
 
         $this->assertFalse($group->hasChild(1));
-        $this->assertFalse($group->hasChild(new Element()));
-        $this->assertFalse($group->hasChild(new Element(), 0));
+        $this->assertFalse($group->hasChild(new TestElement()));
+        $this->assertFalse($group->hasChild(new TestElement(), 0));
 
         return;
     }
@@ -739,7 +739,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->expectException('OutOfBoundsException');
 
         $group = new Group();
-        $group->insertChild(new Element(), 999);
+        $group->insertChild(new TestElement(), 999);
 
         return;
     }
@@ -752,7 +752,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->expectException('OutOfBoundsException');
 
         $group = new Group();
-        $group->insertChild(new Element(), -999);
+        $group->insertChild(new TestElement(), -999);
 
         return;
     }
@@ -762,10 +762,10 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testInsertChildInsertsElementWhenIndexIsBetweenElements()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
-        $group->appendChild(new Element())->appendChild(new Element());
+        $group->appendChild(new TestElement())->appendChild(new TestElement());
 
         $group->insertChild($child, 1);
 
@@ -781,10 +781,10 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testInsertChildInsertsElementWhenIndexIsBeforeElement()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
-        $group->appendChild(new Element())->appendChild(new Element());
+        $group->appendChild(new TestElement())->appendChild(new TestElement());
 
         $group->insertChild($child, 0);
 
@@ -800,10 +800,10 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testInsertChildInsertsElementWhenIndexIsAfterElements()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
-        $group->appendChild(new Element())->appendChild(new Element());
+        $group->appendChild(new TestElement())->appendChild(new TestElement());
 
         $group->insertChild($child, 2);
 
@@ -823,7 +823,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($group->getIsRendered());
 
-        $group->insertChild(new Element(), 0);
+        $group->insertChild(new TestElement(), 0);
 
         $this->assertFalse($group->getIsRendered());
 
@@ -841,7 +841,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($group->getIsRendered());
 
-        $group->insertChild(new Element(), 0);
+        $group->insertChild(new TestElement(), 0);
 
         $this->assertTrue($group->getIsRendered());
 
@@ -1064,7 +1064,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
      */
     public function testPrependChildPrependsElementWhenZeroChildrenExist()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $group = new Group();
         $group->prependChild($child);
@@ -1087,13 +1087,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
-        $child = new Element();
+        $child = new TestElement();
 
         $group->prependChild($child);
 
@@ -1117,7 +1117,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($group->getIsRendered());
 
-        $group->prependChild(new Element());
+        $group->prependChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
 
@@ -1135,7 +1135,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $this->assertTrue($group->getIsRendered());
 
-        $group->prependChild(new Element());
+        $group->prependChild(new TestElement());
 
         $this->assertTrue($group->getIsRendered());
 
@@ -1195,9 +1195,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
@@ -1223,9 +1223,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
@@ -1250,7 +1250,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testRemoveChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
 
@@ -1267,7 +1267,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testRemoveChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
         $group->setStyle(new \Jstewmc\Rtf\Style());
         $group->setIsRendered(true);
 
@@ -1293,7 +1293,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\InvalidArgumentException::class);
 
         $group = new Group();
-        $group->replaceChild($old, new Element());
+        $group->replaceChild($old, new TestElement());
 
         return;
     }
@@ -1306,7 +1306,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->expectException('OutOfBoundsException');
 
         $group = new Group();
-        $group->replaceChild(999, new Element());
+        $group->replaceChild(999, new TestElement());
 
         return;
     }
@@ -1319,7 +1319,7 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->expectException('OutOfBoundsException');
 
         $group = new Group();
-        $group->replaceChild(new Element(), new Element());
+        $group->replaceChild(new TestElement(), new TestElement());
 
         return;
     }
@@ -1331,13 +1331,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
-        $new = new Element();
+        $new = new TestElement();
 
         $old = $group->replaceChild(1, $new);
 
@@ -1363,13 +1363,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     {
         $group = new Group();
 
-        $first  = new Element();
-        $middle = new Element();
-        $last   = new Element();
+        $first  = new TestElement();
+        $middle = new TestElement();
+        $last   = new TestElement();
 
         $group->setChildren([$first, $middle, $last]);
 
-        $new = new Element();
+        $new = new TestElement();
 
         $old = $group->replaceChild($middle, $new);
 
@@ -1394,11 +1394,11 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testReplaceChildDoesNotRenderWhenGroupIsNotRendered()
     {
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
 
-        $group->replaceChild(0, new Element());
+        $group->replaceChild(0, new TestElement());
 
         $this->assertFalse($group->getIsRendered());
 
@@ -1411,13 +1411,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
     public function testReplaceChildDoesRenderWhenGroupIsRendered()
     {
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
         $group->setStyle(new \Jstewmc\Rtf\Style());
         $group->setIsRendered(true);
 
         $this->assertTrue($group->getIsRendered());
 
-        $group->replaceChild(0, new Element());
+        $group->replaceChild(0, new TestElement());
 
         $this->assertTrue($group->getIsRendered());
 

@@ -20,6 +20,9 @@
 	"autoload": {
 		"psr-4": {
 			"Jstewmc\\Rtf\\": "src/"
-		}
+		},
+		"classmap": [
+        "tests/Element/TestElement.php"
+    ]
 	}
 }

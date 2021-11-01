@@ -8,7 +8,7 @@ use Jstewmc\Rtf\Style;
  * A component of an RTF document, like an HTML tag or an XML node. Elements
  * can be groups, text, control words, and control symbols.
  */
-class Element
+abstract class Element
 {
     /**
      * The element's parent group (null for the root group)

@@ -2,15 +2,6 @@
 
 namespace Jstewmc\Rtf\Element;
 
-/**
- * A test suite for the Element class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class ElementTest extends \PHPUnit\Framework\TestCase
 {
     /* !Get/set methods */
@@ -22,7 +13,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $expected = $parent;
@@ -40,7 +31,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $style = new \Jstewmc\Rtf\Style();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setStyle($style);
 
         $expected = $style;
@@ -86,7 +77,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
 
         $element->getIndex();
 
@@ -102,7 +93,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getIndex();
@@ -118,9 +109,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getIndex();
@@ -133,10 +124,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetIndexReturnsIntegerWhenElementIsChild()
     {
-        $child = new Element();
+        $child = new TestElement();
 
         $parent = new Group();
-        $parent->appendChild($child)->appendChild(new Element());
+        $parent->appendChild($child)->appendChild(new TestElement());
 
         $this->assertEquals(0, $child->getIndex());
 
@@ -153,7 +144,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->getNextSibling();
 
         return;
@@ -168,7 +159,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getNextSibling();
@@ -185,9 +176,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getNextSibling();
@@ -200,7 +191,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetNextSiblingReturnsNullWhenNextElementDoesNotExist()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
@@ -217,8 +208,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetNextSiblingReturnsElementWhenNextElementDoesExist()
     {
-        $element = new Element();
-        $next    = new Element();
+        $element = new TestElement();
+        $next    = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element)->appendChild($next);
@@ -240,7 +231,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->getNextText();
 
         return;
@@ -255,7 +246,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getNextText();
@@ -272,9 +263,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getNextText();
@@ -287,7 +278,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetNextTextReturnsNullWhenNextElementDoesNotExist()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
@@ -304,8 +295,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetNextTextReturnsNullWhenNextElementIsNotText()
     {
-        $element = new Element();
-        $next    = new Element();
+        $element = new TestElement();
+        $next    = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element)->appendChild($next);
@@ -322,7 +313,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetNextTextReturnsElementWhenNextElementIsText()
     {
-        $element = new Element();
+        $element = new TestElement();
         $next    = new Text('');
 
         $parent = new Group();
@@ -346,7 +337,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->getPreviousSibling();
 
         return;
@@ -361,7 +352,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getPreviousSibling();
@@ -377,9 +368,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getIndex();
@@ -392,7 +383,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPreviousSiblingReturnsNullWhenPreviousDoesNotExist()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
@@ -409,8 +400,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPreviousSiblingReturnsElementWhenPreviousDoesExist()
     {
-        $element  = new Element();
-        $previous = new Element();
+        $element  = new TestElement();
+        $previous = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($previous)->appendChild($element);
@@ -432,7 +423,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->getPreviousText();
 
         return;
@@ -447,7 +438,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getPreviousText();
@@ -463,9 +454,9 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
         $element->getPreviousText();
@@ -478,7 +469,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPreviousTextReturnsNullWhenPreviousDoesNotExist()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
@@ -495,8 +486,8 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPreviousTextReturnsNullWhenPreviousIsNotText()
     {
-        $element  = new Element();
-        $previous = new Element();
+        $element  = new TestElement();
+        $previous = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($previous)->appendChild($element);
@@ -513,7 +504,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testGetPreviousTextReturnsPreviousWhenPreviousIsText()
     {
-        $element  = new Element();
+        $element  = new TestElement();
         $previous = new Text('');
 
         $parent = new Group();
@@ -536,7 +527,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->format('foo');
 
         return;
@@ -549,7 +540,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $element = new Element();
+        $element = new TestElement();
         $element->format('foo');
 
         return;
@@ -560,7 +551,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormatReturnsStringWhenFormatIsHtml()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $this->assertEquals('', $element->format('html'));
 
@@ -572,7 +563,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormatReturnsStringWhenFormatIsRtf()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $this->assertEquals('', $element->format('rtf'));
 
@@ -584,7 +575,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testFormatReturnsStringWhenFormatIsText()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $this->assertEquals('', $element->format('text'));
 
@@ -640,7 +631,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $bar = new Text('bar');
 
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $bar->setParent($group);
 
@@ -714,7 +705,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $bar = new Text('bar');
 
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $bar->setParent($group);
 
@@ -785,7 +776,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $foo = new Text('foo');
         $foo->setParent($group);
@@ -803,7 +794,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $foo = new Text('foo');
 
         $group = new Group();
-        $group->appendChild(new Element())->appendChild($foo);
+        $group->appendChild(new TestElement())->appendChild($foo);
 
         $this->assertFalse($foo->isFirstChild());
 
@@ -818,7 +809,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $foo = new Text('foo');
 
         $group = new Group();
-        $group->appendChild($foo)->appendChild(new Element());
+        $group->appendChild($foo)->appendChild(new TestElement());
 
         $this->assertTrue($foo->isFirstChild());
 
@@ -867,7 +858,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $group = new Group();
-        $group->appendChild(new Element());
+        $group->appendChild(new TestElement());
 
         $foo = new Text('foo');
         $foo->setParent($group);
@@ -885,7 +876,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $foo = new Text('foo');
 
         $group = new Group();
-        $group->appendChild($foo)->appendChild(new Element());
+        $group->appendChild($foo)->appendChild(new TestElement());
 
         $this->assertFalse($foo->isLastChild());
 
@@ -900,7 +891,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $foo = new Text('foo');
 
         $group = new Group();
-        $group->appendChild(new Element())->appendChild($foo);
+        $group->appendChild(new TestElement())->appendChild($foo);
 
         $this->assertTrue($foo->isLastChild());
 
@@ -941,7 +932,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
 
         $element->putNextSibling($element);
 
@@ -957,10 +948,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
-        $element->putNextSibling(new Element());
+        $element->putNextSibling(new TestElement());
 
         return;
     }
@@ -973,12 +964,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
-        $element->putNextSibling(new Element());
+        $element->putNextSibling(new TestElement());
 
         return;
     }
@@ -988,12 +979,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testPutNextSiblingInsertsElementWhenBetweenElements()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
-        $parent->appendChild($element)->appendChild(new Element());
+        $parent->appendChild($element)->appendChild(new TestElement());
 
-        $new = new Element();
+        $new = new TestElement();
 
         $element->putNextSibling($new);
 
@@ -1008,12 +999,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testPutNextSiblingInsertsElementWhenAfterElements()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
 
-        $new = new Element();
+        $new = new TestElement();
 
         $element->putNextSibling($new);
 
@@ -1033,7 +1024,7 @@ class ElementTest extends \PHPUnit\Framework\TestCase
     {
         $this->expectException(\BadMethodCallException::class);
 
-        $element = new Element();
+        $element = new TestElement();
 
         $element->putPreviousSibling($element);
 
@@ -1049,10 +1040,10 @@ class ElementTest extends \PHPUnit\Framework\TestCase
 
         $parent = new Group();
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
-        $element->putPreviousSibling(new Element());
+        $element->putPreviousSibling(new TestElement());
 
         return;
     }
@@ -1065,12 +1056,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
         $this->expectException(\BadMethodCallException::class);
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild(new Element());
+        $parent->appendChild(new TestElement())->appendChild(new TestElement());
 
-        $element = new Element();
+        $element = new TestElement();
         $element->setParent($parent);
 
-        $element->putPreviousSibling(new Element());
+        $element->putPreviousSibling(new TestElement());
 
         return;
     }
@@ -1080,12 +1071,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testPutPreviousSiblingInsertsElementWhenBeforeElements()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
         $parent->appendChild($element);
 
-        $new = new Element();
+        $new = new TestElement();
 
         $element->putPreviousSibling($new);
 
@@ -1100,12 +1091,12 @@ class ElementTest extends \PHPUnit\Framework\TestCase
      */
     public function testPutPreviousSiblingInsertsElementWhenBetweenElements()
     {
-        $element = new Element();
+        $element = new TestElement();
 
         $parent = new Group();
-        $parent->appendChild(new Element())->appendChild($element);
+        $parent->appendChild(new TestElement())->appendChild($element);
 
-        $new = new Element();
+        $new = new TestElement();
 
         $element->putPreviousSibling($new);
 
