@@ -11,7 +11,7 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
  */
 class Apostrophe extends Symbol
 {
-    public function __construct(string $parameter) 
+    public function __construct(string $parameter)
     {
         parent::__construct('\'', $parameter);
     }
