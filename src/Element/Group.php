@@ -2,29 +2,6 @@
 
 namespace Jstewmc\Rtf\Element;
 
-/**
- * A group consists of text, control words, or control symbols enclosed in brackets
- * ("{" and "}"). The opening brace indicates the start of a group and the closing
- * brace indicates the end of a group.
- *
- * Formatting within a group affects only the text in that group, and generally,
- * text within a group inherits the formatting of the parent group.
- *
- * An RTF file may also include groups for fonts, styles, screen-color, pictures,
- * footnotes, comments (aka, annotations), headers, footers, summary information,
- * fields, and bookmarks as well as document-, section-, paragraph-, and character-
- * formatting properties.
- *
- * If the font, file, style, screen-color, revision mark, summary-information, or
- * document-formatting groups are included, they must precede the first plain-text
- * character in the document. These groups form the RTF document header.
- *
- * The footnote, comment (aka, annotation), header, and footer groups do not inherit
- * the formatting of their parent group. To ensure that these groups are always
- * formatted correctly, you should set the formatting of these groups to the default
- * with the "\sectd", "\pard", and "\plain" control words, and then add any desired
- * formatting.
- */
 class Group extends Element
 {
     /**
@@ -106,10 +83,13 @@ class Group extends Element
      */
     public function getControlWords(string $word, $parameter = null): array
     {
+        if ($parameter !== null && $parameter !== false && !is_int($parameter)) {
+            throw new \InvalidArgumentException(
+                'parameter must be false, null, or int'
+            );
+        }
+
         $words = [];
-
-        $this->validateControlWordSearchParameter($parameter);
-
         foreach ($this->children as $child) {
             if ($child instanceof Group) {
                 $words = array_merge(
@@ -118,7 +98,7 @@ class Group extends Element
                 );
             } elseif ($child instanceof Control\Word\Word &&
                 $child->getWord() == $word &&
-                $this->matchesParameter($parameter, $child)
+                $this->isParameterMatch($parameter, $child)
             ) {
                 $words[] = $child;
             }
@@ -127,19 +107,7 @@ class Group extends Element
         return $words;
     }
 
-    private function validateControlWordSearchParameter($parameter): void
-    {
-        if ($parameter !== null &&
-            $parameter !== false &&
-            !(is_numeric($parameter) && is_int(+$parameter))
-        ) {
-            throw new \InvalidArgumentException(
-                'parameter must be false, null, or int'
-            );
-        }
-    }
-
-    private function matchesParameter($parameter, Element $child): bool
+    private function isParameterMatch($parameter, Element $child): bool
     {
         return $parameter === null ||
             ($parameter === false && $child->getParameter() === null) ||
@@ -158,7 +126,11 @@ class Group extends Element
     {
         $symbols = [];
 
-        $this->validateControlSymbolSearchParameter($parameter);
+        if ($parameter !== null && $parameter !== false && !is_string($parameter)) {
+            throw new \InvalidArgumentException(
+                'parameter must be false, null, or string'
+            );
+        }
 
         foreach ($this->children as $child) {
             if ($child instanceof Group) {
@@ -168,7 +140,7 @@ class Group extends Element
                 );
             } elseif ($child instanceof Control\Symbol\Symbol &&
                 $child->getSymbol() == $symbol &&
-                $this->matchesParameter($parameter, $child)
+                $this->isParameterMatch($parameter, $child)
             ) {
                 $symbols[] = $child;
             }
@@ -177,14 +149,6 @@ class Group extends Element
         return $symbols;
     }
 
-    private function validateControlSymbolSearchParameter($parameter): void
-    {
-        if ($parameter !== null && $parameter !== false && !is_string($parameter)) {
-            throw new \InvalidArgumentException(
-                'parameter must be false, null, or string'
-            );
-        }
-    }
 
     /**
      * Returns the child's index in this group's children (if it exists)
