@@ -2,109 +2,58 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A control word element
- */
 class Word extends \Jstewmc\Rtf\Element\Control\Control
 {
     /* !Protected properties */
 
     /**
-     * @var  bool  a flag indicating whether or not the control word should be
-     *     preceeded by the "ignored" control symbol; defaults to false
+     * A flag indicating whether or not the control word should be preceeded by
+     * the "ignored" control symbol (defaults to false)
      */
-    protected $isIgnored = false;
+    protected bool $isIgnored = false;
 
     /**
-     * @var  int  the control word's parameter; the parameters of certain control
-     *     words (such as bold and italic) have only two states; if the parameter
-     *     is missing or non-zero, it turns on the control word; if the parameter
-     *     is zero, it turns off the control word
-     * @since  0.1.0
+     * The parameters of certain control words (such as bold and italic) have
+     * two states: missing or non-zero values turns _on_ the control word, and
+     * a zero value turns _off_ the control world
      */
-    protected $parameter;
+    protected ?int $parameter = null;
 
     /**
-     * @var  string  the control word's word; defaults to the classname if this
-     *     property is null on construction
-     * @since  0.1.0
+     * The control word's word (defaults to classname)
      */
-    protected $word;
+    protected string $word;
 
-
-    /* !Get methods */
-
-    /**
-     * Gets the word's is ignored flag
-     *
-     * @return  bool
-     */
-    public function getIsIgnored()
+    public function getIsIgnored(): bool
     {
         return $this->isIgnored;
     }
 
-    /**
-     * Gets the word's parameter
-     *
-     * @return  int
-     * @since  0.1.0
-     */
-    public function getParameter()
+    public function getParameter(): ?int
     {
         return $this->parameter;
     }
 
-    /**
-     * Gets the word's word
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    public function getWord()
+    public function getWord(): string
     {
         return $this->word;
     }
 
-
-    /* !Set methods */
-
-    /**
-     * Sets the control word's isIgnored flag
-     *
-     * @param  bool  $isIgnored  the control word's is-ignored flag
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsIgnored($isIgnored)
+    public function setIsIgnored(bool $isIgnored): self
     {
         $this->isIgnored = $isIgnored;
 
         return $this;
     }
 
-    /**
-     * Sets the control word's parameter
-     *
-     * @param  int  $parameter  the control word's parameter
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setParameter($parameter)
+    public function setParameter(?int $parameter): self
     {
         $this->parameter = $parameter;
 
         return $this;
     }
 
-    /**
-     * Sets the control word's word
-     *
-     * @param  string  $word  the control word's word
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setWord($word)
+    public function setWord(string $word): self
     {
         $this->word = $word;
 
@@ -112,29 +61,24 @@ class Word extends \Jstewmc\Rtf\Element\Control\Control
     }
 
 
-    /* !Magic methods */
-
-    /**
-     * Constructs this object
-     *
-     * @param  mixed  $parameter  the control word's parameter
-     * @return  self
-     */
     public function __construct($parameter = null)
     {
-        // if the control word's word isn't set
-        if ($this->word === null) {
-            // set it to the classname
-            $fqns       = explode('\\', get_class($this));
-            $this->word = strtolower(end($fqns));
-        }
+        $this->word = $this->getDefaultWord();
 
-        // if parameter was passed
         if ($parameter !== null) {
             $this->parameter = $parameter;
         }
+    }
 
-        return;
+    private function getDefaultWord(): string
+    {
+        $classname = get_class($this);
+
+        $segments = explode('\\', $classname);
+
+        $filename = strtolower(end($segments));
+
+        return $filename;
     }
 
     protected function toRtf(): string

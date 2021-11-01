@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxstit" control word
- *
  * The "\cxstit" control word indicates a group of stitched text (i.e., "CX STITched").
  *
  * For example:

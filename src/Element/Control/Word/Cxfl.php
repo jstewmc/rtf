@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxfl" control word
- *
  * The "\cxfl" control word lower-cases the next letter (e.g., cx Force Lower).
  *
  * For example:

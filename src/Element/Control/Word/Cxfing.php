@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxfing" control word
- *
  * The "\cxfing" control word indicates a group of fingerspelled text.
  *
  * For example:

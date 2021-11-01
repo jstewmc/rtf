@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\super" control word
- *
  * The "\super" control word superscripts text and shrinks font-size according
  * to font information.
  */

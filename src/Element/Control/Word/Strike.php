@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\strike" control word
- *
  * The "\strike" control word sets the character's strikethrough format property.
  * The "\strike" control word is a two-state control word.
  */

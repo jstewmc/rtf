@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxfc" control word
- *
  * The "\cxfc" control word upper-cases the next letter (i.e., "CX Force Cap")
  *
  * For example:
