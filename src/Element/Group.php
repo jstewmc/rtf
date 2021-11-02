@@ -374,7 +374,7 @@ class Group extends Element
         return $replaced;
     }
 
-    protected function afterDelete(Element $element): void
+    private function afterDelete(Element $element): void
     {
         $element->setParent(null);
 
@@ -383,7 +383,7 @@ class Group extends Element
         }
     }
 
-    protected function beforeDelete(): void
+    private function beforeDelete(): void
     {
         return;
     }

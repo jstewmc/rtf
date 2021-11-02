@@ -11,10 +11,15 @@ use Jstewmc\Rtf\Style;
 abstract class Element
 {
     /**
-     * The element's parent group (null for the root group)
+     * The element's parent group, which is set during the parsing process.
+     * Every element has a parent, except for the root group.
      */
     protected ?Group $parent = null;
 
+    /**
+     * The element's style, the sum of its document-, section-, paragraph-, and
+     * character-states, which is set during the rendering process.
+     */
     protected ?Style $style = null;
 
     public function getParent(): ?Group

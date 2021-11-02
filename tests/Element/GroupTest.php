@@ -2,112 +2,40 @@
 
 namespace Jstewmc\Rtf\Element;
 
-/**
- * A test suite for the Group class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
+use Jstewmc\Rtf\Style;
 
 class GroupTest extends \PHPUnit\Framework\TestCase
 {
-    /* !Provider */
-
-    public function notAnIntegerProvider()
+    public function testGetChildrenReturnsArray(): void
     {
-        return [
-            [null],
-            [true],
-            // [1],
-            [1.0],
-            ['foo'],
-            [[]],
-            [new \StdClass()]
-        ];
+        $this->assertEquals([], (new Group())->getChildren());
     }
 
-    public function neitherAnIntegerNorNullProvider()
-    {
-        return [
-            // [null],
-            [true],
-            // [1],
-            [1.0],
-            ['foo'],
-            [[]],
-            [new \StdClass()]
-        ];
-    }
-
-    public function notAStringProvider()
-    {
-        return [
-            [null],
-            [false],
-            [1.0],
-            [1],
-            // ['foo'],
-            [[]],
-            [new \StdClass()]
-        ];
-    }
-
-
-    /* !Get/set methods */
-
-    /**
-     * setChildren() and getChildren() should return the group's children
-     */
-    public function testSetAndGetChildren()
-    {
-        $children = [new TestElement(), new TestElement()];
-
-        $group = new Group();
-        $group->setChildren($children);
-
-        $expected = $children;
-        $actual   = $group->getChildren();
-
-        $this->assertEquals($expected, $actual);
-
-        return;
-    }
-
-    /**
-     * setIsRendered() and getIsRendered() should return the is rendered flag
-     */
-    public function testSetAndGetIsRendered()
+    public function testSetChildrenReturnsSelf(): void
     {
         $group = new Group();
 
-        $group->setIsRendered(true);
-
-        $this->assertTrue($group->getIsRendered());
-
-        return;
+        $this->assertSame($group, $group->setChildren([]));
     }
 
+    public function testGetIsRenderedReturnsBool(): void
+    {
+        $this->assertFalse((new Group())->getIsRendered());
+    }
 
-    /* !__toString() */
-
-    /**
-     * __toString() should return a string if children do not exist
-     */
-    public function testToStringReturnsStringWhenChildrenDoNotExist()
+    public function testSetIsRenderedReturnsSelf(): void
     {
         $group = new Group();
 
-        $this->assertEquals('{}', (string)$group);
-
-        return;
+        $this->assertSame($group, $group->setIsRendered(true));
     }
 
-    /**
-     * __toString() should return a string if children do exist
-     */
-    public function testToStringReturnsStringWhenChildrenDoExist()
+    public function testToStringReturnsStringWhenChildrenDoNotExist(): void
+    {
+        $this->assertEquals('{}', (string)(new Group()));
+    }
+
+    public function testToStringReturnsStringWhenChildrenDoExist(): void
     {
         $group = new Group();
 
@@ -116,67 +44,45 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Text('foo'))
             ->appendChild(new Control\Word\B(0));
 
-        $expected = '{\b foo\b0 }';
-        $actual   = (string)$group;
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('{\b foo\b0 }', (string)$group);
     }
 
-
-    /* !appendChild() */
-
-    /**
-     * appendChild() should append the element if zero children exist
-     */
-    public function testAppendChildAppendsChildWhenZeroChildrenExist()
+    public function testAppendChildAppendsChild(): void
     {
         $child = new TestElement();
 
         $group = new Group();
         $group->appendChild($child);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 1);
-        $this->assertSame($child, $group->getChildren()[0]);
+        $this->assertEquals(1, $group->getLength());
+    }
+
+    public function testAppendChildSetsParent(): void
+    {
+        $child = new TestElement();
+
+        $group = new Group();
+        $group->appendChild($child);
+
         $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * appendChild() should append the element to the end if many children exist
-     */
-    public function testAppendChildAppendsChildWhenManyChildrenExist()
+    public function testAppendChildSetsIndex(): void
     {
         $group = new Group();
 
-        $first  = new TestElement();
-        $middle = new TestElement();
-        $last   = new TestElement();
-
-        $group->setChildren([$first, $middle, $last]);
+        $group->setChildren([new TestElement()]);
 
         $child = new TestElement();
 
         $group->appendChild($child);
-
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 4);
 
         $children = $group->getChildren();
 
         $this->assertSame($child, end($children));
-        $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * appendChild() should not render the group if it's not rendered
-     */
-    public function testAppendChildDoesNotRenderWhenGroupIsNotRendered()
+    public function testAppendChildDoesNotRenderWhenGroupIsNotRendered(): void
     {
         $group = new Group();
 
@@ -185,17 +91,12 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->appendChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * appendChild() should render the group if it's rendered
-     */
-    public function testAppendChildDoesRenderWhenGroupIsRendered()
+    public function testAppendChildRendersWhenGroupIsRendered(): void
     {
         $group = new Group();
-        $group->setStyle(new \Jstewmc\Rtf\Style());
+        $group->setStyle(new Style());
         $group->setIsRendered(true);
 
         $this->assertTrue($group->getIsRendered());
@@ -203,17 +104,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->appendChild(new TestElement());
 
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 
-
-    /* !format() */
-
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
         $group = new Group();
 
@@ -222,22 +115,17 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Text('foo'))
             ->appendChild(new Control\Word\B(0));
 
-        $group->setStyle(new \Jstewmc\Rtf\Style());
+        $group->setStyle(new Style());
 
         $group->render();
 
-        $expected = '<section style=""><p style=""><span style="font-weight: bold;">foo';
-        $actual   = $group->format('html');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals(
+            '<section style=""><p style=""><span style="font-weight: bold;">foo',
+            $group->format('html')
+        );
     }
 
-    /**
-     * format() should return string if format is rtf
-     */
-    public function testFormatReturnsStringWhenFormatIsRtf()
+    public function testFormatReturnsStringWhenFormatIsRtf(): void
     {
         $group = new Group();
 
@@ -246,18 +134,10 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Text('foo'))
             ->appendChild(new Control\Word\B(0));
 
-        $expected = '{\b foo\b0 }';
-        $actual   = $group->format('rtf');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('{\b foo\b0 }', $group->format('rtf'));
     }
 
-    /**
-     * format() should return string if format is text
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+    public function testFormatReturnsStringWhenFormatIsText(): void
     {
         $group = new Group();
 
@@ -266,18 +146,10 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Text('foo'))
             ->appendChild(new Control\Word\B(0));
 
-        $expected = 'foo';
-        $actual   = $group->format('text');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('foo', $group->format('text'));
     }
 
-    /**
-     * format() should return (empty) string if group is destination
-     */
-    public function testFormatReturnsStringWhenGroupIsDestination()
+    public function testFormatReturnsStringWhenGroupIsDestination(): void
     {
         $group = new Group();
 
@@ -286,122 +158,61 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Control\Word\Word('foo'))
             ->appendChild(new Text('bar'));
 
-        $expected = '';
-        $actual   = $group->format('text');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals('', $group->format('text'));
     }
 
-
-    /* !getChild() */
-
-
-    /**
-     * getChild() should throw an OutOfBoundsException if index is invalid
-     */
-    public function testGetChildThrowsOutOfBoundsExceptionWhenIndexIsNotValid()
+    public function testGetChildThrowsOutOfBoundsExceptionWhenIndexIsNotValid(): void
     {
         $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->getChild(999);
+        (new Group())->getChild(999);
     }
 
-    /**
-     * getChild() should return element if index is valid
-     */
-    public function testGetChildReturnsElementWhenIndexIsValid()
+    public function testGetChildReturnsElementWhenIndexIsValid(): void
     {
         $child = new TestElement();
 
         $group = new Group();
         $group->appendChild($child);
 
-        $expected = $child;
-        $actual   = $group->getChild(0);
-
-        $this->assertSame($expected, $actual);
-
-        return;
+        $this->assertSame($child, $group->getChild(0));
     }
 
-
-    /* !getControlWords() */
-
-
-    /**
-     * getControlWords() should throw InvalidArgumentException if $parameter is not null,
-     *     false, or integer
-     */
-    public function testGetControlWordsThrowsInvalidArgumentExceptionWhenParameterIsInvalid()
+    public function testGetControlWordsThrowsInvalidArgumentExceptionWhenParameterIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $group = new Group();
-        $group->getControlWords('foo', []);
-
-        return;
+        (new Group())->getControlWords('foo', []);
     }
 
-    /**
-     * getControlWords() should return array if children do not exist
-     */
-    public function testGetControlWordsReturnsArrayWhenChildrenDoNotExist()
+    public function testGetControlWordsReturnsArrayWhenChildrenDoNotExist(): void
     {
-        $group = new Group();
-
-        $expected = [];
-        $actual   = $group->getControlWords('foo');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([], (new Group())->getControlWords('foo'));
     }
 
-    /**
-     * getControlWords() should return array if child does not exist
-     */
-    public function testGetControlWordsReturnsArrayWhenChildDoesNotExist()
+    public function testGetControlWordsReturnsArrayWhenChildDoesNotExist(): void
     {
         $group = new Group();
 
         $group->appendChild(new Text('foo'));
 
-        $expected = [];
-        $actual   = $group->getControlWords('bar');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([], $group->getControlWords('bar'));
     }
 
-    /**
-     * getControlWords() should return array if child does exist
-     */
-    public function testGetControlWordsReturnsArrayWhenChildDoesExist()
+    public function testGetControlWordsReturnsArrayWhenChildDoesExist(): void
     {
         $one = new Control\Word\B();
+        $foo = new Text('foo');
         $two = new Control\Word\B(0);
 
         $group = new Group();
 
-        $group->appendChild($one)->appendChild($two);
+        $group->appendChild($one)->appendChild($foo)->appendChild($two);
 
-        $expected = [$one, $two];
-        $actual   = $group->getControlWords('b');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([$one, $two], $group->getControlWords('b'));
     }
 
-
-    /**
-     * getControlWords() should return array if children are groups
-     */
-    public function testGetControlWordsReturnsArrayWhenChildIsGroup()
+    public function testGetControlWordsReturnsArrayWhenChildIsGroup(): void
     {
         $one = new Control\Word\B();
         $two = new Control\Word\B();
@@ -413,88 +224,44 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild((new Group())
                 ->appendChild($two));
 
-        $expected = [$one, $two];
-        $actual   = $group->getControlWords('b');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([$one, $two], $group->getControlWords('b'));
     }
 
-
-    /* !getControlSymbols() */
-
-    /**
-     * getControlSymbols() should throw InvalidArgumentException if $parameter is not null,
-     *     false, or integer
-     */
-    public function testGetControlSymbolsThrowsInvalidArgumentExceptionWhenParameterIsInvalid()
+    public function testGetControlSymbolsThrowsInvalidArgumentExceptionWhenParameterIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $group = new Group();
-        $group->getControlSymbols('+', []);
-
-        return;
+        (new Group())->getControlSymbols('+', []);
     }
 
-    /**
-     * getControlSymbols() should return array if children do not exist
-     */
-    public function testGetControlSymbolsReturnsArrayWhenChildrenDoNotExist()
+    public function testGetControlSymbolsReturnsArrayWhenChildrenDoNotExist(): void
     {
-        $group = new Group();
-
-        $expected = [];
-        $actual   = $group->getControlSymbols('+');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([], (new Group())->getControlSymbols('+'));
     }
 
-    /**
-     * getControlSymbols() should return array if child does not exist
-     */
-    public function testGetControlSymbolsReturnsArrayWhenChildDoesNotExist()
+    public function testGetControlSymbolsReturnsArrayWhenChildDoesNotExist(): void
     {
         $group = new Group();
 
         $group->appendChild(new Text('foo'));
 
-        $expected = [];
-        $actual   = $group->getControlSymbols('+');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([], $group->getControlSymbols('+'));
     }
 
-    /**
-     * getControlSymbols() should return array if child does exist
-     */
     public function testGetControlSymbolsReturnsArrayWhenChildDoesExist()
     {
         $one = new Control\Symbol\Tilde();
+        $foo = new Text('foo');
         $two = new Control\Symbol\Tilde();
 
         $group = new Group();
 
-        $group->appendChild($one)->appendChild($two);
+        $group->appendChild($one)->appendChild($foo)->appendChild($two);
 
-        $expected = [$one, $two];
-        $actual   = $group->getControlSymbols('~');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals([$one, $two], $group->getControlSymbols('~'));
     }
 
-
-    /**
-     * getControlSymbols() should return array if children are groups
-     */
-    public function testGetControlSymbolsReturnsArrayWhenChildIsGroup()
+    public function testGetControlSymbolsReturnsArrayWhenChildIsGroup(): void
     {
         $one = new Control\Symbol\Tilde('~');
         $two = new Control\Symbol\Tilde('~');
@@ -506,33 +273,19 @@ class GroupTest extends \PHPUnit\Framework\TestCase
             ->appendChild((new Group())
                 ->appendChild($two));
 
-        $expected = [$one, $two];
-        $actual   = $group->getControlSymbols('~');
-
-        $this->assertEquals($expected, $actual);
+        $this->assertEquals([$one, $two], $group->getControlSymbols('~'));
 
         return;
     }
 
-
-    /* !getChildIndex() */
-
-    /**
-     * getChildIndex() should return false if children do not exist
-     */
-    public function testGetChildIndexReturnsFalseWhenChildrenDoNotExist()
+    public function testGetChildIndexReturnsFalseWhenChildrenDoNotExist(): void
     {
         $group = new Group();
 
         $this->assertFalse($group->getChildIndex(new Text('foo')));
-
-        return;
     }
 
-    /**
-     * getChildIndex() should return false if child does not exist
-     */
-    public function testGetChildIndexReturnsFalseWhenChildDoesNotExist()
+    public function testGetChildIndexReturnsFalseWhenChildDoesNotExist(): void
     {
         $group = new Group();
 
@@ -542,14 +295,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->appendChild($foo);
 
         $this->assertFalse($group->getChildIndex($bar));
-
-        return;
     }
 
-    /**
-     * getChildIndex() should return integer if child does exist
-     */
-    public function testGetChildIndexReturnsIntegerWhenChildDoesExist()
+    public function testGetChildIndexReturnsIntegerWhenChildDoesExist(): void
     {
         $group = new Group();
 
@@ -558,33 +306,15 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $group->appendChild($foo)->appendChild($bar);
 
-        $expected = 1;
-        $actual   = $group->getChildIndex($bar);
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals(1, $group->getChildIndex($bar));
     }
 
-
-    /* !getFirstChild() */
-
-    /**
-     * getFirstChild() should return null if children do not exist
-     */
-    public function testGetFirstChildReturnsNullWhenChildrenDoNotExist()
+    public function testGetFirstChildReturnsNullWhenChildrenDoNotExist(): void
     {
-        $group = new Group();
-
-        $this->assertNull($group->getFirstChild());
-
-        return;
+        $this->assertNull((new Group())->getFirstChild());
     }
 
-    /**
-     * getFirstChild() should return element if children do exist
-     */
-    public function testGetFirstChildReturnsElementWhenChildrenDoExist()
+    public function testGetFirstChildReturnsElementWhenChildrenDoExist(): void
     {
         $first  = new TestElement();
         $middle = new TestElement();
@@ -593,33 +323,15 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group = new Group();
         $group->setChildren([$first, $middle, $last]);
 
-        $expected = $first;
-        $actual   = $group->getFirstChild();
-
-        $this->assertSame($expected, $actual);
-
-        return;
+        $this->assertSame($first, $group->getFirstChild());
     }
 
-
-    /* !getLastChild() */
-
-    /**
-     * getLastChild() should return null if children do not exist
-     */
-    public function testGetLastChildReturnsNullWhenChildrenDoNotExist()
+    public function testGetLastChildReturnsNullWhenChildrenDoNotExist(): void
     {
-        $group = new Group();
-
-        $this->assertNull($group->getLastChild());
-
-        return;
+        $this->assertNull((new Group())->getLastChild());
     }
 
-    /**
-     * getLastChild() should return element if children do exist
-     */
-    public function testGetLastChildReturnsElementWhenChildrenDoExist()
+    public function testGetLastChildReturnsElementWhenChildrenDoExist(): void
     {
         $first  = new TestElement();
         $middle = new TestElement();
@@ -631,89 +343,51 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $expected = $last;
         $actual   = $group->getLastChild();
 
-        $this->assertSame($expected, $actual);
-
-        return;
+        $this->assertSame($last, $group->getLastChild());
     }
 
-
-    /* !getLength() */
-
-    /**
-     * getLength() should return integer, specifically 0, if children do not exist
-     */
-    public function testGetLengthReturnsIntegerWhenChildrenDoNotExist()
+    public function testGetLengthReturnsIntegerWhenChildrenDoNotExist(): void
     {
-        $group = new Group();
-
-        $this->assertEquals(0, $group->getLength());
-
-        return;
+        $this->assertEquals(0, (new Group())->getLength());
     }
 
-    /**
-     * getLength() should return integer if children do exist
-     */
-    public function testGetLengthReturnsIntegerWhenChildrenDoExist()
+    public function testGetLengthReturnsIntegerWhenChildrenDoExist(): void
     {
         $group = new Group();
 
         $group->appendChild(new TestElement())->appendChild(new TestElement());
 
         $this->assertEquals(2, $group->getLength());
-
-        return;
     }
 
-
-    /**
-     * hasChild() should throw an InvalidArgumentException if $index is not an integer
-     *    or element
-     */
-    public function testHasChildThrowsInvalidArgumentExceptionWhenOneIsNotAnIntegerOrElement()
+    public function testHasChildThrowsInvalidArgumentExceptionWhenOneIsNotAnIntegerOrElement(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $group = new Group();
-        $group->hasChild('foo');
-
-        return;
+        (new Group())->hasChild('foo');
     }
 
-
-    /**
-     * hasChild() should return false if parent has no children
-     */
-    public function testHasChildReturnsFalseWhenChildrenDoNotExist()
+    public function testHasChildReturnsFalseWhenChildrenDoNotExist(): void
     {
         $group = new Group();
 
         $this->assertFalse($group->hasChild(0));
         $this->assertFalse($group->hasChild(new TestElement()));
         $this->assertFalse($group->hasChild(new TestElement(), 0));
-
-        return;
     }
 
-    /**
-     * hasChild() should return false if parent does not have child
-     */
-    public function testHasChildReturnsFalseWhenChildDoesNotExist()
+    public function testHasChildReturnsFalseWhenChildDoesNotExist(): void
     {
         $group = new Group();
+
         $group->appendChild(new Text('foo'));
 
         $this->assertFalse($group->hasChild(1));
         $this->assertFalse($group->hasChild(new TestElement()));
         $this->assertFalse($group->hasChild(new TestElement(), 0));
-
-        return;
     }
 
-    /**
-     * hasChild() should return true if parent does have child by index
-     */
-    public function testHasChildReturnsTrueWhenChildDoesExist()
+    public function testHasChildReturnsTrueWhenChildDoesExist(): void
     {
         $foo = new Text('foo');
 
@@ -723,44 +397,23 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertTrue($group->hasChild(0));
         $this->assertTrue($group->hasChild($foo));
         $this->assertTrue($group->hasChild($foo, 0));
-
-        return;
     }
 
-
-    /* !insertChild() */
-
-
-    /**
-     * insertChild() should throw an OutOfBoundsException if $index is too high
-     */
-    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooHigh()
+    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooHigh(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->insertChild(new TestElement(), 999);
-
-        return;
+        (new Group())->insertChild(new TestElement(), 999);
     }
 
-    /**
-     * insertChild() should throw an OutOfBoundsException if $index to too low
-     */
-    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooLow()
+    public function testInsertChildThrowsOutOfBoundsExceptionWhenIndexIsTooLow(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->insertChild(new TestElement(), -999);
-
-        return;
+        (new Group())->insertChild(new TestElement(), -999);
     }
 
-    /**
-     * insertChild() should insert element if $index is between elements
-     */
-    public function testInsertChildInsertsElementWhenIndexIsBetweenElements()
+    public function testInsertChildInsertsElementWhenIndexIsBetweenElements(): void
     {
         $child = new TestElement();
 
@@ -772,14 +425,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $group->getLength());
         $this->assertSame($child, $group->getChild(1));
         $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * insertChild() should insert element if $index is before elements
-     */
-    public function testInsertChildInsertsElementWhenIndexIsBeforeElement()
+    public function testInsertChildInsertsElementWhenIndexIsBeforeElement(): void
     {
         $child = new TestElement();
 
@@ -791,14 +439,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $group->getLength());
         $this->assertSame($child, $group->getFirstChild());
         $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * insertChild() should insert element if $index is after elements
-     */
-    public function testInsertChildInsertsElementWhenIndexIsAfterElements()
+    public function testInsertChildInsertsElementWhenIndexIsAfterElements(): void
     {
         $child = new TestElement();
 
@@ -810,14 +453,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals(3, $group->getLength());
         $this->assertSame($child, $group->getLastChild());
         $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * insertChild() should not render the group if it's not rendered
-     */
-    public function testInsertChildDoesNotRenderWhenGroupIsNotRendered()
+    public function testInsertChildDoesNotRenderWhenGroupIsNotRendered(): void
     {
         $group = new Group();
 
@@ -826,14 +464,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->insertChild(new TestElement(), 0);
 
         $this->assertFalse($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * insertChild() should render the group if it's rendered
-     */
-    public function testInsertChildDoesRenderWhenGroupIsRendered()
+    public function testInsertChildDoesRenderWhenGroupIsRendered(): void
     {
         $group = new Group();
         $group->setStyle(new \Jstewmc\Rtf\Style());
@@ -844,63 +477,27 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->insertChild(new TestElement(), 0);
 
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 
-
-    /* !isDestination */
-
-    /**
-     * isDestination() should return false if the group's first child is not the
-     *     asterisk control symbol
-     */
-    public function testIsDestinationReturnsTrueWhenFirstChildIsNotAsterisk()
+    public function testIsDestinationReturnsTrueWhenFirstChildIsNotAsterisk(): void
     {
         $group = new Group();
         $group->appendChild(new Text('foo'));
 
         $this->assertFalse($group->isDestination());
-
-        return;
     }
 
-    /**
-     * isDestination() should return true if the group's first child is the asterisk
-     *     control symbol
-     */
-    public function testIsDestinationReturnsTrueWhenFirstChildIsAsterisk()
+    public function testIsDestinationReturnsTrueWhenFirstChildIsAsterisk(): void
     {
         $group = new Group();
         $group->appendChild(new Control\Symbol\Asterisk());
 
         $this->assertTrue($group->isDestination());
-
-        return;
     }
 
-
-
-    /* !render() */
-
-    // /**
-    //  * render() should render if the group is empty
-    //  */
-    // public function testRenderWhenGroupIsEmpty()
-    // {
-    //  $group = new Group();
-    //
-    //  $group->render();
-    //
-    //  return;
-    // }
-
-    /**
-     * render() should render a group of control words
-     */
-    public function testRenderWhenGroupIsControls()
+    public function testRenderWhenGroupIsControls(): void
     {
-        $style = new \Jstewmc\Rtf\Style();
+        $style = new Style();
 
         $group = new Group();
         $group->setStyle($style);
@@ -978,16 +575,11 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         // the group should be rendered
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * render() should render a nested group
-     */
-    public function testRenderWhenGroupIsGroups()
+    public function testRenderWhenGroupIsGroups(): void
     {
-        $style = new \Jstewmc\Rtf\Style();
+        $style = new Style();
 
         $subgroup = new Group();
         $subgroup->appendChild(new Text('foo'));
@@ -1056,34 +648,41 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         return;
     }
 
+    public function testPrependChildAddsElement(): void
+    {
+        $child = new TestElement();
 
-    /* !prependChild() */
+        $group = new Group();
 
-    /**
-     * prependChild() should prepend the element if zero children exist
-     */
-    public function testPrependChildPrependsElementWhenZeroChildrenExist()
+        $group->prependChild($child);
+
+        $this->assertEquals(1, $group->getLength());
+    }
+
+    public function testPrependChildPrependsElement(): void
+    {
+        $child = new TestElement();
+
+        $group = new Group();
+        $group->appendChild(new TestElement());
+        $group->prependChild($child);
+
+        $children = $group->getChildren();
+
+        $this->assertEquals($child, reset($children));
+    }
+
+    public function testPrependChildSetsParent(): void
     {
         $child = new TestElement();
 
         $group = new Group();
         $group->prependChild($child);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 1);
-
-        $children = $group->getChildren();
-
-        $this->assertSame($child, reset($children));
         $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * prependChild() should prepend the element if many children exist
-     */
-    public function testPrependChildPrependsElementWhenManyChildrenExist()
+    public function testPrependChildPrependsElementWhenManyChildrenExist(): void
     {
         $group = new Group();
 
@@ -1097,21 +696,12 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $group->prependChild($child);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 4);
-
         $children = $group->getChildren();
 
         $this->assertSame($child, reset($children));
-        $this->assertSame($group, $child->getParent());
-
-        return;
     }
 
-    /**
-     * prependChild() should not render the group if it's not rendered
-     */
-    public function testPrependChildDoesNotRenderWhenGroupIsNotRendered()
+    public function testPrependChildDoesNotRenderWhenGroupIsNotRendered(): void
     {
         $group = new Group();
 
@@ -1120,17 +710,12 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->prependChild(new TestElement());
 
         $this->assertFalse($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * prependChild() should render the group if it's rendered
-     */
-    public function testPrependChildDoesRenderWhenGroupIsRendered()
+    public function testPrependChildDoesRenderWhenGroupIsRendered(): void
     {
         $group = new Group();
-        $group->setStyle(new \Jstewmc\Rtf\Style());
+        $group->setStyle(new Style());
         $group->setIsRendered(true);
 
         $this->assertTrue($group->getIsRendered());
@@ -1138,60 +723,30 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->prependChild(new TestElement());
 
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 
-
-    /* !removeChild() */
-
-    /**
-     * removeChild() should throw an InvalidArgumentException if $element is not an integer
-     *     or element
-     *
-     * @dataProvider  notAnIntegerProvider()
-     */
-    public function testRemoveChildThrowsInvalidArgumentExceptionWhenElementIsNotAnIntegerOrElement($index)
+    public function testRemoveChildThrowsInvalidArgumentExceptionWhenArgumentIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $group = new Group();
-        $group->removeChild($index);
-
-        return;
+        (new Group())->removeChild('foo');
     }
 
-    /**
-     * removeChild() should throw an OutOfBoundsException if $element is not a valid index
-     */
-    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotValidKey()
+    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotValidKey(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->removeChild(999);
-
-        return;
+        (new Group())->removeChild(999);
     }
 
-    /**
-     * removeChild() should throw an OutOfBoundsException if $element is not a valid child
-     *     element
-     */
-    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotAValidChild()
+    public function testRemoveChildThrowsOutOfBoundsExceptionWhenElementIsNotAValidChild(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->removeChild(new Text('foo'));
-
-        return;
+        (new Group())->removeChild(new Text('foo'));
     }
 
-    /**
-     * removeChild() should remove and return element if $element is valid key
-     */
-    public function testRemoveChildReturnsElementWhenElementIsValidKey()
+    public function testRemoveChildReturnsElementWhenElementIsValidKey(): void
     {
         $group = new Group();
 
@@ -1203,23 +758,26 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $removed = $group->removeChild(1);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 2);
-
         $children = $group->getChildren();
 
         $this->assertEquals($first, reset($children));
         $this->assertEquals($last, end($children));
         $this->assertSame($middle, $removed);
-        $this->assertNull($removed->getParent());
-
-        return;
     }
 
-    /**
-     * removeChild() should remove and return element if $element is valid element
-     */
-    public function testRemoveChildReturnsElementWhenElementIsValidElement()
+    public function testRemoveChildUnsetsParent(): void
+    {
+        $child = new TestElement();
+
+        $group = new Group();
+        $group->appendChild($child);
+
+        $group->removeChild(0);
+
+        $this->assertNull($child->getParent());
+    }
+
+    public function testRemoveChildReturnsElementWhenElementIsValidElement(): void
     {
         $group = new Group();
 
@@ -1231,23 +789,14 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $removed = $group->removeChild($middle);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 2);
-
         $children = $group->getChildren();
 
         $this->assertEquals($first, reset($children));
         $this->assertEquals($last, end($children));
         $this->assertSame($middle, $removed);
-        $this->assertNull($removed->getParent());
-
-        return;
     }
 
-    /**
-     * removeChild() should not render the group if it's not rendered
-     */
-    public function testRemoveChildDoesNotRenderWhenGroupIsNotRendered()
+    public function testRemoveChildDoesNotRenderWhenGroupIsNotRendered(): void
     {
         $group = new Group();
         $group->appendChild(new TestElement());
@@ -1257,18 +806,13 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->removeChild(0);
 
         $this->assertFalse($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * removeChild() should render the group if it's rendered
-     */
-    public function testRemoveChildDoesRenderWhenGroupIsRendered()
+    public function testRemoveChildDoesRenderWhenGroupIsRendered(): void
     {
         $group = new Group();
         $group->appendChild(new TestElement());
-        $group->setStyle(new \Jstewmc\Rtf\Style());
+        $group->setStyle(new Style());
         $group->setIsRendered(true);
 
         $this->assertTrue($group->getIsRendered());
@@ -1276,58 +820,30 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->removeChild(0);
 
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 
-
-    /* !replaceChild() */
-
-    /**
-     * replaceChild() should throw an InvalidArgumentException if $old is not an integer
-     *
-     * @dataProvider  notAnIntegerProvider
-     */
-    public function testReplaceChildThrowsInvalidArgumentExceptionWhenOldIsNotAnIntegerOrElement($old)
+    public function testReplaceChildThrowsInvalidArgumentExceptionWhenOldIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $group = new Group();
-        $group->replaceChild($old, new TestElement());
-
-        return;
+        (new Group())->replaceChild('foo', new TestElement());
     }
 
-    /**
-     * replaceChild() should throw an OutOfBoundsException if $old is not a valid key
-     */
-    public function testReplaceChildThrowsOutOfBoundsExceptionWhenOldIsNotValidKey()
+    public function testReplaceChildThrowsOutOfBoundsExceptionWhenOldIsNotValidKey(): void
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->replaceChild(999, new TestElement());
-
-        return;
+        (new Group())->replaceChild(999, new TestElement());
     }
 
-    /**
-     * replaceChild() should throw an OutOfBoundsException if $old is not a valid child
-     */
     public function testReplaceChildThrowsOutOfBoundsExceptionWhenOldIsNotValidChild()
     {
-        $this->expectException('OutOfBoundsException');
+        $this->expectException(\OutOfBoundsException::class);
 
-        $group = new Group();
-        $group->replaceChild(new TestElement(), new TestElement());
-
-        return;
+        (new Group())->replaceChild(new TestElement(), new TestElement());
     }
 
-    /**
-     * replaceChild() should return the replaced element if $old is a valid key
-     */
-    public function testReplaceChildReturnsElementWhenOldIsValidKey()
+    public function testReplaceChildReturnsElementWhenOldIsValidKey(): void
     {
         $group = new Group();
 
@@ -1341,9 +857,6 @@ class GroupTest extends \PHPUnit\Framework\TestCase
 
         $old = $group->replaceChild(1, $new);
 
-        $this->assertTrue(is_array($group->getChildren()));
-        $this->assertTrue(count($group->getChildren()) == 3);
-
         $children = $group->getChildren();
 
         $this->assertEquals($first, reset($children));
@@ -1352,14 +865,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($old, $middle);
         $this->assertSame($group, $new->getParent());
         $this->assertNull($old->getParent());
-
-        return;
     }
 
-    /**
-     * replaceChild() should return the replaced element if $old is a valid child
-     */
-    public function testReplaceChildReturnsElementWhenOldIsValidChild()
+    public function testReplaceChildReturnsElementWhenOldIsValidChild(): void
     {
         $group = new Group();
 
@@ -1384,14 +892,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($old, $middle);
         $this->assertSame($group, $new->getParent());
         $this->assertNull($old->getParent());
-
-        return;
     }
 
-    /**
-     * replaceChild() should not render the group if it's not rendered
-     */
-    public function testReplaceChildDoesNotRenderWhenGroupIsNotRendered()
+    public function testReplaceChildDoesNotRenderWhenGroupIsNotRendered(): void
     {
         $group = new Group();
         $group->appendChild(new TestElement());
@@ -1401,14 +904,9 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->replaceChild(0, new TestElement());
 
         $this->assertFalse($group->getIsRendered());
-
-        return;
     }
 
-    /**
-     * appendChild() should render the group if it's rendered
-     */
-    public function testReplaceChildDoesRenderWhenGroupIsRendered()
+    public function testReplaceChildDoesRenderWhenGroupIsRendered(): void
     {
         $group = new Group();
         $group->appendChild(new TestElement());
@@ -1420,7 +918,5 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $group->replaceChild(0, new TestElement());
 
         $this->assertTrue($group->getIsRendered());
-
-        return;
     }
 }
