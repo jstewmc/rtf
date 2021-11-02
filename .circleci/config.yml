@@ -23,7 +23,7 @@ jobs:
           key: v74-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: ./vendor/bin/phpunit --dont-report-useless-tests
+      - run: ./vendor/bin/phpunit
   build-php80:
     docker:
       - image: circleci/php:8.0-node-browsers
@@ -39,7 +39,7 @@ jobs:
           key: v80-dependencies-{{ checksum "composer.json" }}
           paths:
             - ./vendor
-      - run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml --dont-report-useless-tests
+      - run: XDEBUG_MODE=coverage ./vendor/bin/phpunit --coverage-clover=coverage.xml
       - codecov/upload:
           file: ./coverage.xml
 
