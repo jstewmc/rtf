@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxstit" control word
- *
  * The "\cxstit" control word indicates a group of stitched text (i.e., "CX STITched").
  *
  * For example:
@@ -14,11 +12,11 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * The example above would be displayed at "M-H-S" with non-breaking hyphens.
  *
  * The "\cxstit" control word is not an ignored command group.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
  */
 class Cxstit extends Word
 {
-    // nothing yet
+    public function __construct()
+    {
+        parent::__construct('cxstit');
+    }
 }

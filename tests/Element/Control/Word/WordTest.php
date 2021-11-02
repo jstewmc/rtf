@@ -2,168 +2,54 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the word class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class WordTest extends \PHPUnit\Framework\TestCase
 {
-    /* !setIsIgnored() / getIsIgnored() */
-    
-    /**
-     * setIsIgnored() and getIsIgnored() should set and get the control word's is-
-     *     ignored property, respectively
-     */
-    public function testSetGetIsIgnored()
+    public function testGetIsIgnoredReturnsBool(): void
     {
-        $isIgnored = true;
-        
-        $word = new Word();
-        $word->setIsIgnored($isIgnored);
-        
-        $expected = $isIgnored;
-        $actual   = $word->getIsIgnored();
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertFalse((new Word('foo'))->getIsIgnored());
     }
-    
-    
-    /* !setWord()/getWord() */
-    
-    /**
-     * setWord() and getWord() should set and get the control word's word, respectively
-     */
-    public function testSetGetWord()
-    {
-        $string = 'foo';
-        
-        $word = new Word();
-        $word->setWord($string);
-        
-        $expected = $string;
-        $actual   = $word->getWord();
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
-    }
-    
-    
-    /* !setParameter()/getParameter() */
 
-    /**
-     * setWord() and getWord() should set and get the control word's parameter, respectively
-     */
-    public function testSetGetParameter()
+    public function testSetIsIgnoredReturnsSelf(): void
     {
-        $parameter = 1;
-        
-        $word = new Word();
-        $word->setParameter($parameter);
-        
-        $expected = $parameter;
-        $actual   = $word->getParameter();
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $word = new Word('foo');
+
+        $this->assertSame($word, $word->setIsIgnored(true));
     }
-    
-    
-    /* !__construct() */
-    
-    /**
-     * __construct() should return word element if $parameter is null
-     */
-    public function testConstructReturnsElementWhenParameterIsNull()
+
+    public function testGetWordReturnsString(): void
     {
-        $word = new Word();
-        
-        $this->assertTrue($word instanceof Word);
-        $this->assertEquals('word', $word->getWord());
-        $this->assertNull($word->getParameter());
-        
-        return;
+        $this->assertEquals('foo', (new Word('foo'))->getWord());
     }
-    
-    /**
-     * __construct() should return word element if parameter is not null
-     */
-    public function testConstructReturnsElementWhenParameterIsNotNull()
+
+    public function testGetParameterReturnsInt(): void
     {
-        $parameter = 1;
-        
-        $word = new Word($parameter);
-        
-        $this->assertTrue($word instanceof Word);
-        $this->assertEquals('word', $word->getWord());
-        $this->assertEquals($parameter, $word->getParameter());
-        
-        return;
+        $this->assertEquals(1, (new Word('foo', 1))->getParameter());
     }
-    
-    
-    /* !__toString() */
-    
-    /**
-     * __toString() should return string if not space delimited
-     */
-    public function testToStringReturnsStringWhenNotSpaceDelimited()
+
+    public function testSetParameterReturnsSelf(): void
     {
-        $word = new Word();
-        $word->setWord('b');
-        $word->setIsSpaceDelimited(false);
-        
-        $this->assertEquals('\\b', (string)$word);
-        
-        return;
+        $word = new Word('foo');
+
+        $this->assertSame($word, $word->setParameter(1));
     }
-    
-    /**
-     * __toString() should return string if the control word is ignored
-     */
-    public function testToStringReturnsStringWhenIsIgnored()
+
+    public function testToStringReturnsStringWhenNotSpaceDelimited(): void
     {
-        $word = new Word();
-        $word->setWord('b');
-        $word->setIsIgnored(true);
-        
-        $this->assertEquals('\\*\\b ', (string)$word);
-        
-        return;
+        $this->assertEquals('\\b', (string)(new Word('b'))->setIsSpaceDelimited(false));
     }
-    
-    /**
-     * __toString() should return string if parameter does not exist
-     */
-    public function testToStringReturnsStringWhenParameterDoesNotExist()
+
+    public function testToStringReturnsStringWhenIsIgnored(): void
     {
-        $word = new Word();
-        $word->setWord('b');
-        
-        $this->assertEquals('\\b ', (string)$word);
-        
-        return;
+        $this->assertEquals('\\*\\b ', (string)(new Word('b'))->setIsIgnored(true));
     }
-    
-    /**
-     * __toString() should return string if parameter does exist
-     */
+
+    public function testToStringReturnsStringWhenParameterDoesNotExist(): void
+    {
+        $this->assertEquals('\\b ', (string)(new Word('b')));
+    }
+
     public function testToStringReturnsStringWhenParameterDoesExist()
     {
-        $word = new Word();
-        $word->setWord('b');
-        $word->setParameter(0);
-        
-        $this->assertEquals('\\b0 ', (string)$word);
-        
-        return;
+        $this->assertEquals('\\b0 ', (string)(new Word('b', 0)));
     }
 }

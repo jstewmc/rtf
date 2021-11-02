@@ -2,41 +2,20 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-use Jstewmc\Rtf\Element\Group;
-use Jstewmc\Rtf\Element\Text;
+use Jstewmc\Rtf\Element\{Group, Text};
 use Jstewmc\Rtf\Style;
 
-/**
- * Tests for the "\cxfl" control word
- */
 class CxflTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
-
-    /**
-     * run() should do nothing if a next text element does not exist
-     */
-    public function testRunDoesNothingWhenNextTextElementDoesNotExist()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Cxfl();
-
-        $parent = (new Group())
-            ->setStyle(new Style())
-            ->appendChild($word)->render();
-
-        // hmm, I don't know what to assert here
-        // I guess we just want to be sure nothing bad happens?
-
-        return;
+        $this->assertEquals('cxfl', (new Cxfl())->getWord());
     }
 
-    /**
-     * run() should lower-case the next text element's first character if it does exist
-     */
-    public function testRunLowerCasesFirstCharacterWhenNextTextElementDoesExist()
+    public function testRunLowerCasesFirstCharacterWhenNextTextElementDoesExist(): void
     {
         $word = new Cxfl();
-        $text = (new Text())->setText('FOO');  // note the upper-case
+        $text = new Text('FOO');  // note the upper-case
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -45,7 +24,5 @@ class CxflTest extends \PHPUnit\Framework\TestCase
             ->render();
 
         $this->assertEquals('fOO', $text->getText());
-
-        return;
     }
 }

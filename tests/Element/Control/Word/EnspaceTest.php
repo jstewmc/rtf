@@ -2,46 +2,23 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Enspace control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class EnspaceTest extends \PHPUnit\Framework\TestCase
 {
-    /* !format() */
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Enspace();
-        
-        $expected = '&ensp;';
-        $actual   = $word->format('html');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('enspace', (new Enspace())->getWord());
     }
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
-        $word = new Enspace();
-        
-        $expected = html_entity_decode('&ensp;');
-        $actual   = $word->format('text');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('&ensp;', (new Enspace())->format('html'));
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals(
+            html_entity_decode('&ensp;'),
+            (new Enspace())->format('text')
+        );
     }
 }

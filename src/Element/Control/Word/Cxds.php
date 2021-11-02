@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxds" control word
- *
  * The "\cxds" control word glues the words on either side of the control word
  * together without a space between them (i.e., "CX Delete Space").
  *
@@ -19,21 +17,15 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * The RTF-CRE specification is ambiguous as to the proximity of the control word and
  * the text it affects. I assume the text element and the control word may be
  * separated by any number of other elements, but they must appear in the same group.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
  */
 class Cxds extends Word
 {
-    /* !Public methods */
-    
-    /**
-     * Runs the command
-     *
-     * @return  void
-     */
-    public function run()
+    public function __construct()
+    {
+        parent::__construct('cxds');
+    }
+
+    public function run(): void
     {
         // if the control word has a previous text element
         if (null !== ($text = $this->getPreviousText())) {
@@ -43,7 +35,7 @@ class Cxds extends Word
                 $text->setText(substr($text->getText(), 0, -1));
             }
         }
-        
+
         // if the control word has a next text element
         if (null !== ($text = $this->getNextText())) {
             // if the first character in the text is the space character
@@ -52,7 +44,5 @@ class Cxds extends Word
                 $text->setText(substr($text->getText(), 1));
             }
         }
-        
-        return;
     }
 }

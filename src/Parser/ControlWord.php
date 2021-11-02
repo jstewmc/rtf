@@ -44,6 +44,6 @@ class ControlWord
 
     private function parseGeneric(string $word): Element
     {
-        return (new Element())->setWord($word);
+        return new Element($word);
     }
 }

@@ -2,56 +2,38 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Sub control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class SubTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
-    
-    /**
-     * run() should subscript the characters if parameter is not zero
-     */
-    public function testRunDoesSubscriptWhenParameterIsNotZero()
+    public function testGetWordReturnsString(): void
     {
-        $style = new \Jstewmc\Rtf\Style();
-        
-        $element = new Sub();
-        $element->setParameter('1');
-        $element->setStyle($style);
-        
-        $this->assertFalse($element->getStyle()->getCharacter()->getIsSubscript());
-        
-        $element->run();
-        
-        $this->assertTrue($element->getStyle()->getCharacter()->getIsSubscript());
-        
-        return;
+        $this->assertEquals('sub', (new Sub())->getWord());
     }
-    
-    /**
-     * run() should update the element's style
-     */
-    public function testRunDoesNotSubscriptWhenParameterIsZero()
+
+    public function testRunDoesSubscriptWhenParameterIsNotZero(): void
     {
         $style = new \Jstewmc\Rtf\Style();
-        
-        $element = new Sub();
-        $element->setParameter('0');
+
+        $element = new Sub('1');
         $element->setStyle($style);
-        
+
         $this->assertFalse($element->getStyle()->getCharacter()->getIsSubscript());
-        
+
         $element->run();
-        
+
+        $this->assertTrue($element->getStyle()->getCharacter()->getIsSubscript());
+    }
+
+    public function testRunDoesNotSubscriptWhenParameterIsZero(): void
+    {
+        $style = new \Jstewmc\Rtf\Style();
+
+        $element = new Sub('0');
+        $element->setStyle($style);
+
         $this->assertFalse($element->getStyle()->getCharacter()->getIsSubscript());
-        
-        return;
+
+        $element->run();
+
+        $this->assertFalse($element->getStyle()->getCharacter()->getIsSubscript());
     }
 }

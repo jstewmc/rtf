@@ -2,46 +2,20 @@
 
 namespace Jstewmc\Rtf\Element\Control\Symbol;
 
-/**
- * A test suite for the hyphen control symbol
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
- 
 class HyphenTest extends \PHPUnit\Framework\TestCase
 {
-    /* !format() */
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testGetSymbolReturnsString(): void
     {
-        $symbol = new Hyphen();
-        
-        $expected = '-';
-        $actual   = $symbol->format('html');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('-', (new Hyphen())->getSymbol());
     }
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
-        $symbol = new Hyphen();
-        
-        $expected = '-';
-        $actual   = $symbol->format('text');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('-', (new Hyphen())->format('html'));
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals('-', (new Hyphen())->format('text'));
     }
 }

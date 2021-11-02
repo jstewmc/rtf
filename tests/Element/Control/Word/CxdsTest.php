@@ -2,59 +2,20 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-use Jstewmc\Rtf\Element\Group;
-use Jstewmc\Rtf\Element\Text;
+use Jstewmc\Rtf\Element\{Group, Text};
 use Jstewmc\Rtf\Style;
 
-/**
- * Tests for the Cxp control word
- */
 class CxdsTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
-
-    /**
-     * run() should do nothing if previous text element does not exist
-     */
-    public function testRunDoesNothingWhenPreviousTextElementDoesNotExist()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Cxds();
-
-        $parent = (new Group())
-            ->setStyle(new Style())
-            ->appendChild($word)->render();
-
-        // hmm, I don't know what to assert here
-        // I guess we just want to be sure nothing bad happens?
-
-        return;
+        $this->assertEquals('cxds', (new Cxds())->getWord());
     }
 
-    /**
-     * run() should do nothing if next text element does not exist
-     */
-    public function testRunDoesNothingWhenNextTextElementDoesNotExist()
+    public function testRunDoesNothingWhenPreviousTextElementDoesNotEndWithSpace(): void
     {
         $word = new Cxds();
-
-        $parent = (new Group())
-            ->setStyle(new Style())
-            ->appendChild($word)
-            ->render();
-
-        // hmm, I don't know what to assert here
-        // I guess we just want to be sure nothing bad happens?
-
-        return;
-    }
-
-    /**
-     * run() should do nothing if previous text element does not end with space
-     */
-    public function testRunDoesNothingWhenPreviousTextElementDoesNotEndWithSpace()
-    {
-        $word = new Cxds();
-        $text = (new Text())->setText('foo');
+        $text = new Text('foo');
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -63,18 +24,13 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
             ->render();
 
         $this->assertEquals('foo', $text->getText());
-
-        return;
     }
 
-    /**
-     * run() should do nothing if next text element does not start with space
-     */
-    public function testRunDoesNothingWhenNextTextElementDoesNotStartWithSpace()
+    public function testRunDoesNothingWhenNextTextElementDoesNotStartWithSpace(): void
     {
         $word = new Cxds();
 
-        $text = (new Text())->setText('foo');
+        $text = new Text('foo');
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -83,17 +39,12 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
             ->render();
 
         $this->assertEquals('foo', $text->getText());
-
-        return;
     }
 
-    /**
-     * run() should delete space if previous text element ends with space
-     */
-    public function testRunDeletesSpaceWhenPreviousTextElementDoesEndWithSpace()
+    public function testRunDeletesSpaceWhenPreviousTextElementDoesEndWithSpace(): void
     {
         $word = new Cxds();
-        $text = (new Text())->setText('foo ');  // note the space
+        $text = new Text('foo ');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -102,18 +53,13 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
             ->render();
 
         $this->assertEquals('foo', $text->getText());
-
-        return;
     }
 
-    /**
-     * run() should delete space if next text element starts with space
-     */
-    public function testRunDeletesSpaceWhenNextTextElementDoesStartWithSpace()
+    public function testRunDeletesSpaceWhenNextTextElementDoesStartWithSpace(): void
     {
         $word = new Cxds();
 
-        $text = (new Text())->setText(' foo');  // note the space
+        $text = new Text(' foo');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -122,19 +68,14 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
             ->render();
 
         $this->assertEquals('foo', $text->getText());
-
-        return;
     }
 
-    /**
-     * run() should delete space if both text elements have spaces
-     */
-    public function testRunDeletesSpaceWhenBothTextElementsHaveSpaces()
+    public function testRunDeletesSpaceWhenBothTextElementsHaveSpaces(): void
     {
         $word = new Cxds();
 
-        $text1 = (new Text())->setText('foo ');  // note the space
-        $text2 = (new Text())->setText(' bar');  // note the space
+        $text1 = new Text('foo ');  // note the space
+        $text2 = new Text(' bar');  // note the space
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -145,19 +86,14 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
         $parent->render();
 
         $this->assertEquals('foobar', $parent->format('text'));
-
-        return;
     }
 
-    /**
-     * run() should do nothing if neither text element has spaces
-     */
-    public function testRunDeletesSpaceWhenNeitherTextElementHasSpaces()
+    public function testRunDeletesSpaceWhenNeitherTextElementHasSpaces(): void
     {
         $word = new Cxds();
 
-        $text1 = (new Text())->setText('foo');
-        $text2 = (new Text())->setText('bar');
+        $text1 = new Text('foo');
+        $text2 = new Text('bar');
 
         $parent = (new Group())
             ->setStyle(new Style())
@@ -168,7 +104,5 @@ class CxdsTest extends \PHPUnit\Framework\TestCase
         $parent->render();
 
         $this->assertEquals('foobar', $parent->format('text'));
-
-        return;
     }
 }

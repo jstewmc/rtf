@@ -2,15 +2,10 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * Tests for the "\cxa" control word
- */
 class CxaTest extends \PHPUnit\Framework\TestCase
 {
-    // nothing yet
-    
-    public function testFoo()
+    public function testGetWordReturnsString(): void
     {
-        return;
+        $this->assertEquals('cxa', (new Cxa())->getWord());
     }
 }

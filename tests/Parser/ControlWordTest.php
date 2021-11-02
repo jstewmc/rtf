@@ -20,7 +20,7 @@ class ControlWordTest extends \PHPUnit\Framework\TestCase
     public function testInvokeReturnsElementWhenWordIsGeneric(): void
     {
         $this->assertEquals(
-            (new Element\Word())->setWord('foo'),
+            new Element\Word('foo'),
             (new ControlWord())(new Token('foo'))
         );
     }

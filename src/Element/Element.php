@@ -2,475 +2,234 @@
 
 namespace Jstewmc\Rtf\Element;
 
+use Jstewmc\Rtf\Style;
+
 /**
- * A component of a document, like a tag to an HTML document or a node
- * to an XML document. RTF elements include: groups, text, control words, and
- * control symbols. Every element has a style, the sum of its document-,
- * section-, paragraph-, and character-states.
+ * A component of an RTF document, like an HTML tag or an XML node. Elements
+ * can be groups, text, control words, and control symbols.
  */
-class Element
+abstract class Element
 {
-    /* !Protected properties */
-
     /**
-     * @var  Jstewmc\Rtf\Element\Element  this element's parent element
-     * @since  0.1.0
+     * The element's parent group (null for the root group)
      */
-    protected $parent;
+    protected ?Group $parent = null;
 
-    /**
-     * @var  Jstewmc\Rtf\Style  the element's style
-     * @since  0.1.0
-     */
-    protected $style;
+    protected ?Style $style = null;
 
-
-    /* !Get methods */
-
-    /**
-     * Gets the element's parent element
-     *
-     * @return  Jstewmc\Rtf\Element\Element
-     * @since  0.1.0
-     */
-    public function getParent()
+    public function getParent(): ?Group
     {
         return $this->parent;
     }
 
-    /**
-     * Gets the element's style
-     *
-     * @return  Jstewmc\Rtf\Style
-     * @since  0.1.0
-     */
-    public function getStyle()
-    {
-        return $this->style;
-    }
-
-
-    /* !Set methods */
-
-    /**
-     * Sets this element's parent element
-     *
-     * @param  Jstewmc\Rtf\Element\Group|null  $parent  the element's parent element
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setParent(Group $parent = null)
+    public function setParent(Group $parent = null): self
     {
         $this->parent = $parent;
 
         return $this;
     }
 
-    /**
-     * Sets the element's style
-     *
-     * @param  Jstewmc\Rtf\Style|null  $style  the element's style
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setStyle(\Jstewmc\Rtf\Style $style = null)
+    public function getStyle(): ?Style
+    {
+        return $this->style;
+    }
+
+    public function setStyle(Style $style = null): self
     {
         $this->style = $style;
 
         return $this;
     }
 
-
-    /* !Magic methods */
-
-    /**
-     * Called when the object is used as a string
-     *
-     * @return  string
-     * @since   0.1.0
-     */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toRtf();
     }
 
-
-    /* !Public methods */
-
-    /**
-     * Appends this element to $group
-     *
-     * @param  Jstewmc\Rtf\Element\Group  $group  the group to append
-     * @return  self
-     * @since  0.1.0
-     */
-    public function appendTo(Group $group)
+    public function appendTo(Group $group): self
     {
         $group->appendChild($this);
 
         return $this;
     }
 
-    /**
-     * Returns this element's index in its parent children
-     *
-     * Warning! This method may return a boolean false, but it may also return an
-     * integer value that evaluates to false. Use the strict comparison operator,
-     * "===" when testing the return value of this method.
-     *
-     * @return  int|false
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function getIndex()
+    public function getIndex(): int
     {
-        $index = false;
+        $this->validateParent();
 
-        // if this element has a parent
-        if (! empty($this->parent)) {
-            $index = $this->parent->getChildIndex($this);
-            // if we didn't find the child, something is wrong
-            if ($index === false) {
-                throw new \BadMethodCallException(
-                    __METHOD__."() expects this element to be a child of its parent"
-                );
-            }
-        } else {
+        $index = $this->parent->getChildIndex($this);
+
+        if ($index === false) {
             throw new \BadMethodCallException(
-                __METHOD__."() expects this element to have a parent element"
+                'element must be child of parent'
             );
         }
 
         return $index;
     }
 
-    /**
-     * Returns this element's next sibling or null if no sibling exists
-     *
-     * @return  Jstewmc\Rtf\Element\Element|null
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function getNextSibling()
+    public function getNextSibling(): ?Element
     {
         $next = null;
 
-        // if this element has an index
-        if (false !== ($index = $this->getIndex())) {
-            // if this element has a next sibling
-            if ($this->parent->hasChild($index + 1)) {
-                $next = $this->parent->getChild($index + 1);
-            }
+        $index = $this->getIndex();
+
+        if ($this->parent->hasChild($index + 1)) {
+            $next = $this->parent->getChild($index + 1);
         }
 
         return $next;
     }
 
-    /**
-     * Returns this element's next text element or null if no next text element
-     *     exists
-     *
-     * @return  Jstewmc\Rtf\Element\Text|null
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     */
-    public function getNextText()
+    public function getNextText(): ?Text
     {
         $text = null;
 
-        // get the element's next sibling element
         $next = $this->getNextSibling();
 
-        // while the next sibling element exists and is not a text element
-        while ($next !== null && ! $next instanceof \Jstewmc\Rtf\Element\Text) {
+        while ($next !== null && ! $next instanceof Text) {
             $next = $next->getNextSibling();
         }
 
-        // if a next text element exists
-        if ($next !== null && $next instanceof \Jstewmc\Rtf\Element\Text) {
+        if ($next !== null && $next instanceof Text) {
             $text = $next;
         }
 
         return $text;
     }
 
-    /**
-     * Returns this element's previous sibling or null if no sibling exists
-     *
-     * @return  Jstewmc\Rtf\Element\Element|null
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function getPreviousSibling()
+    public function getPreviousSibling(): ?Element
     {
         $previous = null;
 
-        // if this element has an index
-        if (false !== ($index = $this->getIndex())) {
-            // if this element has a previous sibling
-            if ($this->parent->hasChild($index - 1)) {
-                $previous = $this->parent->getChild($index - 1);
-            }
+        $index = $this->getIndex();
+
+        if ($this->parent->hasChild($index - 1)) {
+            $previous = $this->parent->getChild($index - 1);
         }
 
         return $previous;
     }
 
-    /**
-     * Returns this element's previous text element or null if not previous text
-     *     element exists
-     *
-     * @return  Jstewmc\Rtf\Element\Text|null
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     */
-    public function getPreviousText()
+    public function getPreviousText(): ?Text
     {
         $text = null;
 
-        // get the element's preivous sibling element
         $previous = $this->getPreviousSibling();
 
-        // while the previous sibling element exists and is not a text element
-        while ($previous !== null && ! $previous instanceof \Jstewmc\Rtf\Element\Text) {
+        while ($previous !== null && ! $previous instanceof Text) {
             $previous = $previous->getPreviousSibling();
         }
 
-        // if a previous text element exists
-        if ($previous !== null && $previous instanceof \Jstewmc\Rtf\Element\Text) {
+        if ($previous !== null && $previous instanceof Text) {
             $text = $previous;
         }
 
         return $text;
     }
 
-    /**
-     * Returns the element as a string in $format
-     *
-     * @param  string  $format  the desired format (possible values are 'rtf',
-     *     'html', and 'text') (optional; if omitted, defaults to 'rtf')
-     * @return  string
-     * @throws  InvalidArgumentException  if $format is not a string
-     * @throws  InvalidArgumentException  if $format is not 'rtf', 'html', or 'text'
-     * @since   0.1.0
-     */
-    public function format($format = 'rtf')
+    public function format(string $format = 'rtf'): string
     {
-        $string = '';
+        $format = strtolower($format);
 
-        // if $format is a string
-        if (is_string($format)) {
-            // switch on the lower-cased format
-            switch (strtolower($format)) {
-                case 'html':
-                    $string = $this->toHtml();
-                    break;
-
-                case 'rtf':
-                    $string = $this->toRtf();
-                    break;
-
-                case 'text':
-                    $string = $this->toText();
-                    break;
-
-                default:
-                    throw new \InvalidArgumentException(
-                        __METHOD__."() expects parameter one, format, to be 'rtf', 'html', or 'text'"
-                    );
-            }
+        if ($format === 'htm' || $format === 'html') {
+            $string = $this->toHtml();
+        } elseif ($format === 'rtf') {
+            $string = $this->toRtf();
+        } elseif ($format === 'text') {
+            $string = $this->toText();
         } else {
             throw new \InvalidArgumentException(
-                __METHOD__."() expects parameter one, format, to be a string"
+                "format must be 'rtf', 'html', or 'text'"
             );
         }
 
         return $string;
     }
 
-    /**
-     * Inserts this element after $element
-     *
-     * @param  Jstewmc\Rtf\Element  $element  the element to insert after
-     * @return  self
-     * @throws  BadMethodCallException  if $element doesn't have a parent
-     * @throws  BadMethodCallException  if $element's parent doesn't have children
-     * @throws  BadMethodCallException  if $element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function insertAfter(Element $element)
+    public function insertAfter(Element $element): self
     {
-        // if $element has an index
-        if (false !== ($index = $element->getIndex())) {
-            $element->getParent()->insertChild($this, $index + 1);
-        }
+        $index = $element->getIndex();
+
+        $element->getParent()->insertChild($this, $index + 1);
 
         return $this;
     }
 
-    /**
-     * Inserts this element before $element
-     *
-     * @param  Jstewmc\Rtf\Element  $element  the element to insert before
-     * @return  self
-     * @throws  BadMethodCallException  if $element doesn't have a parent
-     * @throws  BadMethodCallException  if $element's parent doesn't have children
-     * @throws  BadMethodCallException  if $element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function insertBefore(Element $element)
+    public function insertBefore(Element $element): self
     {
-        // if $element has an index
-        if (false !== ($index = $element->getIndex())) {
-            $element->getParent()->insertChild($this, $index);
-        }
+        $index = $element->getIndex();
+
+        $element->getParent()->insertChild($this, $index);
 
         return $this;
     }
 
-    /**
-     * Returns true if this element is the first child
-     *
-     * @return  bool
-     * @throws  BadMethodCallException  if this element doesn't have a parent
-     * @throws  BadMethodCallException  if this element's parent doesn't have children
-     * @throws  BadMethodCallException  if this element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function isFirstChild()
+    public function isFirstChild(): bool
     {
         return $this->getIndex() === 0;
     }
 
-    /**
-     * Returns true if this element is the last child
-     *
-     * @return  bool
-     * @throws  BadMethodCallException  if this element doesn't have a parent
-     * @throws  BadMethodCallException  if this element's parent doesn't have children
-     * @throws  BadMethodCallException  if this element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function isLastChild()
+    public function isLastChild(): bool
     {
         return $this->getIndex() === $this->parent->getLength() - 1;
     }
 
-    /**
-     * Prepends the element to $group
-     *
-     * @param  Jstewmc\Rtf\Element\Group  $group  the group to prepend to
-     * @return  self
-     * @since  0.1.0
-     */
-    public function prependTo(Group $group)
+    public function prependTo(Group $group): self
     {
         $group->prependChild($this);
 
         return $this;
     }
 
-    /**
-     * Inserts an element after this element
-     *
-     * @param  Jstewmc\Rtf\Element\Element  $element  the element to insert
-     * @return  self
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function putNextSibling(Element $element)
+    public function putNextSibling(Element $element): self
     {
-        if (false !== ($index = $this->getIndex())) {
-            $this->parent->insertChild($element, $index + 1);
-        }
+        $index = $index = $this->getIndex();
+
+        $this->parent->insertChild($element, $index + 1);
 
         return $this;
     }
 
-    /**
-     * Inserts $element before this element
-     *
-     * @param  Jstewmc\Rtf\Element\Element  $element  the element to insert
-     * @return  self
-     * @throws  BadMethodCallException  if the element doesn't have a parent
-     * @throws  BadMethodCallException  if the element's parent doesn't have children
-     * @throws  BadMethodCallException  if the element is not a child of its parent
-     * @since  0.1.0
-     */
-    public function putPreviousSibling(Element $element)
+    public function putPreviousSibling(Element $element): self
     {
-        if (false !== ($index = $this->getIndex())) {
-            $this->parent->insertChild($element, $index);
-        }
+        $index = $this->getIndex();
+
+        $this->parent->insertChild($element, $index);
 
         return $this;
     }
 
-    /**
-     * Replaces this element with $element (and returns this element)
-     *
-     * @param  Jstewmc\Rtf\Element  $element  the replacement element
-     * @return  Jstewmc\Rtf\Element
-     * @throws  BadMethodCallException  if this element doesn't have a parent
-     * @since  0.1.0
-     */
-    public function replaceWith(Element $element)
+    public function replaceWith(Element $element): Element
     {
-        // if the element has a parent
-        if (! empty($this->parent)) {
-            $this->parent->replaceChild($this, $element);
-        } else {
+        $this->validateParent();
+
+        $this->parent->replaceChild($this, $element);
+
+        return $this;
+    }
+
+    protected function toHtml(): string
+    {
+        return '';
+    }
+
+    protected function toRtf(): string
+    {
+        return '';
+    }
+
+    protected function toText(): string
+    {
+        return '';
+    }
+
+    private function validateParent(): void
+    {
+        if ($this->parent === null) {
             throw new \BadMethodCallException(
-                __METHOD__."() expects this element to have a parent element"
+                'element must belong to a parent element'
             );
         }
-
-        return $this;
-    }
-
-
-    /* !Protected methods */
-
-    /**
-     * Returns the element as an html5 string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toHtml()
-    {
-        return '';
-    }
-
-    /**
-     * Returns the element as an rtf string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toRtf()
-    {
-        return '';
-    }
-
-    /**
-     * Returns the element as a plain text string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toText()
-    {
-        return '';
     }
 }

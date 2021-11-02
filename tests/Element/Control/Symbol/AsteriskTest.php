@@ -2,19 +2,20 @@
 
 namespace Jstewmc\Rtf\Element\Control\Symbol;
 
-/**
- * A test suite for the asterisk symbol
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
- 
 class AsteriskTest extends \PHPUnit\Framework\TestCase
 {
-    public function testFoo()
+    public function testGetSymbolReturnsString(): void
     {
-        return new Asterisk();
+        $this->assertEquals('*', (new Asterisk())->getSymbol());
+    }
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
+    {
+        $this->assertEquals('', (new Asterisk())->format('html'));
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals('', (new Asterisk())->format('text'));
     }
 }

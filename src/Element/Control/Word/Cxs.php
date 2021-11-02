@@ -3,8 +3,6 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\cxs" control word
- *
  * The "\cxs" control word indicates an "ignored" steno group. Steno is written as a
  * series of strokes using pure steno notation with forward-slashes between them but
  * no leading- or trailing-slashes.
@@ -21,17 +19,16 @@ namespace Jstewmc\Rtf\Element\Control\Word;
  * probably be at one end or the other. Keep in mind, most steno programs will output
  * the digit when the number bar is used to create a number, but the number sign when
  * the number bar is used to create a stroke (e.g., "/K#").
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
  */
 class Cxs extends Word
 {
-    /* !Protected properties */
-    
     /**
-     * @var  bool  the "\cxs" is an ignored control word
+     * The "\cxs" is an ignored control word
      */
-    protected $isIgnored = true;
+    protected bool $isIgnored = true;
+
+    public function __construct()
+    {
+        parent::__construct('cxs');
+    }
 }

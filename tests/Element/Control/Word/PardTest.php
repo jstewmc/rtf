@@ -2,23 +2,14 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Pard control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class PardTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
+    public function testGetWordReturnsString(): void
+    {
+        $this->assertEquals('pard', (new Pard())->getWord());
+    }
 
-    /**
-     * run() should reset the paragraph state
-     */
-    public function testRunResetsParagraphState()
+    public function testRunResetsParagraphState(): void
     {
         $style = new \Jstewmc\Rtf\Style();
 

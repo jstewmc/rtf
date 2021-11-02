@@ -3,38 +3,21 @@
 namespace Jstewmc\Rtf\Element\Control\Word;
 
 /**
- * The "\qmspace" control word
- *
  * The "\qmspace" control word inserts a one-quarter "m" space.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
  */
-
 class Qmspace extends Word
 {
-    /* !Protected methods */
-    
-    /**
-     * Returns this control word as an html string
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toHtml()
+    public function __construct()
+    {
+        parent::__construct('qmspace');
+    }
+
+    protected function toHtml(): string
     {
         return '&thinsp;';
     }
-    
-    /**
-     * Returns this control word as plain text
-     *
-     * @return  string
-     * @since  0.1.0
-     */
-    protected function toText()
+
+    protected function toText(): string
     {
         return html_entity_decode($this->toHtml());
     }

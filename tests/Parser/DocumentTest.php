@@ -139,8 +139,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $root = new Element\Group();
 
-        $word = new Element\Control\Word\Word();
-        $word->setWord('foo');
+        $word = new Element\Control\Word\Word('foo');
 
         $word->setParent($root);
         $root->appendChild($word);
@@ -198,8 +197,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $root = new Element\Group();
 
-        $symbol = new Element\Control\Symbol\Symbol();
-        $symbol->setSymbol('#');
+        $symbol = new Element\Control\Symbol\Symbol('#');
         $symbol->setParent($root);
 
         $root->appendChild($symbol);
@@ -289,42 +287,31 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $groupA = new Element\Group();
 
-        $a_1 = new Element\Control\Word\Word();
-        $a_1->setWord('rtf');
-        $a_1->setParameter(1);
+        $a_1 = new Element\Control\Word\Word('rtf', 1);
         $a_1->setParent($groupA);
 
-        $a_2 = new Element\Control\Word\Word();
-        $a_2->setWord('ansi');
+        $a_2 = new Element\Control\Word\Word('ansi');
         $a_2->setParent($groupA);
 
-        $a_3 = new Element\Control\Word\Word();
-        $a_3->setWord('deff');
-        $a_3->setParameter(0);
+        $a_3 = new Element\Control\Word\Word('deff', 0);
         $a_3->setParent($groupA);
 
         $groupB = new Element\Group();
         $groupB->setParent($groupA);
 
-        $b_1 = new Element\Control\Word\Word();
-        $b_1->setWord('fonttbl');
+        $b_1 = new Element\Control\Word\Word('fonttbl');
         $b_1->setParent($groupB);
 
         $groupC = new Element\Group();
         $groupC->setParent($groupB);
 
-        $c_1 = new Element\Control\Word\Word();
-        $c_1->setWord('f');
-        $c_1->setParameter(0);
+        $c_1 = new Element\Control\Word\Word('f', 0);
         $c_1->setParent($groupC);
 
-        $c_2 = new Element\Control\Word\Word();
-        $c_2->setWord('fnil');
+        $c_2 = new Element\Control\Word\Word('fnil');
         $c_2->setParent($groupC);
 
-        $c_3 = new Element\Control\Word\Word();
-        $c_3->setWord('fcharset');
-        $c_3->setParameter(0);
+        $c_3 = new Element\Control\Word\Word('fcharset', 0);
         $c_3->setParent($groupC);
 
         $c_4 = new Element\Text('Courier New;');
@@ -336,8 +323,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $d_1 = new Element\Control\Symbol\Asterisk();
         $d_1->setParent($groupD);
 
-        $d_2 = new Element\Control\Word\Word();
-        $d_2->setWord('generator');
+        $d_2 = new Element\Control\Word\Word('generator');
         $d_2->setParent($groupD);
 
         $d_3 = new Element\Text('Msftedit 5.41.15.1516;');
@@ -345,32 +331,22 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
         // back to a
 
-        $a_4 = new Element\Control\Word\Word();
-        $a_4->setWord('viewkind');
-        $a_4->setParameter(4);
+        $a_4 = new Element\Control\Word\Word('viewkind', 4);
         $a_4->setParent($groupA);
 
-        $a_5 = new Element\Control\Word\Word();
-        $a_5->setWord('uc');
-        $a_5->setParameter(1);
+        $a_5 = new Element\Control\Word\Word('uc', 1);
         $a_5->setParent($groupA);
 
         $a_6 = new Element\Control\Word\Pard();
         $a_6->setParent($groupA);
 
-        $a_7 = new Element\Control\Word\Word();
-        $a_7->setWord('lang');
-        $a_7->setParameter(1033);
+        $a_7 = new Element\Control\Word\Word('lang', 1033);
         $a_7->setParent($groupA);
 
-        $a_8 = new Element\Control\Word\Word();
-        $a_8->setWord('f');
-        $a_8->setParameter(0);
+        $a_8 = new Element\Control\Word\Word('f', 0);
         $a_8->setParent($groupA);
 
-        $a_9 = new Element\Control\Word\Word();
-        $a_9->setWord('fs');
-        $a_9->setParameter(20);
+        $a_9 = new Element\Control\Word\Word('fs', 20);
         $a_9->setParent($groupA);
 
         $a_10 = new Element\Text('My dog is not like other dogs.');
