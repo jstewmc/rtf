@@ -2,69 +2,52 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the V control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class VTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
-    
-    /**
-     * run() should make characters visible if parameter is omitted
-     */
-    public function testRunDoesShowWhenParameterIsOmitted()
+    public function testGetWordReturnsString(): void
+    {
+        $this->assertEquals('v', (new V())->getWord());
+    }
+
+    public function testRunDoesShowWhenParameterIsOmitted(): void
     {
         $style = new \Jstewmc\Rtf\Style();
-        
+
         $element = new V();
         $element->setStyle($style);
-        
+
         $element->run();
-        
+
         $this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
-        
+
         return;
     }
-    
-    /**
-     * run() should make characters visible if parameter is not zero
-     */
-    public function testRunDoesShowWhenParameterIsNotZero()
+
+    public function testRunDoesShowWhenParameterIsNotZero(): void
     {
         $style = new \Jstewmc\Rtf\Style();
-        
-        $element = new V();
-        $element->setParameter('1');
+
+        $element = new V('1');
         $element->setStyle($style);
-        
+
         $element->run();
-        
+
         $this->assertTrue($element->getStyle()->getCharacter()->getIsVisible());
-        
+
         return;
     }
-    
-    /**
-     * run() should make characters visible if parameter is not zero
-     */
-    public function testRunDoesNotShowWhenParameterIsZero()
+
+    public function testRunDoesNotShowWhenParameterIsZero(): void
     {
         $style = new \Jstewmc\Rtf\Style();
-        
-        $element = new V();
-        $element->setParameter('0');
+
+        $element = new V('0');
         $element->setStyle($style);
-        
+
         $element->run();
-        
+
         $this->assertFalse($element->getStyle()->getCharacter()->getIsVisible());
-        
+
         return;
     }
 }

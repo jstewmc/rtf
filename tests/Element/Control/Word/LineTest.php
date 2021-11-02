@@ -2,46 +2,20 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Line control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class LineTest extends \PHPUnit\Framework\TestCase
 {
-    /* !format() */
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Line();
-        
-        $expected = '<br>';
-        $actual   = $word->format('html');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('line', (new Line())->getWord());
     }
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
-        $word = new Line();
-        
-        $expected = "\n";
-        $actual   = $word->format('text');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('<br>', (new Line())->format('html'));
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals("\n", (new Line())->format('text'));
     }
 }

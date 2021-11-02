@@ -2,46 +2,23 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Lquote control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class LquoteTest extends \PHPUnit\Framework\TestCase
 {
-    /* !format() */
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Lquote();
-        
-        $expected = '&lsquo;';
-        $actual   = $word->format('html');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('lquote', (new Lquote())->getWord());
     }
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
-        $word = new Lquote();
-        
-        $expected = html_entity_decode('&lsquo;');
-        $actual   = $word->format('text');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('&lsquo;', (new Lquote())->format('html'));
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals(
+            html_entity_decode('&lsquo;'),
+            (new Lquote())->format('text')
+        );
     }
 }

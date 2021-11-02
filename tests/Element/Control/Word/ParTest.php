@@ -2,23 +2,14 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Par control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class ParTest extends \PHPUnit\Framework\TestCase
 {
-    /* !run() */
+    public function testGetWordReturnsString(): void
+    {
+        $this->assertEquals('par', (new Par())->getWord());
+    }
 
-    /**
-     * run() should increment the paragraph index
-     */
-    public function testRunIncrementsParagraphIndex()
+    public function testRunIncrementsParagraphIndex(): void
     {
         $style = new \Jstewmc\Rtf\Style();
 

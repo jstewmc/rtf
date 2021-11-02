@@ -13,7 +13,7 @@ class Ul extends Word
 {
     public function __construct(?int $parameter = null)
     {
-        parent::__construct('ui', $parameter);
+        parent::__construct('ul', $parameter);
     }
 
     public function run(): void

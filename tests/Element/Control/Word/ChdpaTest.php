@@ -2,46 +2,26 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
-/**
- * A test suite for the Chdpa control word
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
-
 class ChdpaTest extends \PHPUnit\Framework\TestCase
 {
-    /* !format() */
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsHtml()
+    public function testGetWordReturnsString(): void
     {
-        $word = new Chdpa();
-        
-        $expected = (new \DateTime())->format('l, j F Y');
-        $actual   = $word->format('html');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals('chdpa', (new Chdpa())->getWord());
     }
-    
-    /**
-     * format() should return string if format is html
-     */
-    public function testFormatReturnsStringWhenFormatIsText()
+
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
-        $word = new Chdpa();
-        
-        $expected = (new \DateTime())->format('l, j F Y');
-        $actual   = $word->format('text');
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals(
+            (new \DateTime())->format('l, j F Y'),
+            (new Chdpa())->format('html')
+        );
+    }
+
+    public function testFormatReturnsStringWhenFormatIsText(): void
+    {
+        $this->assertEquals(
+            (new \DateTime())->format('l, j F Y'),
+            (new Chdpa())->format('text')
+        );
     }
 }

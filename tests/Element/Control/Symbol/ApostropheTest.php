@@ -9,12 +9,12 @@ class ApostropheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('\'', (new Apostrophe('1'))->getSymbol());
     }
 
-    public function testFormatReturnsStringWhenHtml(): void
+    public function testFormatReturnsStringWhenFormatIsHtml(): void
     {
         $this->assertEquals('&#x22;', (new Apostrophe('22'))->format('html'));
     }
 
-    public function testFormatReturnsStringWhenText(): void
+    public function testFormatReturnsStringWhenFormatIsText(): void
     {
         $this->assertEquals(
             html_entity_decode('&#x22;'),
