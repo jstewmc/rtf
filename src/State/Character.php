@@ -3,327 +3,154 @@
 namespace Jstewmc\Rtf\State;
 
 /**
- * A character state
- *
  * A character state defines character-level properties such as formatting,
  * borders, shading, and visibility.
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
  */
-
 class Character extends State
 {
-    /* !Protected properties */
+    private bool $isBold = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are bold; defaults
-     *     to false
-     * @since  0.1.0
-     */
-    protected $isBold = false;
+    private bool $isItalic = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are italicized;
-     *     defaults to false
-     * @since  0.1.0
-     */
-    protected $isItalic = false;
+    private bool $isStrikethrough = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are struckthrough;
-     *     defaults to false
-     * @since  0.1.0
-     */
-    protected $isStrikethrough = false;
+    private bool $isSubscript = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are subscript;
-     *     defaults to false
-     * @since  0.1.0
-     */
-    protected $isSubscript = false;
+    private bool $isSuperscript = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are superscript;
-     *     defaults to false
-     * @since  0.1.0
-     */
-    protected $isSuperscript = false;
+    private bool $isUnderline = false;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are underlined;
-     *     defaults to false
-     * @since  0.1.0
-     */
-    protected $isUnderline = false;
+    private bool $isVisible = true;
 
-    /**
-     * @var  bool  a flag indicating whether or not the characters are visible;
-     *     defaults to true
-     * @since  0.1.0
-     */
-    protected $isVisible = true;
-
-
-    /* !Get methods */
-
-    /**
-     * Gets the bold flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsBold()
+    public function getIsBold(): bool
     {
         return $this->isBold;
     }
 
-    /**
-     * Gets the italic flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsItalic()
+    public function getIsItalic(): bool
     {
         return $this->isItalic;
     }
 
-    /**
-     * Gets the subscript flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsSubscript()
+    public function getIsSubscript(): bool
     {
         return $this->isSubscript;
     }
 
-    /**
-     * Gets the superscript flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsSuperscript()
+    public function getIsSuperscript(): bool
     {
         return $this->isSuperscript;
     }
 
-    /**
-     * Gets the strikethrough flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsStrikethrough()
+    public function getIsStrikethrough(): bool
     {
         return $this->isStrikethrough;
     }
 
-    /**
-     * Gets the underline flag
-     *
-     * @return  bool
-     * @since  0.1.0
-     */
-    public function getIsUnderline()
+    public function getIsUnderline(): bool
     {
         return $this->isUnderline;
     }
 
-    /**
-     * Gets the visible flag
-     *
-     * @return  bool
-     * @sicne  0.1.0
-     */
-    public function getIsVisible()
+    public function getIsVisible(): bool
     {
         return $this->isVisible;
     }
 
-
-    /* !Set methods */
-
-    /**
-     * Sets the bold flag
-     *
-     * @param  bool  $isBold  a flag indicating whether or not the characters are bold
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsBold($isBold)
+    public function setIsBold(bool $isBold): self
     {
         $this->isBold = $isBold;
 
         return $this;
     }
 
-    /**
-     * Sets the italic flag
-     *
-     * @param  bool  $isItalic  a flag indicating whether or not the characters are italic
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsItalic($isItalic)
+    public function setIsItalic(bool $isItalic): self
     {
         $this->isItalic = $isItalic;
 
         return $this;
     }
 
-    /**
-     * Sets the subscript flag
-     *
-     * @param  bool  $isBold  a flag indicating whether or not the characters are subscript
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsSubscript($isSubscript)
+    public function setIsSubscript(bool $isSubscript): self
     {
         $this->isSubscript = $isSubscript;
 
         return $this;
     }
 
-    /**
-     * Sets the superscript flag
-     *
-     * @param  bool  $isSuperscript  a flag indicating whether or not the characters
-     *     are superscript
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsSuperscript($isSuperscript)
+    public function setIsSuperscript(bool $isSuperscript): self
     {
         $this->isSuperscript = $isSuperscript;
 
         return $this;
     }
 
-    /**
-     * Sets the strikethrough flag
-     *
-     * @param  bool  $isStrikethrough  a flag indicating whether or not the characters
-     *      are struckthrough
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsStrikethrough($isStrikethrough)
+    public function setIsStrikethrough(bool $isStrikethrough): self
     {
         $this->isStrikethrough = $isStrikethrough;
 
         return $this;
     }
 
-    /**
-     * Sets the underline flag
-     *
-     * @param  bool  $isUnderline  a flag indicating whether or not the characters are
-     *     underlined
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsUnderline($isUnderline)
+    public function setIsUnderline(bool $isUnderline): self
     {
         $this->isUnderline = $isUnderline;
 
         return $this;
     }
 
-    /**
-     * Sets the visible flag
-     *
-     * @param  bool  $isVisible  a flag indicating whether or not the characters are
-     *     visible
-     * @return  self
-     * @since  0.1.0
-     */
-    public function setIsVisible($isVisible)
+    public function setIsVisible(bool $isVisible): self
     {
         $this->isVisible = $isVisible;
 
         return $this;
     }
 
-
-    /* !Public methods */
-
-    /**
-     * Returns the character state as a string in $format
-     *
-     * @param  string  $format  the desired format (possible values are 'css')
-     * @return  string
-     * @throws  InvalidArgumentException  if $format is not a string
-     * @throws  InvalidArgumentException  if $format is not valid
-     * @since  0.1.0
-     */
-    // phpcs:disable Generic.Metrics.CyclomaticComplexity.TooHigh
-    public function format($format = 'css')
+    public function format(string $format = 'css'): string
     {
-        $string = null;
-
-        // if $format is a string
-        if (is_string($format)) {
-            // switch on format
-            switch (strtolower($format)) {
-                case 'css':
-                    // get the state's css properties as css declarations
-                    $declarations = [];
-
-                    if ($this->isBold) {
-                        $declarations[] = 'font-weight: bold';
-                    }
-
-                    if ($this->isItalic) {
-                        $declarations[] = 'font-style: italic';
-                    }
-
-                    if ($this->isSubscript) {
-                        $declarations[] = 'vertical-align: sub';
-                        $declarations[] = 'font-size: smaller';
-                    }
-
-                    if ($this->isSuperscript) {
-                        $declarations[] = 'vertical-align: super';
-                        $declarations[] = 'font-size: smaller';
-                    }
-
-                    if ($this->isStrikethrough) {
-                        $declarations[] = 'text-decoration: line-through';
-                    }
-
-                    if ($this->isUnderline) {
-                        $declarations[] = 'text-decoration: underline';
-                    }
-
-                    if (! $this->isVisible) {
-                        $declarations[] = 'display: none';
-                    }
-
-                    if (! empty($declarations)) {
-                        $string = implode('; ', $declarations).';';
-                    }
-                    break;
-
-                default:
-                    throw new \InvalidArgumentException(
-                        __METHOD__."() expects paramter one, format, to be a supported format"
-                    );
-            }
-        } else {
+        if (strtolower($format) !== 'css') {
             throw new \InvalidArgumentException(
-                __METHOD__."() expects parameter one, format, to be a string"
+                "format must be 'css'"
             );
+        }
+
+        $declarations = [];
+
+        if ($this->isBold) {
+            $declarations[] = 'font-weight: bold';
+        }
+
+        if ($this->isItalic) {
+            $declarations[] = 'font-style: italic';
+        }
+
+        if ($this->isSubscript) {
+            $declarations[] = 'vertical-align: sub';
+            $declarations[] = 'font-size: smaller';
+        }
+
+        if ($this->isSuperscript) {
+            $declarations[] = 'vertical-align: super';
+            $declarations[] = 'font-size: smaller';
+        }
+
+        if ($this->isStrikethrough) {
+            $declarations[] = 'text-decoration: line-through';
+        }
+
+        if ($this->isUnderline) {
+            $declarations[] = 'text-decoration: underline';
+        }
+
+        if (! $this->isVisible) {
+            $declarations[] = 'display: none';
+        }
+
+        $string = '';
+        if (!empty($declarations)) {
+            $string = implode('; ', $declarations).';';
         }
 
         return $string;
     }
-    // phpcs:enable
 }
