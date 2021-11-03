@@ -56,10 +56,10 @@ class Document
 
     public function __toString()
     {
-        return $this->write();
+        return $this->format();
     }
 
-    public function write(string $format = 'rtf'): string
+    public function format(string $format = 'rtf'): string
     {
         return ($this->writer)($this->root, $format);
     }
@@ -72,7 +72,7 @@ class Document
             $format = $this->detectFormat($pathname);
         }
 
-        file_put_contents($pathname, $this->write($format));
+        file_put_contents($pathname, $this->format($format));
     }
 
     private function validateFormat(?string $format): void
