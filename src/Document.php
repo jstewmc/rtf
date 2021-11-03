@@ -4,7 +4,7 @@ namespace Jstewmc\Rtf;
 
 class Document
 {
-    private Lexer\Document $lex;
+    private Service\Lex\Document $lex;
 
     private Service\Write $writer;
 
@@ -23,7 +23,7 @@ class Document
     {
         $this->root = new Element\Group();
 
-        $this->lex = new Lexer\Document();
+        $this->lex = new Service\Lex\Document();
         $this->parser = new Parser\Document();
         $this->writer = new Service\Write();
         $this->render = new Service\Render();

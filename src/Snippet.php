@@ -36,7 +36,7 @@ class Snippet extends Element\Group
         $stream = new Stream\Text($string);
 
         // lex the stream
-        $tokens = (new Lexer\Document())($stream);
+        $tokens = (new Service\Lex\Document())($stream);
 
         // parse and render the tokens
         $group = (new Service\Render())((new Parser\Document())($tokens));
