@@ -39,7 +39,7 @@ class Snippet extends Element\Group
         $tokens = (new Lexer\Document())($stream);
 
         // parse and render the tokens
-        $group = (new Render())((new Parser\Document())($tokens));
+        $group = (new Service\Render())((new Parser\Document())($tokens));
 
         // set the snippet's properties from the group
         $this->parent     = null;

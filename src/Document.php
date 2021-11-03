@@ -10,7 +10,7 @@ class Document
 
     private Parser\Document $parser;
 
-    private Render $render;
+    private Service\Render $render;
 
     private Element\Group $root;
 
@@ -26,7 +26,7 @@ class Document
         $this->lex = new Lexer\Document();
         $this->parser = new Parser\Document();
         $this->writer = new Write();
-        $this->render = new Render();
+        $this->render = new Service\Render();
 
         is_readable($source) ? $this->load($source) : $this->read($source);
     }

@@ -25,7 +25,7 @@ class WriteTest extends \PHPUnit\Framework\TestCase
                 ->appendChild(new Element\Text('bar'))
                 ->appendChild(new Element\Control\Word\B(0)));
 
-        $root = (new Render())($group);
+        $root = (new Service\Render())($group);
 
         $this->assertEquals('{foo {\b bar\b0 }}', (new Write())($root));
     }
@@ -39,7 +39,7 @@ class WriteTest extends \PHPUnit\Framework\TestCase
                 ->appendChild(new Element\Text('bar'))
                 ->appendChild(new Element\Control\Word\B(0)));
 
-        $root = (new Render())($group);
+        $root = (new Service\Render())($group);
 
         $expected = '<section style=""><p style=""><span style="">foo </span>'
             . '<span style="font-weight: bold;">bar</span></p></section>';
@@ -57,7 +57,7 @@ class WriteTest extends \PHPUnit\Framework\TestCase
                 ->appendChild(new Element\Text('bar'))
                 ->appendChild(new Element\Control\Word\B(0)));
 
-        $root = (new Render())($group);
+        $root = (new Service\Render())($group);
 
         $this->assertEquals('{foo {\b bar\b0 }}', (new Write())($root, 'rtf'));
     }
@@ -71,7 +71,7 @@ class WriteTest extends \PHPUnit\Framework\TestCase
                 ->appendChild(new Element\Text('bar'))
                 ->appendChild(new Element\Control\Word\B(0)));
 
-        $root = (new Render())($group);
+        $root = (new Service\Render())($group);
 
         $this->assertEquals('foo bar', (new Write())($root, 'text'));
     }
