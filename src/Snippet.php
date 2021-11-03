@@ -17,7 +17,7 @@ class Snippet extends Element\Group
     public function write(string $format = 'rtf'): string
     {
         // get the snippet (which is posing as a group) as a string
-        $string = (new Writer())->write($this, $format);
+        $string = (new Write())($this, $format);
 
         // if the format is "rtf", remove the group-open and group-close we added
         if ($format === 'rtf') {
@@ -39,7 +39,7 @@ class Snippet extends Element\Group
         $tokens = (new Lexer\Document())($stream);
 
         // parse and render the tokens
-        $group = (new Renderer())->render((new Parser\Document())($tokens));
+        $group = (new Render())((new Parser\Document())($tokens));
 
         // set the snippet's properties from the group
         $this->parent     = null;

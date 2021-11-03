@@ -2,21 +2,8 @@
 
 namespace Jstewmc\Rtf;
 
-/**
- * A test suite for the renderer class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
 class RendererTest extends \PHPUnit\Framework\TestCase
 {
-    /* !render() */
-    
-    /**
-     * render() should recursively render each group
-     */
     public function testRender()
     {
         $root = (new Element\Group())
@@ -28,9 +15,9 @@ class RendererTest extends \PHPUnit\Framework\TestCase
 
         $this->assertFalse($root->getIsRendered());
 
-        $renderer = new Renderer();
-        $root = $renderer->render($root);
-        
+        $renderer = new Render();
+        $root = ($renderer)($root);
+
         $this->assertTrue($root instanceof Element\Group);
         $this->assertTrue($root->getIsRendered());
         $this->assertTrue($root
@@ -39,7 +26,7 @@ class RendererTest extends \PHPUnit\Framework\TestCase
             ->getStyle()
             ->getCharacter()
             ->getIsBold());
-        
+
         return;
     }
 }
