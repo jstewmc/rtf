@@ -8,7 +8,7 @@ class Document
 
     private Service\Write $writer;
 
-    private Parser\Document $parser;
+    private Service\Parse\Document $parser;
 
     private Service\Render $render;
 
@@ -24,7 +24,7 @@ class Document
         $this->root = new Element\Group();
 
         $this->lex = new Service\Lex\Document();
-        $this->parser = new Parser\Document();
+        $this->parser = new Service\Parse\Document();
         $this->writer = new Service\Write();
         $this->render = new Service\Render();
 

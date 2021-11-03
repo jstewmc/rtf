@@ -1,6 +1,6 @@
 <?php
 
-namespace Jstewmc\Rtf\Parser;
+namespace Jstewmc\Rtf\Service\Parse;
 
 use Jstewmc\Rtf\{
     Element\Control\Word as Element,
