@@ -6,11 +6,11 @@ class Document
 {
     private Lexer\Document $lex;
 
-    private Writer $writer;
+    private Write $writer;
 
     private Parser\Document $parser;
 
-    private Renderer $renderer;
+    private Render $render;
 
     private Element\Group $root;
 
@@ -25,8 +25,8 @@ class Document
 
         $this->lex = new Lexer\Document();
         $this->parser = new Parser\Document();
-        $this->writer = new Writer();
-        $this->renderer = new Renderer();
+        $this->writer = new Write();
+        $this->render = new Render();
 
         is_readable($source) ? $this->load($source) : $this->read($source);
     }
@@ -51,7 +51,7 @@ class Document
 
         $group = ($this->parser)($tokens);
 
-        $this->root = $this->renderer->render($group);
+        $this->root = ($this->render)($group);
     }
 
     public function __toString()
@@ -61,7 +61,7 @@ class Document
 
     public function write(string $format = 'rtf'): string
     {
-        return $this->writer->write($this->root, $format);
+        return ($this->writer)($this->root, $format);
     }
 
     public function save(string $pathname, ?string $format = null): void
