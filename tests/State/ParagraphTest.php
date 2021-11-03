@@ -1,34 +1,18 @@
 <?php
-    
+
 namespace Jstewmc\Rtf\State;
 
-/**
- * A test suite for the Section class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
 class ParagraphTest extends \PHPUnit\Framework\TestCase
 {
-    /* !getIndex() / setIndex() */
-    
-    /**
-     * getIndex() and setIndex() should get and set the index, respectively
-     */
-    public function testGetSetIndex()
+    public function testGetIndexReturnsInt(): void
     {
-        $index = 999;
-        
-        $paragraph = new Paragraph();
-        $paragraph->setIndex($index);
-        
-        $expected = $index;
-        $actual   = $paragraph->getIndex();
-        
-        $this->assertEquals($expected, $actual);
-        
-        return;
+        $this->assertEquals(0, (new Paragraph())->getIndex());
+    }
+
+    public function testSetIndexReturnsSelf(): void
+    {
+        $state = new Paragraph();
+
+        $this->assertSame($state, $state->setIndex(1));
     }
 }

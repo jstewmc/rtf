@@ -2,6 +2,8 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word;
 
+use Jstewmc\Rtf\State\Paragraph;
+
 /**
  * The "\pard" control word resets to default paragraph properties.
  */
@@ -14,6 +16,6 @@ class Pard extends Word
 
     public function run(): void
     {
-        $this->style->getParagraph()->reset();
+        $this->style->setParagraph(new Paragraph());
     }
 }

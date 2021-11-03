@@ -2,189 +2,104 @@
 
 namespace Jstewmc\Rtf\State;
 
-/**
- * A test suite for the Character state class
- *
- * @author     Jack Clayton
- * @copyright  2015 Jack Clayton
- * @license    MIT
- * @since      0.1.0
- */
 class CharacterTest extends \PHPUnit\Framework\TestCase
 {
-    /* !Providers */
-
-    public function notAStringProvider()
+    public function testGetIsBoldReturnsBool(): void
     {
-        return [
-            [null],
-            [false],
-            [1],
-            [1.0],
-            ['foo'],
-            [[]],
-            [new \StdClass()]
-        ];
+        $this->assertFalse((new Character())->getIsBold());
     }
 
-
-    /* !getIsBold() / setIsBold() */
-
-    /**
-     * getIsBold() and setIsBold() should get and set the bold flag, respectively
-     */
-    public function testGetSetIsBold()
+    public function testSetIsBoldReturnsSelf(): void
     {
-        $character = new Character();
-        $character->setIsBold(true);
+        $state = new Character();
 
-        $this->assertTrue($character->getIsBold());
-
-        return;
+        $this->assertSame($state, $state->setIsBold(true));
     }
 
-
-    /* !getIsItalic() / setIsItalic() */
-
-    /**
-     * getIsItalic() and setIsItalic() should get and set the italic flag, respectively
-     */
-    public function testGetSetIsItalic()
+    public function testGetIsItalicReturnsBool(): void
     {
-        $character = new Character();
-        $character->setIsItalic(true);
-
-        $this->assertTrue($character->getIsItalic());
-
-        return;
+        $this->assertFalse((new Character())->getIsItalic());
     }
 
-
-    /* !getIsSubscript() / setIsSubscript() */
-
-    /**
-     * getIsSubscript() and setIsSubscript() should get and set the subscript flag, respectively
-     */
-    public function testGetSetIsSubscript()
+    public function testSetIsItalicReturnsSelf(): void
     {
-        $character = new Character();
-        $character->setIsSubscript(true);
+        $state = new Character();
 
-        $this->assertTrue($character->getIsSubscript());
-
-        return;
+        $this->assertSame($state, $state->setIsItalic(true));
     }
 
-
-    /* !getIsSuperscript() / setIsSuperscript() */
-
-    /**
-     * getIsSuperscript() and setIsSuperscript() should get and set the superscript flag, respectively
-     */
-    public function testGetSetIsSuperscript()
+    public function testGetIsSubscriptReturnsBool(): void
     {
-        $character = new Character();
-        $character->setIsSuperscript(true);
-
-        $this->assertTrue($character->getIsSuperscript());
-
-        return;
+        $this->assertFalse((new Character())->getIsSubscript());
     }
 
-
-    /* !getIsStrikethrough() / setIsStrikethrough() */
-
-    /**
-     * getIsStrikethrough() and setIsStrikethrough() should get and set the strikethrough flag, respectively
-     */
-    public function testGetSetStrikethrough()
+    public function testSetIsSubscriptReturnsSelf(): void
     {
-        $character = new Character();
-        $character->setIsStrikethrough(true);
+        $state = new Character();
 
-        $this->assertTrue($character->getIsStrikethrough());
-
-        return;
+        $this->assertSame($state, $state->setIsSubscript(true));
     }
 
-
-    /* !getIsUnderline() / setIsUnderline() */
-
-    /**
-     * getIsUnderline() and setIsUnderline() should get and set the underline flag, respectively
-     */
-    public function testGetSetUnderline()
+    public function testGetIsSuperscriptReturnsBool(): void
     {
-        $character = new Character();
-        $character->setIsUnderline(true);
-
-        $this->assertTrue($character->getIsUnderline());
-
-        return;
+        $this->assertFalse((new Character())->getIsSuperscript());
     }
 
-
-    /* !getIsVisible() / setIsVisible() */
-
-    /**
-     * getIsVisible() and setIsVisible() should get and set the visible flag, respectively
-     */
-    public function testGetSetIsVisible()
+    public function testSetIsSuperscriptReturnsSelf(): void
     {
-        $character = new Character();
-        $character->setIsVisible(false);
+        $state = new Character();
 
-        $this->assertFalse($character->getIsVisible());
-
-        return;
+        $this->assertSame($state, $state->setIsSuperscript(true));
     }
 
+    public function testGetIsStrikethroughReturnsBool(): void
+    {
+        $this->assertFalse((new Character())->getIsStrikethrough());
+    }
 
-    /* !format() */
+    public function testSetIsStrikethroughReturnsSelf(): void
+    {
+        $state = new Character();
 
-    /**
-     * format() should throw an InvalidArgumentException if $format is not a string
-     *
-     * @dataProvider  notAStringProvider
-     */
-    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotAString($format)
+        $this->assertSame($state, $state->setIsStrikethrough(true));
+    }
+
+    public function testGetIsUnderlineReturnsBool(): void
+    {
+        $this->assertFalse((new Character())->getIsSubscript());
+    }
+
+    public function testSetIsUnderlineReturnsSelf(): void
+    {
+        $state = new Character();
+
+        $this->assertSame($state, $state->setIsSubscript(true));
+    }
+
+    public function testGetIsVisibleReturnsBool(): void
+    {
+        $this->assertTrue((new Character())->getIsVisible());
+    }
+
+    public function testSetIsVisibleReturnsSelf(): void
+    {
+        $state = new Character();
+
+        $this->assertSame($state, $state->setIsVisible(true));
+    }
+
+    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotValid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        $state = new Character();
-        $state->format($format);
-
-        return;
+        (new Character())->format('foo');
     }
 
-    /**
-     * format() should throw an InvalidArgumentException if $format is not valid
-     */
-    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsNotValid()
+    public function testFormatReturnsStringWhenFormatIsValid(): void
     {
-        $this->expectException(\InvalidArgumentException::class);
-
-        $state = new Character();
-        $state->format('foo');
-
-        return;
-    }
-
-    /**
-     * format() should return a string if $format is valid
-     */
-    public function testFormatReturnsStringWhenFormatIsValid()
-    {
-        $state = new Character();
-
-        $state->setIsBold(true);
-        $state->setIsItalic(true);
-
-        $expected = 'font-weight: bold; font-style: italic;';
-        $actual   = $state->format('css');
-
-        $this->assertEquals($expected, $actual);
-
-        return;
+        $this->assertEquals(
+            'font-weight: bold; font-style: italic;',
+            (new Character())->setIsBold(true)->setIsItalic(true)->format('css')
+        );
     }
 }
