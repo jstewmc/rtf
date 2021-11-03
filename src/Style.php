@@ -82,7 +82,7 @@ class Style
      * I'll clone the document, section, paragraph, and character states to
      * create a *deep* clone of this style.
      */
-    public function __clone(): void
+    public function __clone()
     {
         $this->document  = clone $this->document;
         $this->section   = clone $this->section;
