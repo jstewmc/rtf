@@ -6,7 +6,7 @@ class Document
 {
     private Lexer\Document $lex;
 
-    private Write $writer;
+    private Service\Write $writer;
 
     private Parser\Document $parser;
 
@@ -25,7 +25,7 @@ class Document
 
         $this->lex = new Lexer\Document();
         $this->parser = new Parser\Document();
-        $this->writer = new Write();
+        $this->writer = new Service\Write();
         $this->render = new Service\Render();
 
         is_readable($source) ? $this->load($source) : $this->read($source);

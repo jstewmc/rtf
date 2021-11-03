@@ -17,7 +17,7 @@ class Snippet extends Element\Group
     public function write(string $format = 'rtf'): string
     {
         // get the snippet (which is posing as a group) as a string
-        $string = (new Write())($this, $format);
+        $string = (new Service\Write())($this, $format);
 
         // if the format is "rtf", remove the group-open and group-close we added
         if ($format === 'rtf') {
