@@ -6,9 +6,9 @@ class Document
 {
     private Service\Lex\Document $lex;
 
-    private Service\Write $writer;
+    private Service\Write $output;
 
-    private Service\Parse\Document $parser;
+    private Service\Parse\Document $parse;
 
     private Service\Render $render;
 
@@ -23,10 +23,10 @@ class Document
     {
         $this->root = new Element\Group();
 
-        $this->lex = new Service\Lex\Document();
-        $this->parser = new Service\Parse\Document();
-        $this->writer = new Service\Write();
+        $this->lex    = new Service\Lex\Document();
+        $this->parse  = new Service\Parse\Document();
         $this->render = new Service\Render();
+        $this->output = new Service\Write();
 
         is_readable($source) ? $this->load($source) : $this->read($source);
     }
@@ -49,30 +49,28 @@ class Document
             return;
         }
 
-        $group = ($this->parser)($tokens);
+        $group = ($this->parse)($tokens);
 
         $this->root = ($this->render)($group);
     }
 
     public function __toString()
     {
-        return $this->format();
+        return $this->write();
     }
 
-    public function format(string $format = 'rtf'): string
+    public function write(string $format = 'rtf'): string
     {
-        return ($this->writer)($this->root, $format);
+        return ($this->output)($this->root, $format);
     }
 
     public function save(string $pathname, ?string $format = null): void
     {
         $this->validateFormat($format);
 
-        if ($format === null) {
-            $format = $this->detectFormat($pathname);
-        }
+        $format = $format ?: $format = $this->detectFormat($pathname);
 
-        file_put_contents($pathname, $this->format($format));
+        file_put_contents($pathname, $this->write($format));
     }
 
     private function validateFormat(?string $format): void

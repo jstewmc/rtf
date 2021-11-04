@@ -40,30 +40,30 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($rtf, (string)(new Document($rtf)));
     }
 
-    public function testFormatThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
+    public function testWriteThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
 
-        (new Document(''))->format('foo');
+        (new Document(''))->write('foo');
     }
 
-    public function testFormatReturnsStringWhenFormatIsHtml(): void
+    public function testWriteReturnsStringWhenFormatIsHtml(): void
     {
         $this->assertEquals(
             '<section style=""><p style=""><span style="font-weight: bold;">'
                 . 'foo</span></p></section>',
-            (new Document('{\b foo\b0}'))->format('html')
+            (new Document('{\b foo\b0}'))->write('html')
         );
     }
 
-    public function testFormatReturnsStringWhenFormatIsRtf(): void
+    public function testWriteReturnsStringWhenFormatIsRtf(): void
     {
-        $this->assertEquals('{\b foo\b0}', (new Document('{\b foo\b0}'))->format());
+        $this->assertEquals('{\b foo\b0}', (new Document('{\b foo\b0}'))->write());
     }
 
-    public function testFormatReturnsStringWhenFormatIsText(): void
+    public function testWriteReturnsStringWhenFormatIsText(): void
     {
-        $this->assertEquals('foo', (new Document('{\b foo\b0}'))->format('text'));
+        $this->assertEquals('foo', (new Document('{\b foo\b0}'))->write('text'));
     }
 
     public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
