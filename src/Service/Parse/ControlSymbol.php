@@ -1,6 +1,6 @@
 <?php
 
-namespace Jstewmc\Rtf\Parser;
+namespace Jstewmc\Rtf\Service\Parse;
 
 use Jstewmc\Rtf\{
     Element\Control\Symbol\Symbol as Element,

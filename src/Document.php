@@ -4,13 +4,13 @@ namespace Jstewmc\Rtf;
 
 class Document
 {
-    private Lexer\Document $lex;
+    private Service\Lex\Document $lex;
 
-    private Write $writer;
+    private Service\Write $output;
 
-    private Parser\Document $parser;
+    private Service\Parse\Document $parse;
 
-    private Render $render;
+    private Service\Render $render;
 
     private Element\Group $root;
 
@@ -23,10 +23,10 @@ class Document
     {
         $this->root = new Element\Group();
 
-        $this->lex = new Lexer\Document();
-        $this->parser = new Parser\Document();
-        $this->writer = new Write();
-        $this->render = new Render();
+        $this->lex    = new Service\Lex\Document();
+        $this->parse  = new Service\Parse\Document();
+        $this->render = new Service\Render();
+        $this->output = new Service\Write();
 
         is_readable($source) ? $this->load($source) : $this->read($source);
     }
@@ -49,7 +49,7 @@ class Document
             return;
         }
 
-        $group = ($this->parser)($tokens);
+        $group = ($this->parse)($tokens);
 
         $this->root = ($this->render)($group);
     }
@@ -61,16 +61,14 @@ class Document
 
     public function write(string $format = 'rtf'): string
     {
-        return ($this->writer)($this->root, $format);
+        return ($this->output)($this->root, $format);
     }
 
     public function save(string $pathname, ?string $format = null): void
     {
         $this->validateFormat($format);
 
-        if ($format === null) {
-            $format = $this->detectFormat($pathname);
-        }
+        $format = $format ?: $format = $this->detectFormat($pathname);
 
         file_put_contents($pathname, $this->write($format));
     }

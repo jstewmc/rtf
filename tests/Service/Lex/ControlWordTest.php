@@ -1,6 +1,6 @@
 <?php
 
-namespace Jstewmc\Rtf\Lexer;
+namespace Jstewmc\Rtf\Service\Lex;
 
 use Jstewmc\Rtf\{
     Stream\Text,

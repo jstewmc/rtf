@@ -1,6 +1,8 @@
 <?php
 
-namespace Jstewmc\Rtf;
+namespace Jstewmc\Rtf\Service;
+
+use Jstewmc\Rtf\{Element, Style};
 
 /**
  * Renders the parse tree into the document tree

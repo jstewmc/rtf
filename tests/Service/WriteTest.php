@@ -1,6 +1,8 @@
 <?php
 
-namespace Jstewmc\Rtf;
+namespace Jstewmc\Rtf\Service;
+
+use Jstewmc\Rtf\Element;
 
 class WriteTest extends \PHPUnit\Framework\TestCase
 {
