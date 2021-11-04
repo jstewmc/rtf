@@ -205,7 +205,6 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         return $root;
     }
 
-
     public function testInvokeParsesText(): void
     {
         $this->assertEquals(
@@ -412,5 +411,27 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild($a_17);
 
         return $groupA;
+    }
+
+    public function testInvokeParsesOtherCharacterTokens(): void
+    {
+        $this->assertEquals(
+            $this->otherRoot(),
+            (new Document())($this->otherTokens())
+        );
+    }
+
+    private function otherTokens(): array
+    {
+        return [
+            new Token\Group\Open(),
+            new Token\Other("\r"),
+            new Token\Group\Close()
+        ];
+    }
+
+    private function otherRoot(): Element\Group
+    {
+        return new Element\Group();
     }
 }

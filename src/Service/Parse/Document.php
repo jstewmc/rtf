@@ -89,6 +89,10 @@ class Document
 
     private function parseGroupMember(Token\Token $token): void
     {
+        if ($token instanceof Token\Other) {
+            return;
+        }
+
         if ($token instanceof Token\Control\Word) {
             $element = ($this->parseControlWord)($token);
         } elseif ($token instanceof Token\Control\Symbol) {
