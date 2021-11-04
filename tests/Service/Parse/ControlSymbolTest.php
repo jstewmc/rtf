@@ -17,6 +17,14 @@ class ControlSymbolTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testInvokeReturnsElementWhenSymbolIsApostrophe(): void
+    {
+        $this->assertEquals(
+            new Element\Apostrophe('a1'),
+            (new ControlSymbol())(new Token('\''))->setParameter('a1')
+        );
+    }
+
     public function testInvokeReturnsElementWhenSymbolIsGenerci(): void
     {
         $this->assertEquals(

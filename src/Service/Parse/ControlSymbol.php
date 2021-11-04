@@ -64,7 +64,7 @@ class ControlSymbol
     {
         $classname = $this->getClassname($token->getSymbol());
 
-        if ($classname === 'asterisk') {
+        if ($token->getSymbol() === '\'') {
             $element = new $classname($token->getParameter());
         } else {
             $element = new $classname();
