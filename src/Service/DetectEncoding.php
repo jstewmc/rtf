@@ -5,10 +5,11 @@ namespace Jstewmc\Rtf\Service;
 use Jstewmc\Rtf\Element;
 
 /**
- * Detects the well-formed document's encoding
+ * Detects a (well-formed) document's encoding
  *
- * In a well-formed RTF document, two control words - a mandatory character set
- * and an optional code page - determine the document's character encoding:
+ * In a well-formed RTF document, two control words in the header - a mandatory
+ * character set and an optional code page - determine the document's character
+ * encoding:
  *
  *   1. When the character set is not "\ansi" (i.e., "\pc", "\pca", or "\mac"),
  *      the character set's encoding takes precedence.
@@ -75,7 +76,8 @@ class DetectEncoding
 
     private function hasCodePage(Element\Group $root): bool
     {
-        return $root->getChild(2) instanceof Element\Control\Word\Ansicpg;
+        return $root->hasChild(2) &&
+            $root->getChild(2) instanceof Element\Control\Word\Ansicpg;
     }
 
     private function getEncodingFromCharacterSet(Element\Group $root): string

@@ -86,4 +86,19 @@ class DetectEncodingTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\Ansicpg(708))
             ->appendChild(new Element\Text('foo'));
     }
+
+    public function testInvokeReturnsStringWhenEncodingIsAnsiWithoutCodePage(): void
+    {
+        $this->assertEquals(
+            'windows-1252',
+            (new DetectEncoding())($this->groupWithAnsiWithoutCodePage())
+        );
+    }
+
+    private function groupWithAnsiWithoutCodePage(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Rtf(1))
+            ->appendChild(new Element\Control\Word\Ansi());
+    }
 }
