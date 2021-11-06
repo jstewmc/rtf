@@ -17,6 +17,14 @@ class ControlWordTest extends \PHPUnit\Framework\TestCase
         );
     }
 
+    public function testInvokeReturnsElementWhenWordHasParameter(): void
+    {
+        $this->assertEquals(
+            new Element\Rtf(1),
+            (new ControlWord())((new Token('rtf'))->setParameter(1))
+        );
+    }
+
     public function testInvokeReturnsElementWhenWordIsGeneric(): void
     {
         $this->assertEquals(
