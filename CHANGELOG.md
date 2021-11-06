@@ -7,14 +7,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.1] - 2021-11-06
+
 ### Added
 
-- Added support for document encoding. 
+- Added support for document encoding. If a document defines a character set (i.e., `\pc`, `\pca`, `\mac`) or it defines the `\ansi` character set and a code page (e.g., `\ansicpg1252`), this library will use that character encoding to render non-ASCII characters.
 
 ### Fixed
 
 - Fixed issue parsing apostrophe control symbol, where a conditional was using the wrong symbol name.
 - Fixed issue parsing other tokens, where they caused a variable-not-defined exception to be thrown during parsing.
+- Fixed [#2](https://github.com/jstewmc/rtf/issues/2), where the `Apostrophe` control symbol did not work correctly.
 
 ## [0.5.0] - 2021-11-04
 
