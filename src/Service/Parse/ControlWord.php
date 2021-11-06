@@ -9,12 +9,14 @@ use Jstewmc\Rtf\{
 
 class ControlWord
 {
+    private const WORDS_WITH_PARAMETER = ['rtf', 'ansicpg'];
+
     public function __invoke(Token $token): Element
     {
         $word = $token->getWord();
 
         if ($this->hasClass($word)) {
-            $element = $this->parseSpecific($word);
+            $element = $this->parseSpecific($token);
         } else {
             $element = $this->parseGeneric($word);
         }
@@ -35,11 +37,22 @@ class ControlWord
         return 'Jstewmc\\Rtf\\Element\\Control\\Word\\'.ucfirst($word);
     }
 
-    private function parseSpecific(string $word): Element
+    private function parseSpecific(Token $token): Element
     {
-        $classname = $this->getClassname($word);
+        $classname = $this->getClassname($token->getWord());
 
-        return new $classname();
+        if ($this->hasParameter($token->getWord())) {
+            $element = new $classname($token->getParameter());
+        } else {
+            $element = new $classname();
+        }
+
+        return $element;
+    }
+
+    private function hasParameter(string $word): bool
+    {
+        return in_array($word, self::WORDS_WITH_PARAMETER);
     }
 
     private function parseGeneric(string $word): Element

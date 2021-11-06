@@ -25,4 +25,14 @@ class SnippetTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('\cxds ing', (new Snippet('\cxds ing'))->write());
     }
+
+    public function testWriteReturnsStringWhenEncodingIsDeclared(): void
+    {
+        // A nowdoc is easier than juggling the backslash and quotation marks.
+        $rtf = <<<'RTF'
+            \rtf1\mac \'80
+            RTF;
+
+        $this->assertEquals('Ä', (new Snippet($rtf))->write('text'));
+    }
 }

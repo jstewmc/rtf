@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added support for document encoding. 
+
+### Fixed
+
+- Fixed issue parsing apostrophe control symbol, where a conditional was using the wrong symbol name.
+- Fixed issue parsing other tokens, where they caused a variable-not-defined exception to be thrown during parsing.
+
 ## [0.5.0] - 2021-11-04
 
 ### Added

@@ -12,6 +12,8 @@ class Document
 
     private Service\Render $render;
 
+    private Service\Encode $encode;
+
     private Element\Group $root;
 
     public function getRoot(): ?Element\Group
@@ -25,6 +27,7 @@ class Document
 
         $this->lex    = new Service\Lex\Document();
         $this->parse  = new Service\Parse\Document();
+        $this->encode = new Service\Encode();
         $this->render = new Service\Render();
         $this->output = new Service\Write();
 
@@ -50,6 +53,8 @@ class Document
         }
 
         $group = ($this->parse)($tokens);
+
+        ($this->encode)($group);
 
         $this->root = ($this->render)($group);
     }
