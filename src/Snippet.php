@@ -38,8 +38,13 @@ class Snippet extends Element\Group
         // lex the stream
         $tokens = (new Service\Lex\Document())($stream);
 
+        // parse the group
+        $group = (new Service\Parse\Document())($tokens);
+
+        (new Service\Encode())($group);
+
         // parse and render the tokens
-        $group = (new Service\Render())((new Service\Parse\Document())($tokens));
+        $group = (new Service\Render())($group);
 
         // set the snippet's properties from the group
         $this->parent     = null;

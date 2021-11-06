@@ -66,6 +66,16 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('foo', (new Document('{\b foo\b0}'))->write('text'));
     }
 
+    public function testWriteReturnsStringWhenEncodingIsDeclared(): void
+    {
+        // A nowdoc is easier than juggling the backslash and quotation marks.
+        $rtf = <<<'RTF'
+            {\rtf1\mac \'80}
+            RTF;
+
+        $this->assertEquals('Ä', (new Document($rtf))->write('text'));
+    }
+
     public function testSaveThrowsInvalidArgumentExceptionWhenFormatIsInvalid(): void
     {
         $this->expectException(\InvalidArgumentException::class);
