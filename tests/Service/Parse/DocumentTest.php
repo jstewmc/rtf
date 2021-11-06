@@ -286,10 +286,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
     {
         $groupA = new Element\Group();
 
-        $a_1 = new Element\Control\Word\Word('rtf', 1);
+        $a_1 = new Element\Control\Word\Rtf(1);
         $a_1->setParent($groupA);
 
-        $a_2 = new Element\Control\Word\Word('ansi');
+        $a_2 = new Element\Control\Word\Ansi();
         $a_2->setParent($groupA);
 
         $a_3 = new Element\Control\Word\Word('deff', 0);
