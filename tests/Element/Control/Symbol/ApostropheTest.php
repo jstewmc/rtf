@@ -9,6 +9,11 @@ class ApostropheTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals('\'', (new Apostrophe('1'))->getSymbol());
     }
 
+    public function testGetEncodingReturnsString(): void
+    {
+        $this->assertEquals('windows-1252', (new Apostrophe('1'))->getEncoding());
+    }
+
     public function testSetEncodingReturnsSelf(): void
     {
         $symbol = new Apostrophe('1');

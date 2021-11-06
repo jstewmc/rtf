@@ -16,6 +16,11 @@ class Apostrophe extends Symbol
         parent::__construct('\'', $parameter);
     }
 
+    public function getEncoding(): string
+    {
+        return $this->encoding;
+    }
+
     public function setEncoding(string $encoding): self
     {
         $this->encoding = $encoding;
