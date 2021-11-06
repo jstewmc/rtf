@@ -5,25 +5,31 @@ namespace Jstewmc\Rtf\Element\Control\Symbol;
 /**
  * The apostrophe control symbol ("\'hh") is used to represent a non-ASCII
  * character from a Windows Code Page. The two digits "hh" are a hexadecimal
- * value for the given character on the given code page.
- *
- * The current code page is specified by the "\ansicpg" control word.
+ * value for the given character in the given encoding.
  */
 class Apostrophe extends Symbol
 {
+    private string $encoding = 'windows-1252';
+
     public function __construct(string $parameter)
     {
         parent::__construct('\'', $parameter);
     }
 
+    public function setEncoding(string $encoding): self
+    {
+        $this->encoding = $encoding;
+
+        return $this;
+    }
+
     protected function toHtml(): string
     {
-        // parameter is hexadecimal number
-        return "&#x{$this->parameter};";
+        return $this->toText();
     }
 
     protected function toText(): string
     {
-        return html_entity_decode($this->toHtml());
+        return iconv($this->encoding, 'UTF-8', hex2bin($this->parameter));
     }
 }
