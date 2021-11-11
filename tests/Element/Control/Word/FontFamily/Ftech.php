@@ -2,7 +2,7 @@
 
 namespace Jstewmc\Rtf\Element\Control\Word\FontFamily;
 
-class FscriptTest extends \PHPUnit\Framework\TestCase
+class FtechTest extends \PHPUnit\Framework\TestCase
 {
     public function testGetWordReturnsString(): void
     {
