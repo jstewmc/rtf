@@ -310,7 +310,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $c_2 = new Element\Control\Word\FontFamily\Fnil();
         $c_2->setParent($groupC);
 
-        $c_3 = new Element\Control\Word\Word('fcharset', 0);
+        $c_3 = new Element\Control\Word\Fcharset(0);
         $c_3->setParent($groupC);
 
         $c_4 = new Element\Text('Courier New;');
