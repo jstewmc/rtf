@@ -298,16 +298,16 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $groupB = new Element\Group();
         $groupB->setParent($groupA);
 
-        $b_1 = new Element\Control\Word\Word('fonttbl');
+        $b_1 = new Element\Control\Word\Fonttbl();
         $b_1->setParent($groupB);
 
         $groupC = new Element\Group();
         $groupC->setParent($groupB);
 
-        $c_1 = new Element\Control\Word\Word('f', 0);
+        $c_1 = new Element\Control\Word\F(0);
         $c_1->setParent($groupC);
 
-        $c_2 = new Element\Control\Word\Word('fnil');
+        $c_2 = new Element\Control\Word\FontFamily\Fnil();
         $c_2->setParent($groupC);
 
         $c_3 = new Element\Control\Word\Word('fcharset', 0);
@@ -342,7 +342,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $a_7 = new Element\Control\Word\Word('lang', 1033);
         $a_7->setParent($groupA);
 
-        $a_8 = new Element\Control\Word\Word('f', 0);
+        $a_8 = new Element\Control\Word\F(0);
         $a_8->setParent($groupA);
 
         $a_9 = new Element\Control\Word\Word('fs', 20);
