@@ -12,4 +12,9 @@ class F extends Word
     {
         parent::__construct('f', $parameter);
     }
+
+    public function getNumber(): int
+    {
+        return $this->parameter;
+    }
 }

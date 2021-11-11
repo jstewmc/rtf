@@ -8,4 +8,9 @@ class FTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('f', (new F(0))->getWord());
     }
+
+    public function testGetNumberReturnsInt(): void
+    {
+        $this->assertEquals(0, (new F(0))->getNumber());
+    }
 }
