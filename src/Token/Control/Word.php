@@ -73,4 +73,9 @@ class Word extends Control
 
         return $string;
     }
+
+    public function hasParameter(): bool
+    {
+        return $this->parameter !== null;
+    }
 }

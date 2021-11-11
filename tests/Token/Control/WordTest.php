@@ -58,4 +58,14 @@ class WordTest extends \PHPUnit\Framework\TestCase
             (string)(new Word('foo'))->setIsSpaceDelimited(false)
         );
     }
+
+    public function testHasParameterReturnsFalseWhenParameterDoesNotExist(): void
+    {
+        $this->assertFalse((new Word('foo'))->hasParameter());
+    }
+
+    public function testHasParameterReturnsTrueWhenParameterExists(): void
+    {
+        $this->assertTrue((new Word('foo'))->setParameter(1)->hasParameter());
+    }
 }
