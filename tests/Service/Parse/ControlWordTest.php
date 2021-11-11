@@ -32,4 +32,12 @@ class ControlWordTest extends \PHPUnit\Framework\TestCase
             (new ControlWord())(new Token('foo'))
         );
     }
+
+    public function testInvokeReturnsElementWhenWordIsTyped(): void
+    {
+        $this->assertEquals(
+            new Element\FontFamily\Fnil(),
+            (new ControlWord())(new Token('fnil'))
+        );
+    }
 }
