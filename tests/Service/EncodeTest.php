@@ -15,7 +15,7 @@ class EncodeTest extends \PHPUnit\Framework\TestCase
     {
         $group = (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Mac())
+            ->appendChild(new Element\Control\Word\CharacterSet\Mac())
             ->appendChild(new Element\Text('foo'));
 
         $this->assertNull((new Encode())($group));
@@ -27,7 +27,7 @@ class EncodeTest extends \PHPUnit\Framework\TestCase
 
         $group = (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Mac())
+            ->appendChild(new Element\Control\Word\CharacterSet\Mac())
             ->appendChild($apostrophe);
 
         (new Encode())($group);

@@ -49,7 +49,7 @@ class DetectEncodingTest extends \PHPUnit\Framework\TestCase
     {
         return (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Ansi())
+            ->appendChild(new Element\Control\Word\CharacterSet\Ansi())
             ->appendChild(new Element\Text('foo'));
     }
 
@@ -65,7 +65,7 @@ class DetectEncodingTest extends \PHPUnit\Framework\TestCase
     {
         return (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Mac())
+            ->appendChild(new Element\Control\Word\CharacterSet\Mac())
             ->appendChild(new Element\Control\Word\Ansicpg(1))
             ->appendChild(new Element\Text('foo'));
     }
@@ -82,7 +82,7 @@ class DetectEncodingTest extends \PHPUnit\Framework\TestCase
     {
         return (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Ansi())
+            ->appendChild(new Element\Control\Word\CharacterSet\Ansi())
             ->appendChild(new Element\Control\Word\Ansicpg(708))
             ->appendChild(new Element\Text('foo'));
     }
@@ -99,6 +99,6 @@ class DetectEncodingTest extends \PHPUnit\Framework\TestCase
     {
         return (new Element\Group())
             ->appendChild(new Element\Control\Word\Rtf(1))
-            ->appendChild(new Element\Control\Word\Ansi());
+            ->appendChild(new Element\Control\Word\CharacterSet\Ansi());
     }
 }

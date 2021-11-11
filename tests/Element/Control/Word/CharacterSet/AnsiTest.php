@@ -1,6 +1,6 @@
 <?php
 
-namespace Jstewmc\Rtf\Element\Control\Word;
+namespace Jstewmc\Rtf\Element\Control\Word\CharacterSet;
 
 class AnsiTest extends \PHPUnit\Framework\TestCase
 {
