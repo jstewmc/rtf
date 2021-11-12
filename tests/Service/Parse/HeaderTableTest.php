@@ -105,4 +105,43 @@ class HeaderTableTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\Color\Green(255))
             ->appendChild(new Element\Control\Word\Color\Blue(255));
     }
+
+    public function testInvokeReturnsGroupWhenStylesheetExists(): void
+    {
+        $root = $this->rootWithStylesheet();
+
+        $root = (new HeaderTable())($root);
+
+        $this->assertInstanceOf(Element\HeaderTable\Stylesheet::class, $root->getChild(3));
+    }
+
+    private function rootWithStylesheet(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Rtf(1))
+            ->appendChild(new Element\Control\Word\CharacterSet\Mac())
+            ->appendChild(new Element\Control\Word\Deff(0))
+            ->appendChild($this->stylesheet())
+            ->appendChild(new Element\Text('foo'));
+    }
+
+    private function stylesheet(): Element\Group
+    {
+        // e.g., "{\stylesheet{\s0\snext0\widctlpar\hyphpar0\cf0 Normal;}}"
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Stylesheet())
+            ->appendChild($this->s0Group());
+    }
+
+    private function s0Group(): Element\Group
+    {
+        // e.g., "{\s0\snext0\widctlpar\hyphpar0\cf0 Normal;}"
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\S(0))
+            ->appendChild(new Element\Control\Word\Word('snext', 0))
+            ->appendChild(new Element\Control\Word\Word('widctlpar'))
+            ->appendChild(new Element\Control\Word\Word('hyphpar', 0))
+            ->appendChild(new Element\Control\Word\Word('cf', 0))
+            ->appendChild(new Element\Text('Normal;'));
+    }
 }
