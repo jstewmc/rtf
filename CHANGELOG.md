@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+
+- Added support for parsing font tables (but not support for styling fonts yet).
+
+### Changed
+
+- Moved character sets, font family, and special character control words into sub-directories.
+- Updated the `Parse\ControlWord` service to detect control word sub-types automatically based on directory names when searching for classes.
+- Updated the `Parse\ControlWord` service to detect whether or not a class requires a parameter in the constructor automatically.
+
 ## [0.5.1] - 2021-11-06
 
 ### Added

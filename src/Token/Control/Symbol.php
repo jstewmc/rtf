@@ -44,4 +44,9 @@ class Symbol extends Control
 
         return $string;
     }
+
+    public function hasParameter(): bool
+    {
+        return $this->parameter !== '';
+    }
 }

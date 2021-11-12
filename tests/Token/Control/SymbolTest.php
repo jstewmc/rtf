@@ -47,4 +47,14 @@ class SymbolTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals('\\+', (new Symbol('+'))->setIsSpaceDelimited(false));
     }
+
+    public function testHasParameterReturnsFalseWhenParameterDoesNotExist(): void
+    {
+        $this->assertFalse((new Symbol('+'))->hasParameter());
+    }
+
+    public function testHasParameterReturnsTrueWhenParameterExists(): void
+    {
+        $this->assertTrue((new Symbol('+'))->setParameter(1)->hasParameter());
+    }
 }

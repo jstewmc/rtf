@@ -2,7 +2,11 @@
 
 namespace Jstewmc\Rtf\Service;
 
-use Jstewmc\Rtf\Element;
+use Jstewmc\Rtf\Element\{
+    Group,
+    Control\Word,
+    Control\Word\CharacterSet
+};
 
 /**
  * Detects a (well-formed) document's encoding
@@ -22,7 +26,7 @@ use Jstewmc\Rtf\Element;
  */
 class DetectEncoding
 {
-    public function __invoke(Element\Group $root, string $default = 'windows-1252'): string
+    public function __invoke(Group $root, string $default = 'windows-1252'): string
     {
         if (!$this->isWellFormed($root)) {
             return $default;
@@ -37,65 +41,59 @@ class DetectEncoding
         return $encoding;
     }
 
-    private function isWellFormed(Element\Group $root): bool
+    private function isWellFormed(Group $root): bool
     {
         return $this->hasLength($root) &&
             $this->hasVersion($root) &&
             $this->hasCharacterSet($root);
     }
 
-    private function hasLength(Element\Group $root): bool
+    private function hasLength(Group $root): bool
     {
         return $root->getLength() >= 2;
     }
 
-    private function hasVersion(Element\Group $root): bool
+    private function hasVersion(Group $root): bool
     {
-        return $root->getFirstChild() instanceof Element\Control\Word\Rtf;
+        return $root->getFirstChild() instanceof Word\Rtf;
     }
 
-    private function hasCharacterSet(Element\Group $root): bool
+    private function hasCharacterSet(Group $root): bool
     {
-        $element = $root->getChild(1);
-
-        return $element instanceof Element\Control\Word\Ansi ||
-            $element instanceof Element\Control\Word\Pc ||
-            $element instanceof Element\Control\Word\Pca ||
-            $element instanceof Element\Control\Word\Mac;
+        return $root->getChild(1) instanceof CharacterSet\CharacterSet;
     }
 
-    private function codePageHasPrecedence(Element\Group $root): bool
+    private function codePageHasPrecedence(Group $root): bool
     {
         return $this->isAnsiCharacterSet($root) && $this->hasCodePage($root);
     }
 
-    private function isAnsiCharacterSet(Element\Group $root): bool
+    private function isAnsiCharacterSet(Group $root): bool
     {
-        return $this->getCharacterSet($root) instanceof Element\Control\Word\Ansi;
+        return $this->getCharacterSet($root) instanceof CharacterSet\Ansi;
     }
 
-    private function hasCodePage(Element\Group $root): bool
+    private function hasCodePage(Group $root): bool
     {
-        return $root->hasChild(2) &&
-            $root->getChild(2) instanceof Element\Control\Word\Ansicpg;
+        return $root->hasChild(2) && $root->getChild(2) instanceof Word\Ansicpg;
     }
 
-    private function getEncodingFromCharacterSet(Element\Group $root): string
+    private function getEncodingFromCharacterSet(Group $root): string
     {
         return $this->getCharacterSet($root)->getEncoding();
     }
 
-    private function getCharacterSet(Element\Group $root): Element\Control\Word\Word
+    private function getCharacterSet(Group $root): CharacterSet\CharacterSet
     {
         return $root->getChild(1);
     }
 
-    private function getEncodingFromCodePage(Element\Group $root): string
+    private function getEncodingFromCodePage(Group $root): string
     {
         return $this->getCodePage($root)->getEncoding();
     }
 
-    private function getCodePage(Element\Group $root): Element\Control\Word\Ansicpg
+    private function getCodePage(Group $root): Word\Ansicpg
     {
         return $root->getChild(2);
     }

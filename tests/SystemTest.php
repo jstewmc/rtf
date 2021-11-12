@@ -4,18 +4,42 @@ namespace Jstewmc\Rtf;
 
 class SystemTest extends \PHPUnit\Framework\TestCase
 {
-    public function testDocument1(): void
+    public function testIdempotenceWithDocument1(): void
     {
-        $rtf = <<<'RTF'
-            {\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil Bookman Old Style;}{\f1\fnil\fcharset0 Bookman Old Style;}} \viewkind4\uc1\pard\lang1043\f0\fs20 Histoire naturelle g\f1\'e9n\'e9rale et particuli\'e8re des crustac\'e9s et des insectes. Ouvrage faisant suite aux oeuvres de Buffon, et partie du cours complet d'histoire naturelle r\'e9dig\'e9 par C. S. Sonnini, membre de plusieurs soci\'e9t\'e9s savantes. Familles naturelles des genres. Tomes 1-14. [Complete for the Arthropoda].\f0\par }
-            RTF;
-
-        $this->assertEquals($rtf, (string)(new Document($rtf)));
+        $this->assertEquals(
+            $this->document1(),
+            (string)(new Document($this->document1()))
+        );
     }
 
-    public function testDocument2(): void
+    private function document1(): string
     {
-        $rtf = <<<'RTF'
+        return <<<'RTF'
+            {\rtf1\ansi\ansicpg1252\deff0{\fonttbl{\f0\fnil Bookman Old Style;}{\f1\fnil\fcharset0 Bookman Old Style;}} \viewkind4\uc1\pard\lang1043\f0\fs20 Histoire naturelle g\f1\'e9n\'e9rale et particuli\'e8re des crustac\'e9s et des insectes. Ouvrage faisant suite aux oeuvres de Buffon, et partie du cours complet d'histoire naturelle r\'e9dig\'e9 par C. S. Sonnini, membre de plusieurs soci\'e9t\'e9s savantes. Familles naturelles des genres. Tomes 1-14. [Complete for the Arthropoda].\f0\par }
+            RTF;
+    }
+
+    public function testIdempotenceWithDocument2(): void
+    {
+        $this->assertEquals(
+            // Hmm, this is not quite idempotent :(
+            str_replace("\n", '', $this->document2()),
+            (string)(new Document($this->document2()))
+        );
+    }
+
+    public function testTextConverstionWithDocument2(): void
+    {
+        $this->assertEquals(
+            // This will improve as we add support for color tables and stylesheets.
+            ';;;;;;;;;;;;;;;;;;Normal;Heading;Text Body;List;Caption;Index;This is a test',
+            (new Document($this->document2()))->write('text')
+        );
+    }
+
+    private function document2(): string
+    {
+        return <<<'RTF'
             {\rtf1\ansi\deff3\adeflang1025
             {\fonttbl{\f0\froman\fprq2\fcharset0 Times New Roman;}{\f1\froman\fprq2\fcharset2 Symbol;}{\f2\fswiss\fprq2\fcharset0 Arial;}{\f3\froman\fprq2\fcharset0 Liberation Serif{\*\falt Times New Roman};}{\f4\froman\fprq2\fcharset0 Liberation Sans{\*\falt Arial};}{\f5\fnil\fprq2\fcharset0 Lohit Devanagari;}{\f6\fnil\fprq2\fcharset0 Liberation Serif{\*\falt Times New Roman};}}
             {\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;\red0\green255\blue0;\red255\green0\blue255;\red255\green0\blue0;\red255\green255\blue0;\red255\green255\blue255;\red0\green0\blue128;\red0\green128\blue128;\red0\green128\blue0;\red128\green0\blue128;\red128\green0\blue0;\red128\green128\blue0;\red128\green128\blue128;\red192\green192\blue192;\red201\green33\blue30;}
@@ -35,10 +59,5 @@ class SystemTest extends \PHPUnit\Framework\TestCase
             test}
             \par }
             RTF;
-
-        $this->assertEquals(
-            str_replace("\n", '', $rtf),
-            (string)(new Document($rtf))
-        );
     }
 }

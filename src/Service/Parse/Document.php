@@ -14,6 +14,8 @@ class Document
 
     private ControlSymbol $parseControlSymbol;
 
+    private HeaderTable $parseHeaderTable;
+
     private \SplStack $groups;
 
     private Element\Group $root;
@@ -25,6 +27,7 @@ class Document
 
         $this->parseControlWord = new ControlWord();
         $this->parseControlSymbol = new ControlSymbol();
+        $this->parseHeaderTable = new HeaderTable();
 
         $this->reset();
     }
@@ -38,6 +41,8 @@ class Document
         $this->parseRoot($tokens);
 
         $this->parseRest($tokens);
+
+        ($this->parseHeaderTable)($this->root);
 
         return $this->root;
     }

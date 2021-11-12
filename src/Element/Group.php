@@ -27,6 +27,10 @@ class Group extends Element
 
     public function setChildren(array $children): self
     {
+        foreach ($children as $child) {
+            $child->setParent($this);
+        }
+
         $this->children = $children;
 
         return $this;
