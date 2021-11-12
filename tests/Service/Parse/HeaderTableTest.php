@@ -6,7 +6,7 @@ use Jstewmc\Rtf\Element;
 
 class HeaderTableTest extends \PHPUnit\Framework\TestCase
 {
-    public function testInvokeReturnsGroupWhenFontTableDoesNotExist(): void
+    public function testInvokeReturnsGroupWhenHeaderTableDoesNotExist(): void
     {
         $root = $this->rootWithoutFontTable();
 
@@ -21,7 +21,7 @@ class HeaderTableTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Text('foo'));
     }
 
-    public function testInvokeReturnsGroupWhenFontTableDoesExist(): void
+    public function testInvokeReturnsGroupWhenFontTableExists(): void
     {
         $root = $this->rootWithFontTable();
 
@@ -66,5 +66,43 @@ class HeaderTableTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\FontFamily\Fnil())
             ->appendChild(new Element\Control\Word\Fcharset(0))
             ->appendChild(new Element\Text('Bookman Old Style;'));
+    }
+
+    public function testInvokeReturnsGroupWhenColorTableExists(): void
+    {
+        $root = $this->rootWithColorTable();
+
+        $root = (new HeaderTable())($root);
+
+        $this->assertInstanceOf(Element\HeaderTable\ColorTable::class, $root->getChild(3));
+    }
+
+    private function rootWithColorTable(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Rtf(1))
+            ->appendChild(new Element\Control\Word\CharacterSet\Mac())
+            ->appendChild(new Element\Control\Word\Deff(0))
+            ->appendChild($this->colorTable())
+            ->appendChild(new Element\Text('foo'));
+    }
+
+    private function colorTable(): Element\Group
+    {
+        // e.g., "{\colortbl;\red0\green0\blue0;\red0\green0\blue255;\red0\green255\blue255;}"
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Colortbl())
+            ->appendChild(new Element\Text(';'))
+            ->appendChild(new Element\Control\Word\Color\Red(0))
+            ->appendChild(new Element\Control\Word\Color\Green(0))
+            ->appendChild(new Element\Control\Word\Color\Blue(0))
+            ->appendChild(new Element\Text(';'))
+            ->appendChild(new Element\Control\Word\Color\Red(0))
+            ->appendChild(new Element\Control\Word\Color\Green(0))
+            ->appendChild(new Element\Control\Word\Color\Blue(255))
+            ->appendChild(new Element\Text(';'))
+            ->appendChild(new Element\Control\Word\Color\Red(0))
+            ->appendChild(new Element\Control\Word\Color\Green(255))
+            ->appendChild(new Element\Control\Word\Color\Blue(255));
     }
 }
