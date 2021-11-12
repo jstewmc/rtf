@@ -284,133 +284,50 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
 
     private function documentRoot(): Element\Group
     {
-        $groupA = new Element\Group();
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\Rtf(1))
+            ->appendChild(new Element\Control\Word\CharacterSet\Ansi())
+            ->appendChild(new Element\Control\Word\Deff(0))
+            ->appendChild($this->fontTableGroup())
+            ->appendChild($this->generatorGroup())
+            ->appendChild(new Element\Control\Word\Word('viewkind', 4))
+            ->appendChild(new Element\Control\Word\Word('uc', 1))
+            ->appendChild(new Element\Control\Word\Pard())
+            ->appendChild(new Element\Control\Word\Word('lang', 1033))
+            ->appendChild(new Element\Control\Word\F(0))
+            ->appendChild(new Element\Control\Word\Word('fs', 20))
+            ->appendChild(new Element\Text('My dog is not like other dogs.'))
+            ->appendChild(new Element\Control\Word\Par())
+            ->appendChild(new Element\Text('He doesn\'t care to walk, '))
+            ->appendChild(new Element\Control\Word\Par())
+            ->appendChild(new Element\Text('He doesn\'t bark, he doesn\'t howl.'))
+            ->appendChild(new Element\Control\Word\Par())
+            ->appendChild(new Element\Text('He goes "Tick, tock. Tick, tock."'))
+            ->appendChild(new Element\Control\Word\Par());
+    }
 
-        $a_1 = new Element\Control\Word\Rtf(1);
-        $a_1->setParent($groupA);
+    private function fontTableGroup(): Element\HeaderTable\FontTable
+    {
+        return (new Element\HeaderTable\FontTable())
+            ->appendChild(new Element\Control\Word\Fonttbl())
+            ->appendChild($this->f0Group());
+    }
 
-        $a_2 = new Element\Control\Word\CharacterSet\Ansi();
-        $a_2->setParent($groupA);
+    private function f0Group(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\F(0))
+            ->appendChild(new Element\Control\Word\FontFamily\Fnil())
+            ->appendChild(new Element\Control\Word\Fcharset(0))
+            ->appendChild(new Element\Text('Courier New;'));
+    }
 
-        $a_3 = new Element\Control\Word\Deff(0);
-        $a_3->setParent($groupA);
-
-        $groupB = new Element\Group();
-        $groupB->setParent($groupA);
-
-        $b_1 = new Element\Control\Word\Fonttbl();
-        $b_1->setParent($groupB);
-
-        $groupC = new Element\Group();
-        $groupC->setParent($groupB);
-
-        $c_1 = new Element\Control\Word\F(0);
-        $c_1->setParent($groupC);
-
-        $c_2 = new Element\Control\Word\FontFamily\Fnil();
-        $c_2->setParent($groupC);
-
-        $c_3 = new Element\Control\Word\Fcharset(0);
-        $c_3->setParent($groupC);
-
-        $c_4 = new Element\Text('Courier New;');
-        $c_4->setParent($groupC);
-
-        $groupD = new Element\Group();
-        $groupD->setParent($groupA);
-
-        $d_1 = new Element\Control\Symbol\Asterisk();
-        $d_1->setParent($groupD);
-
-        $d_2 = new Element\Control\Word\Word('generator');
-        $d_2->setParent($groupD);
-
-        $d_3 = new Element\Text('Msftedit 5.41.15.1516;');
-        $d_3->setParent($groupD);
-
-        // back to a
-
-        $a_4 = new Element\Control\Word\Word('viewkind', 4);
-        $a_4->setParent($groupA);
-
-        $a_5 = new Element\Control\Word\Word('uc', 1);
-        $a_5->setParent($groupA);
-
-        $a_6 = new Element\Control\Word\Pard();
-        $a_6->setParent($groupA);
-
-        $a_7 = new Element\Control\Word\Word('lang', 1033);
-        $a_7->setParent($groupA);
-
-        $a_8 = new Element\Control\Word\F(0);
-        $a_8->setParent($groupA);
-
-        $a_9 = new Element\Control\Word\Word('fs', 20);
-        $a_9->setParent($groupA);
-
-        $a_10 = new Element\Text('My dog is not like other dogs.');
-        $a_10->setParent($groupA);
-
-        $a_11 = new Element\Control\Word\Par();
-        $a_11->setParent($groupA);
-
-        $a_12 = new Element\Text('He doesn\'t care to walk, ');
-        $a_12->setParent($groupA);
-
-        $a_13 = new Element\Control\Word\Par();
-        $a_13->setParent($groupA);
-
-        $a_14 = new Element\Text('He doesn\'t bark, he doesn\'t howl.');
-        $a_14->setParent($groupA);
-
-        $a_15 = new Element\Control\Word\Par();
-        $a_15->setParent($groupA);
-
-        $a_16 = new Element\Text('He goes "Tick, tock. Tick, tock."');
-        $a_16->setParent($groupA);
-
-        $a_17 = new Element\Control\Word\Par();
-        $a_17->setParent($groupA);
-
-        // now, set the relationships...
-
-        $groupD
-            ->appendChild($d_1)
-            ->appendChild($d_2)
-            ->appendChild($d_3);
-
-        $groupC
-            ->appendChild($c_1)
-            ->appendChild($c_2)
-            ->appendChild($c_3)
-            ->appendChild($c_4);
-
-        $groupB
-            ->appendChild($b_1)
-            ->appendChild($groupC);
-
-        $groupA
-            ->appendChild($a_1)
-            ->appendChild($a_2)
-            ->appendChild($a_3)
-            ->appendChild($groupB)
-            ->appendChild($groupD)
-            ->appendChild($a_4)
-            ->appendChild($a_5)
-            ->appendChild($a_6)
-            ->appendChild($a_7)
-            ->appendChild($a_8)
-            ->appendChild($a_9)
-            ->appendChild($a_10)
-            ->appendChild($a_11)
-            ->appendChild($a_12)
-            ->appendChild($a_13)
-            ->appendChild($a_14)
-            ->appendChild($a_15)
-            ->appendChild($a_16)
-            ->appendChild($a_17);
-
-        return $groupA;
+    private function generatorGroup(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Symbol\Asterisk())
+            ->appendChild(new Element\Control\Word\Word('generator'))
+            ->appendChild(new Element\Text('Msftedit 5.41.15.1516;'));
     }
 
     public function testInvokeParsesOtherCharacterTokens(): void
