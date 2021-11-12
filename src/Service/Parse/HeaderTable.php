@@ -2,37 +2,31 @@
 
 namespace Jstewmc\Rtf\Service\Parse;
 
-use Jstewmc\Rtf\Element\{
-    Group,
-    HeaderTable\FontTable
-};
+use Jstewmc\Rtf\Element;
 
 /**
  * Post-processing step to parse header tables
  */
 class HeaderTable
 {
-    public function __invoke(Group $root): Group
+    private const HEADER_TABLE_CLASSES = [
+        'fonttbl'  => Element\HeaderTable\FontTable::class,
+        'colortbl' => Element\HeaderTable\ColorTable::class
+    ];
+
+    public function __invoke(Element\Group $root): Element\Group
     {
-        $this->parseFontTable($root);
-
-        return $root;
-    }
-
-    private function parseFontTable(Group $root): void
-    {
-        $fonttbls = $root->getControlWords('fonttbl');
-
-        if (!$fonttbls) {
-            return;
+        foreach (self::HEADER_TABLE_CLASSES as $word => $classname) {
+            $matches = $root->getControlWords($word);
+            if (!$matches) {
+                continue;
+            }
+            $match = reset($matches);
+            $group = $match->getParent();
+            $table = new $classname($group->getChildren());
+            $group->replaceWith($table);
         }
 
-        $fonttbl = reset($fonttbls);
-
-        $group = $fonttbl->getParent();
-
-        $table = new FontTable($group->getChildren());
-
-        $group->replaceWith($table);
+        return $root;
     }
 }

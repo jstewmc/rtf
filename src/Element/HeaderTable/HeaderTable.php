@@ -11,6 +11,11 @@ use Jstewmc\Rtf\Element\Group;
  */
 abstract class HeaderTable extends Group
 {
+    public function __construct(array $children = [])
+    {
+        $this->setChildren($children);
+    }
+    
     public function toHtml(): string
     {
         return '';
