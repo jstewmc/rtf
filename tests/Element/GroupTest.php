@@ -18,6 +18,16 @@ class GroupTest extends \PHPUnit\Framework\TestCase
         $this->assertSame($group, $group->setChildren([]));
     }
 
+    public function testSetChildrenSetsParent(): void
+    {
+        $child = new Control\Word\Word('foo');
+
+        $group = new Group();
+        $group->setChildren([$child]);
+
+        $this->assertSame($group, $child->getParent());
+    }
+
     public function testGetIsRenderedReturnsBool(): void
     {
         $this->assertFalse((new Group())->getIsRendered());
