@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+## [0.5.2] - 2021-11-12
+
 ### Added
 
 - Added support for parsing font tables (but not support for styling fonts yet).
@@ -17,6 +19,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Moved character sets, font family, and special character control words into sub-directories.
 - Updated the `Parse\ControlWord` service to detect control word sub-types and constructor arguments automatically.
+
+### Fixed
+
+- Fixed [#11](https://github.com/jstewmc/rtf/issues/11), where the conversion of an RTF document to plain text output the text in the header's font table, color table, and stylesheets too.
 
 ## [0.5.1] - 2021-11-06
 
