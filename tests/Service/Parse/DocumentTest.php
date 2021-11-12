@@ -260,6 +260,14 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             new Token\Group\Close(),
             new Token\Group\Close(),
             new Token\Group\Open(),
+            new Token\Control\Word('colortbl'),
+            new Token\Text(';'),
+            (new Token\Control\Word('red'))->setParameter(0),
+            (new Token\Control\Word('green'))->setParameter(0),
+            (new Token\Control\Word('blue'))->setParameter(0),
+            new Token\Text(';'),
+            new Token\Group\Close(),
+            new Token\Group\Open(),
             new Token\Control\Symbol('*'),
             new Token\Control\Word('generator'),
             new Token\Text('Msftedit 5.41.15.1516;'),
@@ -289,6 +297,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\CharacterSet\Ansi())
             ->appendChild(new Element\Control\Word\Deff(0))
             ->appendChild($this->fontTableGroup())
+            ->appendChild($this->colorTableGroup())
             ->appendChild($this->generatorGroup())
             ->appendChild(new Element\Control\Word\Word('viewkind', 4))
             ->appendChild(new Element\Control\Word\Word('uc', 1))
@@ -320,6 +329,17 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\FontFamily\Fnil())
             ->appendChild(new Element\Control\Word\Fcharset(0))
             ->appendChild(new Element\Text('Courier New;'));
+    }
+
+    private function colorTableGroup(): Element\HeaderTable\ColorTable
+    {
+        return (new Element\HeaderTable\ColorTable())
+            ->appendChild(new Element\Control\Word\Colortbl())
+            ->appendChild(new Element\Text(';'))
+            ->appendChild(new Element\Control\Word\Color\Red(0))
+            ->appendChild(new Element\Control\Word\Color\Green(0))
+            ->appendChild(new Element\Control\Word\Color\Blue(0))
+            ->appendChild(new Element\Text(';'));
     }
 
     private function generatorGroup(): Element\Group
