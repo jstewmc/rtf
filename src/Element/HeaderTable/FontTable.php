@@ -7,7 +7,7 @@ namespace Jstewmc\Rtf\Element\HeaderTable;
  */
 class FontTable extends HeaderTable
 {
-    public function __construct(array $children)
+    public function __construct(array $children = [])
     {
         $this->children = $children;
     }
