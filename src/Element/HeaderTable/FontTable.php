@@ -9,6 +9,6 @@ class FontTable extends HeaderTable
 {
     public function __construct(array $children = [])
     {
-        $this->children = $children;
+        $this->setChildren($children);
     }
 }
