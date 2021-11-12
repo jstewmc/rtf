@@ -292,7 +292,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
         $a_2 = new Element\Control\Word\CharacterSet\Ansi();
         $a_2->setParent($groupA);
 
-        $a_3 = new Element\Control\Word\Word('deff', 0);
+        $a_3 = new Element\Control\Word\Deff(0);
         $a_3->setParent($groupA);
 
         $groupB = new Element\Group();
