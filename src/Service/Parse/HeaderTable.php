@@ -10,8 +10,9 @@ use Jstewmc\Rtf\Element;
 class HeaderTable
 {
     private const HEADER_TABLE_CLASSES = [
-        'fonttbl'  => Element\HeaderTable\FontTable::class,
-        'colortbl' => Element\HeaderTable\ColorTable::class
+        'fonttbl'    => Element\HeaderTable\FontTable::class,
+        'colortbl'   => Element\HeaderTable\ColorTable::class,
+        'stylesheet' => Element\HeaderTable\Stylesheet::class
     ];
 
     public function __invoke(Element\Group $root): Element\Group

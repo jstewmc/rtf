@@ -268,6 +268,13 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             new Token\Text(';'),
             new Token\Group\Close(),
             new Token\Group\Open(),
+            new Token\Control\Word('stylesheet'),
+            new Token\Group\Open(),
+            (new Token\Control\Word('s'))->setParameter(0),
+            new Token\Text('Normal;'),
+            new Token\Group\Close(),
+            new Token\Group\Close(),
+            new Token\Group\Open(),
             new Token\Control\Symbol('*'),
             new Token\Control\Word('generator'),
             new Token\Text('Msftedit 5.41.15.1516;'),
@@ -296,9 +303,10 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\Rtf(1))
             ->appendChild(new Element\Control\Word\CharacterSet\Ansi())
             ->appendChild(new Element\Control\Word\Deff(0))
-            ->appendChild($this->fontTableGroup())
-            ->appendChild($this->colorTableGroup())
-            ->appendChild($this->generatorGroup())
+            ->appendChild($this->fontTable())
+            ->appendChild($this->colorTable())
+            ->appendChild($this->stylesheet())
+            ->appendChild($this->generator())
             ->appendChild(new Element\Control\Word\Word('viewkind', 4))
             ->appendChild(new Element\Control\Word\Word('uc', 1))
             ->appendChild(new Element\Control\Word\Pard())
@@ -315,7 +323,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Control\Word\Par());
     }
 
-    private function fontTableGroup(): Element\HeaderTable\FontTable
+    private function fontTable(): Element\HeaderTable\FontTable
     {
         return (new Element\HeaderTable\FontTable())
             ->appendChild(new Element\Control\Word\Fonttbl())
@@ -331,7 +339,7 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Text('Courier New;'));
     }
 
-    private function colorTableGroup(): Element\HeaderTable\ColorTable
+    private function colorTable(): Element\HeaderTable\ColorTable
     {
         return (new Element\HeaderTable\ColorTable())
             ->appendChild(new Element\Control\Word\Colortbl())
@@ -342,7 +350,21 @@ class DocumentTest extends \PHPUnit\Framework\TestCase
             ->appendChild(new Element\Text(';'));
     }
 
-    private function generatorGroup(): Element\Group
+    private function stylesheet(): Element\HeaderTable\Stylesheet
+    {
+        return (new Element\HeaderTable\Stylesheet())
+            ->appendChild(new Element\Control\Word\Stylesheet())
+            ->appendChild($this->s0Group());
+    }
+
+    private function s0Group(): Element\Group
+    {
+        return (new Element\Group())
+            ->appendChild(new Element\Control\Word\S(0))
+            ->appendChild(new Element\Text('Normal;'));
+    }
+
+    private function generator(): Element\Group
     {
         return (new Element\Group())
             ->appendChild(new Element\Control\Symbol\Asterisk())

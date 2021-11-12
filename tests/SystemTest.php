@@ -31,8 +31,7 @@ class SystemTest extends \PHPUnit\Framework\TestCase
     public function testTextConverstionWithDocument2(): void
     {
         $this->assertEquals(
-            // This will improve as we add support for color tables and stylesheets.
-            'Normal;Heading;Text Body;List;Caption;Index;This is a test',
+            'This is a test',
             (new Document($this->document2()))->write('text')
         );
     }
